@@ -78,62 +78,98 @@
             <div class="col-md-6">
                 <h3 style="color: #1a2332; text-align: center; margin-bottom: 32px;">Check Availability</h3>
                 
-                <form method="POST" action="#" style="background-color: white; padding: 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <form method="POST" action="{{ route('enquiry.store') }}" style="background-color: white; padding: 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                     @csrf
 
                     <input type="hidden" name="room_type_id" value="{{ $roomType->id }}">
 
+                    <!-- Display validation errors -->
+                    @if ($errors->any())
+                        <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; padding: 16px; margin-bottom: 24px; color: #721c24;">
+                            <p style="margin: 0 0 8px 0; font-weight: 600;"><i class="fas fa-exclamation-circle"></i> Please fix the errors below:</p>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                @foreach ($errors->all() as $error)
+                                    <li style="margin-bottom: 4px;">{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="form-group mb-4">
                         <label for="check_in">Check-in Date <span class="required" style="color: #e74c3c;">*</span></label>
-                        <input type="date" id="check_in" name="check_in_date" class="form-control" required>
+                        <input type="date" id="check_in" name="check_in_date" class="form-control @error('check_in_date') is-invalid @enderror" value="{{ old('check_in_date') }}" required>
+                        @error('check_in_date')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-4">
                         <label for="check_out">Check-out Date <span class="required" style="color: #e74c3c;">*</span></label>
-                        <input type="date" id="check_out" name="check_out_date" class="form-control" required>
+                        <input type="date" id="check_out" name="check_out_date" class="form-control @error('check_out_date') is-invalid @enderror" value="{{ old('check_out_date') }}" required>
+                        @error('check_out_date')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group mb-4">
                                 <label for="adults">Adults <span class="required" style="color: #e74c3c;">*</span></label>
-                                <select id="adults" name="num_adults" class="form-control" required>
+                                <select id="adults" name="num_adults" class="form-control @error('num_adults') is-invalid @enderror" required>
                                     @for($i = 1; $i <= $roomType->max_adults; $i++)
-                                        <option value="{{ $i }}" {{ $i == 2 ? 'selected' : '' }}>{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ old('num_adults', 2) == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
+                                @error('num_adults')
+                                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group mb-4">
                                 <label for="children">Children</label>
-                                <select id="children" name="num_children" class="form-control">
+                                <select id="children" name="num_children" class="form-control @error('num_children') is-invalid @enderror">
                                     @for($i = 0; $i <= $roomType->max_children; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ old('num_children', 0) == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
+                                @error('num_children')
+                                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group mb-4">
                         <label for="name">Your Name <span class="required" style="color: #e74c3c;">*</span></label>
-                        <input type="text" id="name" name="customer_name" class="form-control" required>
+                        <input type="text" id="name" name="customer_name" class="form-control @error('customer_name') is-invalid @enderror" value="{{ old('customer_name') }}" required>
+                        @error('customer_name')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-4">
                         <label for="phone">Phone Number <span class="required" style="color: #e74c3c;">*</span></label>
-                        <input type="tel" id="phone" name="customer_phone" class="form-control" required>
+                        <input type="tel" id="phone" name="customer_phone" class="form-control @error('customer_phone') is-invalid @enderror" value="{{ old('customer_phone') }}" required>
+                        @error('customer_phone')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-4">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="customer_email" class="form-control">
+                        <input type="email" id="email" name="customer_email" class="form-control @error('customer_email') is-invalid @enderror" value="{{ old('customer_email') }}">
+                        @error('customer_email')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-4">
                         <label for="requests">Special Requests</label>
-                        <textarea id="requests" name="special_requests" class="form-control" rows="3"></textarea>
+                        <textarea id="requests" name="special_requests" class="form-control @error('special_requests') is-invalid @enderror" rows="3">{{ old('special_requests') }}</textarea>
+                        @error('special_requests')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">Send Enquiry via WhatsApp</button>

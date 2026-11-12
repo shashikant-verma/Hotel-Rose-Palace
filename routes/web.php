@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\EnquiryController;
 
 /**
  * Public Website Routes
@@ -30,3 +31,9 @@ Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
 Route::get('/terms', [PageController::class, 'terms'])->name('terms');
 Route::get('/cancellation', [PageController::class, 'cancellation'])->name('cancellation');
+
+/**
+ * Enquiry Routes
+ */
+Route::post('/enquiry', [EnquiryController::class, 'store'])->name('enquiry.store');
+Route::get('/enquiry/success/{reference}', [EnquiryController::class, 'success'])->name('enquiry.success');
