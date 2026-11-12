@@ -121,17 +121,17 @@
 </footer>
 
 <style>
-/* ── HRP Footer ─────────────────────────────────────────── */
+/* ── HRP Footer - Luxury Design System ─────────────────────────────────────────── */
 .hrp-footer {
-    background: #0E1620;
-    color: rgba(255,255,255,0.75);
+    background: #6E2C3A;
+    color: rgba(247, 241, 232, 0.85);
     position: relative;
     margin-top: 0;
 }
 
 .hrp-footer-divider {
     height: 3px;
-    background: linear-gradient(90deg, transparent, #C5A059 30%, #e8c97a 60%, #C5A059 80%, transparent);
+    background: linear-gradient(90deg, transparent, #B88A44 30%, #d4a574 60%, #B88A44 80%, transparent);
 }
 
 .hrp-footer-container {
@@ -153,12 +153,12 @@
     font-family: 'Playfair Display', serif;
     font-size: 18px;
     font-weight: 700;
-    color: #fff;
+    color: #F7F1E8;
 }
 .hrp-footer-tagline {
     font-size: 13.5px;
     line-height: 1.8;
-    color: rgba(255,255,255,0.55);
+    color: rgba(247, 241, 232, 0.65);
     margin-bottom: 20px;
 }
 
@@ -171,16 +171,16 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border: 1.5px solid rgba(197,160,89,0.3);
-    color: rgba(197,160,89,0.8);
+    border: 1.5px solid rgba(184, 138, 68, 0.3);
+    color: rgba(184, 138, 68, 0.8);
     font-size: 14px;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 .hrp-social-icon:hover {
-    background: #C5A059;
-    border-color: #C5A059;
-    color: #0E1620;
+    background: #B88A44;
+    border-color: #B88A44;
+    color: #6E2C3A;
     transform: translateY(-3px);
 }
 
@@ -191,7 +191,7 @@
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: #C5A059;
+    color: #B88A44;
     margin-bottom: 20px;
 }
 
@@ -204,7 +204,7 @@
 .hrp-footer-links li { margin-bottom: 10px; }
 .hrp-footer-links a {
     font-size: 13.5px;
-    color: rgba(255,255,255,0.6);
+    color: rgba(247, 241, 232, 0.7);
     text-decoration: none;
     transition: color 0.25s ease, padding-left 0.25s ease;
     display: flex;
@@ -213,11 +213,11 @@
 }
 .hrp-footer-links a::before {
     content: '›';
-    color: #C5A059;
+    color: #B88A44;
     font-size: 16px;
     line-height: 1;
 }
-.hrp-footer-links a:hover { color: #C5A059; padding-left: 4px; }
+.hrp-footer-links a:hover { color: #B88A44; padding-left: 4px; }
 
 /* Check-in info */
 .hrp-ci-row {
@@ -226,11 +226,11 @@
     gap: 10px;
     margin-bottom: 10px;
     font-size: 12.5px;
-    color: rgba(255,255,255,0.55);
+    color: rgba(247, 241, 232, 0.65);
 }
-.hrp-ci-row i { color: #C5A059; margin-top: 2px; }
+.hrp-ci-row i { color: #B88A44; margin-top: 2px; }
 .hrp-ci-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.6; }
-.hrp-ci-value { display: block; color: rgba(255,255,255,0.8); font-weight: 600; }
+.hrp-ci-value { display: block; color: rgba(247, 241, 232, 0.9); font-weight: 600; }
 
 /* Contact */
 .hrp-contact-list { margin-bottom: 20px; }
@@ -243,31 +243,31 @@
 .hrp-contact-icon {
     width: 32px;
     height: 32px;
-    background: rgba(197,160,89,0.12);
+    background: rgba(184, 138, 68, 0.12);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
-.hrp-contact-icon i { color: #C5A059; font-size: 13px; }
+.hrp-contact-icon i { color: #B88A44; font-size: 13px; }
 .hrp-contact-label {
     display: block;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: rgba(255,255,255,0.4);
+    color: rgba(247, 241, 232, 0.5);
     margin-bottom: 2px;
 }
 .hrp-contact-val {
     display: block;
     font-size: 13px;
-    color: rgba(255,255,255,0.75);
+    color: rgba(247, 241, 232, 0.85);
     text-decoration: none;
     transition: color 0.2s ease;
     line-height: 1.6;
 }
-.hrp-contact-val:hover { color: #C5A059; }
+.hrp-contact-val:hover { color: #B88A44; }
 
 /* WhatsApp button */
 .hrp-footer-wa-btn {
@@ -294,7 +294,7 @@
 
 /* Bottom bar */
 .hrp-footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid rgba(247, 241, 232, 0.1);
     padding: 24px 0 32px;
     display: flex;
     justify-content: space-between;
@@ -304,12 +304,12 @@
 }
 .hrp-footer-copy {
     font-size: 12.5px;
-    color: rgba(255,255,255,0.4);
+    color: rgba(247, 241, 232, 0.5);
     margin: 0;
 }
 .hrp-footer-credit {
     font-size: 12px;
-    color: rgba(197,160,89,0.5);
+    color: rgba(184, 138, 68, 0.6);
     margin: 0;
 }
 

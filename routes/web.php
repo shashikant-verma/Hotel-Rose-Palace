@@ -56,10 +56,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     // Logout (must be authenticated)
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('admin');
 
     // Protected admin routes (require authentication)
-    Route::middleware(['auth', 'admin'])->group(function () {
+    Route::middleware(['admin'])->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

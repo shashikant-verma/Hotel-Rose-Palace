@@ -54,7 +54,7 @@
 </header>
 
 <style>
-/* ── HRP Navbar ─────────────────────────────────────────── */
+/* ── HRP Navbar - Luxury Design System ─────────────────────────────────────────── */
 .hrp-header {
     position: sticky;
     top: 0;
@@ -63,17 +63,17 @@
 }
 
 #main-navbar {
-    background: rgba(20, 24, 36, 0.97);
+    background: rgba(247, 241, 232, 0.95);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    border-bottom: 1px solid #D8CBB8;
     padding: 0;
     transition: all 0.35s ease;
 }
 
 #main-navbar.scrolled {
-    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
-    background: rgba(20, 24, 36, 0.99);
+    box-shadow: var(--shadow-md);
+    background: rgba(247, 241, 232, 0.98);
 }
 
 .hrp-nav-container {
@@ -91,18 +91,18 @@
 
 .hrp-crest {
     flex-shrink: 0;
-    filter: drop-shadow(0 0 6px rgba(197,160,89,0.35));
+    filter: drop-shadow(0 0 6px rgba(184, 138, 68, 0.35));
     transition: filter 0.3s ease;
 }
 .hrp-brand:hover .hrp-crest {
-    filter: drop-shadow(0 0 10px rgba(197,160,89,0.6));
+    filter: drop-shadow(0 0 10px rgba(184, 138, 68, 0.6));
 }
 
 .hrp-brand-text {
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 20px;
     font-weight: 700;
-    color: #D4AF37;
+    color: #6E2C3A;
     letter-spacing: 0.3px;
     white-space: nowrap;
 }
@@ -117,7 +117,7 @@
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
-    color: #F8F7F5 !important;
+    color: #2E1F22 !important;
     padding: 8px 14px !important;
     border-radius: 6px;
     position: relative;
@@ -132,13 +132,13 @@
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background: #D4AF37;
+    background: #B88A44;
     border-radius: 2px;
     transition: width 0.3s ease;
 }
 .hrp-link:hover, .hrp-link--active {
-    color: #D4AF37 !important;
-    background: rgba(212,175,55,0.15) !important;
+    color: #6E2C3A !important;
+    background: rgba(110, 44, 58, 0.08) !important;
 }
 .hrp-link:hover::after, .hrp-link--active::after {
     width: 60%;
@@ -169,7 +169,7 @@
 
 /* Mobile toggler */
 .hrp-toggler {
-    border: 1.5px solid rgba(212,175,55,0.5);
+    border: 1.5px solid #B88A44;
     border-radius: 8px;
     padding: 8px 10px;
     display: flex;
@@ -181,19 +181,19 @@
     display: block;
     width: 22px;
     height: 2px;
-    background: #D4AF37;
+    background: #6E2C3A;
     border-radius: 2px;
     transition: all 0.3s ease;
 }
 
 @media (max-width: 991px) {
     #navbarNav {
-        background: rgba(26, 31, 46, 0.98);
+        background: rgba(247, 241, 232, 0.98);
         border-radius: 12px;
         margin-top: 10px;
         padding: 16px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        border: 1px solid rgba(212,175,55,0.15);
+        box-shadow: 0 10px 40px rgba(46, 31, 34, 0.1);
+        border: 1px solid #D8CBB8;
     }
     .hrp-nav-links { flex-direction: column; gap: 2px; }
     .hrp-link { width: 100%; }
