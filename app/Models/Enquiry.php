@@ -40,6 +40,46 @@ class Enquiry extends Model
     }
 
     /**
+     * Accessor for backwards compatibility (guest_name -> customer_name)
+     */
+    public function getGuestNameAttribute()
+    {
+        return $this->customer_name;
+    }
+
+    /**
+     * Accessor for backwards compatibility (guest_email -> customer_email)
+     */
+    public function getGuestEmailAttribute()
+    {
+        return $this->customer_email;
+    }
+
+    /**
+     * Accessor for backwards compatibility (guest_phone -> customer_phone)
+     */
+    public function getGuestPhoneAttribute()
+    {
+        return $this->customer_phone;
+    }
+
+    /**
+     * Accessor for backwards compatibility (adults -> num_adults)
+     */
+    public function getAdultsAttribute()
+    {
+        return $this->num_adults;
+    }
+
+    /**
+     * Accessor for backwards compatibility (children -> num_children)
+     */
+    public function getChildrenAttribute()
+    {
+        return $this->num_children;
+    }
+
+    /**
      * Get the room type for this enquiry
      */
     public function roomType()

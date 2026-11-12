@@ -64,17 +64,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile.show');
         Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
 
-        // Enquiries management
-        Route::prefix('enquiries')->name('enquiries.')->group(function () {
-            Route::get('/', function () {
-                return view('admin.enquiries.index', [
-                    'enquiries' => \App\Models\Enquiry::with('roomType')->latest()->paginate(15),
-                ]);
-            })->name('index');
-            
-            Route::get('/{enquiry}', function (\App\Models\Enquiry $enquiry) {
-                return view('admin.enquiries.show', ['enquiry' => $enquiry->load('roomType')]);
-            })->name('show');
+        // Enquiries Management - Full System
+        Route::prefix('enquiries')->name('enquiries.')->controller(\App\Http\Controllers\Admin\EnquiryController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{enquiry}', 'show')->name('show');
+            Route::patch('/{enquiry}/status', 'updateStatus')->name('update-status');
+            Route::patch('/{enquiry}/notes', 'updateNotes')->name('update-notes');
+            Route::delete('/{enquiry}', 'destroy')->name('destroy');
+            Route::post('/bulk-status', 'bulkUpdateStatus')->name('bulk-status');
+            Route::post('/bulk-delete', 'bulkDelete')->name('bulk-delete');
+            Route::get('/export/csv', 'export')->name('export');
         });
 
         // Room Types Management - Full CRUD
