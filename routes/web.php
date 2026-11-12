@@ -35,9 +35,11 @@ Route::get('/terms', [PageController::class, 'terms'])->name('terms');
 Route::get('/cancellation', [PageController::class, 'cancellation'])->name('cancellation');
 
 /**
- * Enquiry Routes
+ * Enquiry Routes (with rate limiting)
  */
-Route::post('/enquiry', [EnquiryController::class, 'store'])->name('enquiry.store');
+Route::middleware(['throttle:enquiry'])->group(function () {
+    Route::post('/enquiry', [EnquiryController::class, 'store'])->name('enquiry.store');
+});
 Route::get('/enquiry/success/{reference}', [EnquiryController::class, 'success'])->name('enquiry.success');
 
 /**
@@ -49,7 +51,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Login routes (guest only)
     Route::middleware('guest')->group(function () {
         Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-        Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+        Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login')->name('login.post');
     });
 
     // Logout (must be authenticated)
