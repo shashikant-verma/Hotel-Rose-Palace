@@ -101,11 +101,37 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::patch('/images/{image}/set-featured', 'setFeaturedImage')->name('set-featured');
         });
 
-        // Settings management (placeholder)
-        Route::prefix('settings')->name('settings.')->group(function () {
-            Route::get('/', function () {
-                return view('admin.settings.index');
-            })->name('index');
+        // Settings Management - Full System
+        Route::prefix('settings')->name('settings.')->controller(\App\Http\Controllers\Admin\SettingsController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::put('/', 'update')->name('update');
+            Route::post('/setting', 'updateSetting')->name('update-setting');
+            Route::post('/store', 'store')->name('store');
+            Route::delete('/{id}', 'destroy')->name('destroy');
+        });
+
+        // Gallery Management - Full System
+        Route::prefix('gallery')->name('gallery.')->controller(\App\Http\Controllers\Admin\GalleryController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{gallery}/edit', 'edit')->name('edit');
+            Route::put('/{gallery}', 'update')->name('update');
+            Route::delete('/{gallery}', 'destroy')->name('destroy');
+            Route::patch('/{gallery}/toggle-status', 'toggleStatus')->name('toggle-status');
+            Route::post('/bulk-delete', 'bulkDelete')->name('bulk-delete');
+            Route::post('/update-order', 'updateOrder')->name('update-order');
+        });
+
+        // Amenities Management - Full System
+        Route::prefix('amenities')->name('amenities.')->controller(\App\Http\Controllers\Admin\AmenityController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{amenity}/edit', 'edit')->name('edit');
+            Route::put('/{amenity}', 'update')->name('update');
+            Route::delete('/{amenity}', 'destroy')->name('destroy');
+            Route::patch('/{amenity}/toggle-status', 'toggleStatus')->name('toggle-status');
         });
     });
 });
