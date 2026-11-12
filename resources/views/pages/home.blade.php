@@ -53,7 +53,7 @@
                 
                 <!-- Check Availability Button -->
                 <div>
-                    <button style="width: 100%; padding: 12px 24px; background: linear-gradient(135deg, #6E2C3A, #58222E); color: #F7F1E8; border: none; border-radius: 8px; font-weight: 700; font-family: var(--font-ui); font-size: 14px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(110, 44, 58, 0.2);" onmouseover="this.style.transform = 'translateY(-2px)'; this.style.boxShadow = '0 8px 25px rgba(110, 44, 58, 0.35)';" onmouseout="this.style.transform = 'translateY(0)'; this.style.boxShadow = '0 4px 15px rgba(110, 44, 58, 0.2)';">
+                    <button onclick="window.location.href='{{ route('rooms') }}';" style="width: 100%; padding: 12px 24px; background: linear-gradient(135deg, #6E2C3A, #58222E); color: #F7F1E8; border: none; border-radius: 8px; font-weight: 700; font-family: var(--font-ui); font-size: 14px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(110, 44, 58, 0.2);" onmouseover="this.style.transform = 'translateY(-2px)'; this.style.boxShadow = '0 8px 25px rgba(110, 44, 58, 0.35)';" onmouseout="this.style.transform = 'translateY(0)'; this.style.boxShadow = '0 4px 15px rgba(110, 44, 58, 0.2)';">
                         Check Availability
                     </button>
                 </div>
