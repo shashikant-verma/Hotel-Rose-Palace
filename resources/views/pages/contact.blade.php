@@ -290,15 +290,7 @@
         </div>
 
         <div class="hrp-map-container">
-            <iframe
-                title="Hotel Rose Palace on Google Maps"
-                src="https://maps.google.com/maps?q=Hotel%20Rose%20Palace%20Atlanta%20Business%20Hub%20VIP%20Road%20Vesu%20Surat&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                class="hrp-map-iframe"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                id="contact-map-iframe"
-            ></iframe>
+            <iframe width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.1390!2d72.79200!3d21.146000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e0bb55f9c3b%3A0x2b0e21e2a34a4c38!2sAtlanta%20Business%20Hub%2C%20VIP%20Rd%2C%20Vesu%2C%20Surat%2C%20Gujarat%20395007!5e0!3m2!1sen!2sin!4v1700000000000"></iframe>
             <div class="hrp-map-pin-btn">
                 <a href="{{ config('hotel.contact.google_maps', '#') }}" target="_blank" rel="noopener noreferrer" class="hrp-btn-gold" id="open-maps-btn">
                     <i class="fas fa-directions me-2"></i> Get Directions
