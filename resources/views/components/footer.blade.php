@@ -103,19 +103,6 @@
                 <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '919042424242')) }}" target="_blank" class="hrp-footer-wa-btn">
                     <i class="fab fa-whatsapp"></i> Chat with us on WhatsApp
                 </a>
-
-                {{-- Social Icons Row - Instagram & Location --}}
-                <div style="display: flex; gap: 16px; margin-top: 16px; align-items: center;">
-                    {{-- Instagram Icon --}}
-                    <a href="{{ config('hotel.contact.instagram', '#') }}" target="_blank" class="hrp-footer-icon-btn" title="Follow us on Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    
-                    {{-- Google Maps Icon --}}
-                    <a href="{{ config('hotel.contact.google_maps', '#') }}" target="_blank" class="hrp-footer-icon-btn" title="View on Google Maps">
-                        <i class="fas fa-map-location-dot"></i>
-                    </a>
-                </div>
             </div>
         </div>
 
