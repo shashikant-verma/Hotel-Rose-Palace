@@ -321,8 +321,9 @@
         </div>
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
-            <div style="background-color: var(--color-champagne); height: 400px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md);">
-                <p style="color: var(--color-mauve-grey);">🗺️ Google Maps Integration</p>
+            {{-- Interactive Google Maps Iframe --}}
+            <div style="border: 1px solid var(--color-border-subtle); border-radius: 12px; overflow: hidden; min-height: 400px; box-shadow: var(--shadow-md);">
+                <iframe class="w-100 h-100 border-0 rounded-3" style="min-height: 400px;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Hotel%20Rose%20Palace%20Atlanta%20Business%20Hub%20VIP%20Road%20Vesu%20Surat&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen=""></iframe>
             </div>
             <div>
                 <span style="color: var(--color-brass-gold); font-family: var(--font-ui); font-weight: 600; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; display: block; margin-bottom: 16px;">Location</span>
@@ -339,13 +340,18 @@
                     <i class="fas fa-phone" style="color: var(--color-brass-gold); width: 24px; margin-right: 12px;"></i>
                     <a href="tel:{{ config('hotel.contact.phone_2') }}" style="color: var(--color-brass-gold); text-decoration: none; transition: color 0.3s ease;">{{ config('hotel.contact.phone_2') }}</a>
                 </p>
-                <p style="margin-bottom: 32px; color: var(--color-mauve-grey); line-height: 1.8;">
+                <p style="margin-bottom: 20px; color: var(--color-mauve-grey); line-height: 1.8;">
                     <i class="fas fa-envelope" style="color: var(--color-brass-gold); width: 24px; margin-right: 12px;"></i>
                     <a href="mailto:{{ config('hotel.contact.email') }}" style="color: var(--color-brass-gold); text-decoration: none; transition: color 0.3s ease;">{{ config('hotel.contact.email') }}</a>
                 </p>
-                <a href="{{ route('contact') }}" class="btn btn-primary">
-                    Get In Touch
-                </a>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <a href="{{ route('contact') }}" class="btn btn-primary">
+                        Get In Touch
+                    </a>
+                    <a href="{{ config('hotel.contact.google_maps', '#') }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="background: #E2D5C3; border: 1px solid #D8CBB8; color: #6E2C3A;">
+                        Open in Maps ↗
+                    </a>
+                </div>
             </div>
         </div>
     </div>
