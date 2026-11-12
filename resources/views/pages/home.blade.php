@@ -124,8 +124,8 @@
             @endforelse
         </div>
         
-        <div style="text-align: center;">
-            <a href="{{ route('rooms') }}" class="btn btn-secondary">
+        <div style="text-align: center; position: relative; z-index: 10;">
+            <a href="{{ route('rooms') }}" class="btn btn-secondary" style="background: linear-gradient(135deg, #E2D5C3, #D8CBB8); border: 1px solid #D8CBB8; color: #6E2C3A; padding: 14px 32px; border-radius: 50px; font-weight: 700; text-decoration: none; display: inline-block; transition: all 0.3s ease;">
                 View All Rooms →
             </a>
         </div>
