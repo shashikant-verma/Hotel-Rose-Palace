@@ -6,141 +6,157 @@ use App\Http\Controllers\Controller;
 use App\Models\RoomType;
 use App\Models\Amenity;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class RoomTypeController extends Controller
 {
     /**
      * Display a listing of room types
      */
-    public function index(): View
+    public function index()
     {
-        $roomTypes = RoomType::orderBy('sort_order')
+        $roomTypes = RoomType::withCount(['rooms', 'amenities'])
+            ->orderBy('sort_order')
             ->paginate(15);
 
-        return view('admin.room-types.index', [
-            'roomTypes' => $roomTypes,
-        ]);
+        return view('admin.room-types.index', compact('roomTypes'));
     }
 
     /**
      * Show the form for creating a new room type
      */
-    public function create(): View
+    public function create()
     {
-        $amenities = Amenity::all();
+        $amenities = Amenity::where('is_active', true)
+            ->orderBy('category')
+            ->orderBy('name')
+            ->get()
+            ->groupBy('category');
 
-        return view('admin.room-types.create', [
-            'amenities' => $amenities,
-        ]);
+        return view('admin.room-types.create', compact('amenities'));
     }
 
     /**
-     * Store a newly created room type in database
+     * Store a newly created room type
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:room_types,name'],
-            'description' => ['required', 'string'],
-            'base_price' => ['required', 'numeric', 'min:0'],
-            'max_occupancy' => ['required', 'integer', 'min:1'],
-            'max_adults' => ['required', 'integer', 'min:1'],
-            'max_children' => ['required', 'integer', 'min:0'],
-            'amenities' => ['array'],
-            'amenities.*' => ['exists:amenities,id'],
-            'is_active' => ['boolean'],
+            'name' => 'required|string|max:255|unique:room_types,name',
+            'description' => 'required|string',
+            'base_price' => 'required|numeric|min:0',
+            'max_occupancy' => 'required|integer|min:1|max:10',
+            'max_adults' => 'required|integer|min:1|max:10',
+            'max_children' => 'required|integer|min:0|max:10',
+            'size_sqft' => 'required|integer|min:1',
+            'is_active' => 'boolean',
+            'amenities' => 'array',
+            'amenities.*' => 'exists:amenities,id',
         ]);
 
-        // Generate slug from name
-        $validated['slug'] = str($validated['name'])
-            ->slug()
-            ->value();
+        // Generate slug
+        $validated['slug'] = Str::slug($validated['name']);
 
+        // Set sort order
+        $validated['sort_order'] = RoomType::max('sort_order') + 1;
+
+        // Create room type
         $roomType = RoomType::create($validated);
 
-        // Attach amenities if provided
-        if (!empty($validated['amenities'])) {
-            $roomType->amenities()->attach($validated['amenities']);
+        // Attach amenities
+        if ($request->has('amenities')) {
+            $roomType->amenities()->sync($request->amenities);
         }
 
-        return redirect()->route('admin.room-types.show', $roomType)
+        return redirect()
+            ->route('admin.room-types.index')
             ->with('success', 'Room type created successfully!');
-    }
-
-    /**
-     * Display the specified room type
-     */
-    public function show(RoomType $roomType): View
-    {
-        $roomType->load('amenities', 'rooms');
-
-        return view('admin.room-types.show', [
-            'roomType' => $roomType,
-        ]);
     }
 
     /**
      * Show the form for editing the specified room type
      */
-    public function edit(RoomType $roomType): View
+    public function edit(RoomType $roomType)
     {
-        $amenities = Amenity::all();
+        $amenities = Amenity::where('is_active', true)
+            ->orderBy('category')
+            ->orderBy('name')
+            ->get()
+            ->groupBy('category');
+
         $selectedAmenities = $roomType->amenities->pluck('id')->toArray();
 
-        return view('admin.room-types.edit', [
-            'roomType' => $roomType,
-            'amenities' => $amenities,
-            'selectedAmenities' => $selectedAmenities,
-        ]);
+        return view('admin.room-types.edit', compact('roomType', 'amenities', 'selectedAmenities'));
     }
 
     /**
-     * Update the specified room type in database
+     * Update the specified room type
      */
     public function update(Request $request, RoomType $roomType)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:room_types,name,' . $roomType->id],
-            'description' => ['required', 'string'],
-            'base_price' => ['required', 'numeric', 'min:0'],
-            'max_occupancy' => ['required', 'integer', 'min:1'],
-            'max_adults' => ['required', 'integer', 'min:1'],
-            'max_children' => ['required', 'integer', 'min:0'],
-            'amenities' => ['array'],
-            'amenities.*' => ['exists:amenities,id'],
-            'is_active' => ['boolean'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('room_types')->ignore($roomType->id),
+            ],
+            'description' => 'required|string',
+            'base_price' => 'required|numeric|min:0',
+            'max_occupancy' => 'required|integer|min:1|max:10',
+            'max_adults' => 'required|integer|min:1|max:10',
+            'max_children' => 'required|integer|min:0|max:10',
+            'size_sqft' => 'required|integer|min:1',
+            'is_active' => 'boolean',
+            'amenities' => 'array',
+            'amenities.*' => 'exists:amenities,id',
         ]);
 
-        // Generate slug from name if name changed
+        // Update slug if name changed
         if ($validated['name'] !== $roomType->name) {
-            $validated['slug'] = str($validated['name'])
-                ->slug()
-                ->value();
+            $validated['slug'] = Str::slug($validated['name']);
         }
 
+        // Update room type
         $roomType->update($validated);
 
-        // Update amenities
-        $roomType->amenities()->sync($validated['amenities'] ?? []);
+        // Sync amenities
+        $roomType->amenities()->sync($request->amenities ?? []);
 
-        return redirect()->route('admin.room-types.show', $roomType)
+        return redirect()
+            ->route('admin.room-types.index')
             ->with('success', 'Room type updated successfully!');
     }
 
     /**
-     * Remove the specified room type from database
+     * Remove the specified room type
      */
     public function destroy(RoomType $roomType)
     {
         // Check if room type has rooms
         if ($roomType->rooms()->count() > 0) {
-            return back()->with('error', 'Cannot delete room type that has existing rooms.');
+            return back()->with('error', 'Cannot delete room type with existing rooms. Please delete or reassign rooms first.');
         }
 
         $roomType->delete();
 
-        return redirect()->route('admin.room-types.index')
+        return redirect()
+            ->route('admin.room-types.index')
             ->with('success', 'Room type deleted successfully!');
+    }
+
+    /**
+     * Toggle active status
+     */
+    public function toggleStatus(RoomType $roomType)
+    {
+        $roomType->update([
+            'is_active' => !$roomType->is_active,
+        ]);
+
+        $status = $roomType->is_active ? 'activated' : 'deactivated';
+
+        return back()->with('success', "Room type {$status} successfully!");
     }
 }

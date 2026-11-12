@@ -18,6 +18,7 @@ class RoomType extends Model
         'max_occupancy',
         'max_adults',
         'max_children',
+        'size_sqft',
         'is_active',
         'sort_order',
     ];

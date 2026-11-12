@@ -7,9 +7,9 @@
 <div class="table-card">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="mb-0"><i class="fas fa-bed me-2"></i> All Rooms</h5>
-        <button class="btn btn-primary">
+        <a href="{{ route('admin.rooms.create') }}" class="btn btn-primary">
             <i class="fas fa-plus me-2"></i> Add New Room
-        </button>
+        </a>
     </div>
 
     @if($rooms->count() > 0)
@@ -20,8 +20,10 @@
                         <th>Room Number</th>
                         <th>Room Type</th>
                         <th>Floor</th>
+                        <th>Price</th>
+                        <th>Status</th>
                         <th>Availability</th>
-                        <th>Created</th>
+                        <th>Images</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -30,22 +32,43 @@
                     <tr>
                         <td><strong>{{ $room->room_number }}</strong></td>
                         <td>{{ $room->roomType->name ?? 'N/A' }}</td>
-                        <td>{{ $room->floor }}</td>
+                        <td>Floor {{ $room->floor }}</td>
+                        <td>₹{{ number_format($room->current_price) }}</td>
                         <td>
-                            @if($room->is_available)
-                                <span class="badge bg-success">Available</span>
-                            @else
-                                <span class="badge bg-danger">Not Available</span>
-                            @endif
+                            @php
+                                $statusColors = [
+                                    'available' => 'success',
+                                    'occupied' => 'danger',
+                                    'maintenance' => 'warning',
+                                    'reserved' => 'info'
+                                ];
+                                $color = $statusColors[$room->status] ?? 'secondary';
+                            @endphp
+                            <span class="badge bg-{{ $color }}">{{ ucfirst($room->status) }}</span>
                         </td>
-                        <td>{{ $room->created_at->format('M d, Y') }}</td>
                         <td>
-                            <button class="btn btn-sm btn-outline-primary">
+                            <form action="{{ route('admin.rooms.toggle-availability', $room) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-sm btn-outline-{{ $room->is_available ? 'success' : 'danger' }}">
+                                    <i class="fas fa-{{ $room->is_available ? 'check' : 'times' }}"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <span class="badge bg-info">{{ $room->images->count() }} images</span>
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.rooms.edit', $room) }}" class="btn btn-sm btn-outline-primary">
                                 <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            </a>
+                            <form action="{{ route('admin.rooms.destroy', $room) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure? This will delete all room images.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach
@@ -60,9 +83,9 @@
         <div class="text-center py-5 text-muted">
             <i class="fas fa-bed fa-3x mb-3"></i>
             <p>No rooms found. Add your first room to get started.</p>
-            <button class="btn btn-primary mt-3">
+            <a href="{{ route('admin.rooms.create') }}" class="btn btn-primary mt-3">
                 <i class="fas fa-plus me-2"></i> Add First Room
-            </button>
+            </a>
         </div>
     @endif
 </div>

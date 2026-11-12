@@ -64,7 +64,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile.show');
         Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
 
-        // Enquiries management (placeholder)
+        // Enquiries management
         Route::prefix('enquiries')->name('enquiries.')->group(function () {
             Route::get('/', function () {
                 return view('admin.enquiries.index', [
@@ -77,22 +77,29 @@ Route::prefix('admin')->name('admin.')->group(function () {
             })->name('show');
         });
 
-        // Rooms management (placeholder)
-        Route::prefix('rooms')->name('rooms.')->group(function () {
-            Route::get('/', function () {
-                return view('admin.rooms.index', [
-                    'rooms' => \App\Models\Room::with('roomType')->latest()->paginate(15),
-                ]);
-            })->name('index');
+        // Room Types Management - Full CRUD
+        Route::prefix('room-types')->name('room-types.')->controller(\App\Http\Controllers\Admin\RoomTypeController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{roomType}/edit', 'edit')->name('edit');
+            Route::put('/{roomType}', 'update')->name('update');
+            Route::delete('/{roomType}', 'destroy')->name('destroy');
+            Route::patch('/{roomType}/toggle-status', 'toggleStatus')->name('toggle-status');
         });
 
-        // Room types management (placeholder)
-        Route::prefix('room-types')->name('room-types.')->group(function () {
-            Route::get('/', function () {
-                return view('admin.room-types.index', [
-                    'roomTypes' => \App\Models\RoomType::latest()->paginate(15),
-                ]);
-            })->name('index');
+        // Rooms Management - Full CRUD with Image Upload
+        Route::prefix('rooms')->name('rooms.')->controller(\App\Http\Controllers\Admin\RoomController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{room}/edit', 'edit')->name('edit');
+            Route::put('/{room}', 'update')->name('update');
+            Route::delete('/{room}', 'destroy')->name('destroy');
+            Route::patch('/{room}/toggle-availability', 'toggleAvailability')->name('toggle-availability');
+            Route::post('/{room}/upload-images', 'uploadImages')->name('upload-images');
+            Route::delete('/images/{image}', 'deleteImage')->name('delete-image');
+            Route::patch('/images/{image}/set-featured', 'setFeaturedImage')->name('set-featured');
         });
 
         // Settings management (placeholder)
