@@ -2,16 +2,16 @@
 
 :root {
     /* Colors - Primary */
-    --color-navy: #1a2332;
-    --color-ivory: #f5f3f0;
-    --color-gold: #c9a961;
-    --color-white: #ffffff;
-    --color-gray: #e8e6e3;
+    --color-navy: #0f1419;
+    --color-ivory: #1a1f2e;
+    --color-gold: #d4af37;
+    --color-white: #f8f7f5;
+    --color-gray: #2a2f3d;
 
     /* Colors - Secondary */
-    --color-rose: #d9a9a0;
-    --color-charcoal: #3a3a3a;
-    --color-silver: #999999;
+    --color-rose: #c9a961;
+    --color-charcoal: #141824;
+    --color-silver: #a0a0a0;
 
     /* Colors - Functional */
     --color-success: #27ae60;
@@ -59,8 +59,8 @@ html {
 
 body {
     font-family: var(--font-body);
-    color: var(--color-navy);
-    background-color: var(--color-white);
+    color: var(--color-white);
+    background-color: var(--color-navy);
     line-height: 1.6;
     font-size: 16px;
 }
@@ -192,7 +192,7 @@ label {
     font-family: var(--font-primary);
     font-size: 14px;
     font-weight: 600;
-    color: var(--color-navy);
+    color: var(--color-white);
     margin-bottom: var(--spacing-sm);
 }
 
@@ -212,8 +212,8 @@ select {
     border-radius: var(--radius-sm);
     font-family: var(--font-body);
     font-size: 16px;
-    background-color: var(--color-white);
-    color: var(--color-navy);
+    background-color: var(--color-ivory);
+    color: var(--color-white);
     transition: border-color 0.3s ease;
 }
 
@@ -244,7 +244,7 @@ textarea {
    ============================================ */
 
 .card {
-    background-color: var(--color-white);
+    background-color: var(--color-ivory);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
@@ -265,17 +265,19 @@ textarea {
 
 .card-body {
     padding: var(--spacing-lg);
+    background-color: var(--color-navy);
 }
 
 .card-title {
     font-size: 24px;
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
+    color: var(--color-white);
 }
 
 .card-text {
     font-size: 14px;
-    color: var(--color-silver);
+    color: var(--color-white);
     margin-bottom: var(--spacing-md);
 }
 
@@ -301,11 +303,11 @@ section {
 }
 
 section.bg-ivory {
-    background-color: var(--color-ivory);
+    background-color: var(--color-charcoal);
 }
 
 section.bg-navy {
-    background-color: var(--color-navy);
+    background-color: var(--color-charcoal);
     color: var(--color-white);
 }
 
@@ -322,8 +324,8 @@ section.bg-navy h6 {
    ============================================ */
 
 header {
-    background-color: var(--color-white);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: var(--color-charcoal);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -344,7 +346,7 @@ nav {
     font-family: var(--font-heading);
     font-size: 28px;
     font-weight: 700;
-    color: var(--color-navy);
+    color: var(--color-gold);
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
@@ -363,7 +365,7 @@ nav {
 }
 
 .nav-menu a {
-    color: var(--color-navy);
+    color: var(--color-white);
     font-family: var(--font-primary);
     font-weight: 600;
     font-size: 16px;
@@ -384,8 +386,8 @@ nav {
    ============================================ */
 
 footer {
-    background-color: var(--color-navy);
-    color: var(--color-ivory);
+    background-color: var(--color-charcoal);
+    color: var(--color-white);
     padding: var(--spacing-xxl) 0;
     margin-top: var(--spacing-xxl);
 }
@@ -424,7 +426,7 @@ footer a:hover {
    ============================================ */
 
 .hero {
-    background: linear-gradient(rgba(26, 35, 50, 0.6), rgba(26, 35, 50, 0.6)), url('/images/hero-placeholder.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(15, 20, 25, 0.7), rgba(15, 20, 25, 0.7)), url('/images/hero-placeholder.jpg') center/cover no-repeat;
     height: 600px;
     display: flex;
     align-items: center;
@@ -480,7 +482,7 @@ footer a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(26, 35, 50, 0.7);
+    background: rgba(15, 20, 25, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;

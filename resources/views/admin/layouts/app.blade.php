@@ -280,6 +280,12 @@
             <a href="{{ route('admin.rooms.index') }}" class="menu-item {{ request()->routeIs('admin.rooms.*') ? 'active' : '' }}">
                 <i class="fas fa-bed"></i> Rooms
             </a>
+            <a href="{{ route('admin.gallery.index') }}" class="menu-item {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
+                <i class="fas fa-images"></i> Gallery
+            </a>
+            <a href="{{ route('admin.amenities.index') }}" class="menu-item {{ request()->routeIs('admin.amenities.*') ? 'active' : '' }}">
+                <i class="fas fa-list-check"></i> Amenities
+            </a>
             <a href="{{ route('admin.settings.index') }}" class="menu-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                 <i class="fas fa-cog"></i> Settings
             </a>
