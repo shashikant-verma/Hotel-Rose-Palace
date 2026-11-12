@@ -694,7 +694,7 @@
         </div>
         
         <div class="rooms-grid">
-            @forelse($rooms as $room)
+            @forelse($featuredRooms as $room)
                 <div class="room-card">
                     <div class="room-image-container">
                         @if($room->images->count() > 0)
