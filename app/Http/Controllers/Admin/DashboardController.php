@@ -4,51 +4,68 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enquiry;
-use App\Models\RoomType;
 use App\Models\Room;
-use Illuminate\View\View;
+use App\Models\RoomType;
+use App\Models\GalleryImage;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     /**
-     * Show admin dashboard
+     * Display the admin dashboard with statistics
      */
-    public function index(): View
+    public function index()
     {
-        // Get statistics
-        $totalEnquiries = Enquiry::count();
-        $newEnquiries = Enquiry::where('status', 'new')->count();
-        $confirmedBookings = Enquiry::where('status', 'booking_confirmed')->count();
-        $totalRoomTypes = RoomType::where('is_active', true)->count();
-        
-        // Get recent enquiries (last 10)
+        // Get key statistics
+        $stats = [
+            'total_enquiries' => Enquiry::count(),
+            'new_enquiries' => Enquiry::where('status', 'new')->count(),
+            'total_rooms' => Room::count(),
+            'available_rooms' => Room::where('is_available', true)->count(),
+            'total_room_types' => RoomType::count(),
+            'gallery_images' => GalleryImage::count(),
+        ];
+
+        // Recent enquiries (last 5)
         $recentEnquiries = Enquiry::with('roomType')
-            ->orderBy('created_at', 'desc')
-            ->take(10)
+            ->latest()
+            ->take(5)
             ->get();
 
-        // Get enquiry status breakdown
-        $enquiryStatuses = Enquiry::selectRaw('status, COUNT(*) as count')
+        // Enquiries by status
+        $enquiriesByStatus = Enquiry::select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
-            ->get()
             ->pluck('count', 'status')
             ->toArray();
 
-        // Get booking trend (last 7 days)
-        $bookingTrend = Enquiry::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        // Enquiries by room type (top 5)
+        $enquiriesByRoomType = Enquiry::select('room_type_id', DB::raw('count(*) as count'))
+            ->with('roomType:id,name')
+            ->groupBy('room_type_id')
+            ->orderByDesc('count')
+            ->take(5)
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item->roomType->name ?? 'Unknown' => $item->count];
+            });
+
+        // Recent enquiries trend (last 7 days)
+        $enquiriesTrend = Enquiry::select(
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('count(*) as count')
+            )
             ->where('created_at', '>=', now()->subDays(7))
             ->groupBy('date')
-            ->orderBy('date', 'asc')
-            ->get();
+            ->orderBy('date')
+            ->get()
+            ->pluck('count', 'date');
 
-        return view('admin.dashboard', [
-            'totalEnquiries' => $totalEnquiries,
-            'newEnquiries' => $newEnquiries,
-            'confirmedBookings' => $confirmedBookings,
-            'totalRoomTypes' => $totalRoomTypes,
-            'recentEnquiries' => $recentEnquiries,
-            'enquiryStatuses' => $enquiryStatuses,
-            'bookingTrend' => $bookingTrend,
-        ]);
+        return view('admin.dashboard', compact(
+            'stats',
+            'recentEnquiries',
+            'enquiriesByStatus',
+            'enquiriesByRoomType',
+            'enquiriesTrend'
+        ));
     }
 }

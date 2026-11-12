@@ -1,58 +1,69 @@
-@extends('layouts.admin')
+@extends('admin.layouts.app')
 
-@section('page_title', 'Rooms Management')
+@section('title', 'Manage Rooms')
+@section('page-title', 'Manage Rooms')
 
 @section('content')
-
-<div class="admin-card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h5><i class="fas fa-door-open"></i> Rooms List</h5>
-        <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add Room</a>
+<div class="table-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0"><i class="fas fa-bed me-2"></i> All Rooms</h5>
+        <button class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i> Add New Room
+        </button>
     </div>
-    
+
     @if($rooms->count() > 0)
-        <div style="overflow-x: auto;">
-            <table class="admin-table">
+        <div class="table-responsive">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Room Number</th>
                         <th>Room Type</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>Floor</th>
+                        <th>Availability</th>
+                        <th>Created</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($rooms as $room)
-                        <tr>
-                            <td><strong>{{ $room->room_number }}</strong></td>
-                            <td>{{ $room->roomType->name }}</td>
-                            <td>₹{{ number_format($room->current_price) }}</td>
-                            <td>
-                                <span class="badge" style="background-color: {{ $room->is_available ? '#28a745' : '#e74c3c' }};">
-                                    {{ $room->is_available ? 'Available' : 'Unavailable' }}
-                                </span>
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-primary" style="padding: 4px 8px; font-size: 11px;">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td><strong>{{ $room->room_number }}</strong></td>
+                        <td>{{ $room->roomType->name ?? 'N/A' }}</td>
+                        <td>{{ $room->floor }}</td>
+                        <td>
+                            @if($room->is_available)
+                                <span class="badge bg-success">Available</span>
+                            @else
+                                <span class="badge bg-danger">Not Available</span>
+                            @endif
+                        </td>
+                        <td>{{ $room->created_at->format('M d, Y') }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div style="margin-top: 20px;">
+        <div class="mt-4">
             {{ $rooms->links() }}
         </div>
     @else
-        <div style="text-align: center; padding: 40px; color: #999;">
-            <p>No rooms found</p>
+        <div class="text-center py-5 text-muted">
+            <i class="fas fa-bed fa-3x mb-3"></i>
+            <p>No rooms found. Add your first room to get started.</p>
+            <button class="btn btn-primary mt-3">
+                <i class="fas fa-plus me-2"></i> Add First Room
+            </button>
         </div>
     @endif
 </div>
-
 @endsection

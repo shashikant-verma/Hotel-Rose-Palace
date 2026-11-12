@@ -44,15 +44,19 @@ Route::get('/enquiry/success/{reference}', [EnquiryController::class, 'success']
  * Admin Routes
  */
 
-// Admin Authentication Routes (no middleware yet)
+// Admin Authentication Routes (accessible without login)
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Login routes
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    // Login routes (guest only)
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    });
 
-    // Protected admin routes
-    Route::middleware('auth')->group(function () {
+    // Logout (must be authenticated)
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+    // Protected admin routes (require authentication)
+    Route::middleware(['auth', 'admin'])->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

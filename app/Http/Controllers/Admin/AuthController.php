@@ -5,46 +5,56 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
     /**
-     * Show admin login form
+     * Show the admin login form
      */
-    public function showLoginForm(): View
+    public function showLoginForm()
     {
+        // Redirect to dashboard if already authenticated
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('admin.auth.login');
     }
 
     /**
-     * Handle admin login
+     * Handle admin login request
      */
     public function login(Request $request)
     {
-        // Validate input
+        // Validate credentials
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string', 'min:6'],
-        ], [
-            'email.required' => 'Email is required',
-            'email.email' => 'Please enter a valid email address',
-            'password.required' => 'Password is required',
-            'password.min' => 'Password must be at least 6 characters',
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
         ]);
 
-        // Attempt login using 'admin' guard
-        if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
+        // Remember me checkbox
+        $remember = $request->boolean('remember');
+
+        // Attempt authentication
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            
-            return redirect()->route('admin.dashboard')
-                ->with('success', 'Welcome back to the admin panel!');
+
+            // Update last login timestamp
+            Auth::user()->update([
+                'last_login_at' => now(),
+            ]);
+
+            // Flash success message
+            return redirect()->intended(route('admin.dashboard'))
+                ->with('success', 'Welcome back, ' . Auth::user()->name . '!');
         }
 
-        // Login failed
-        return back()
-            ->withInput($request->only('email'))
-            ->withErrors(['email' => 'These credentials do not match our records.']);
+        // Authentication failed
+        throw ValidationException::withMessages([
+            'email' => 'These credentials do not match our records.',
+        ]);
     }
 
     /**
@@ -52,7 +62,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -62,12 +72,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Show admin profile
+     * Show admin profile page
      */
-    public function showProfile(): View
+    public function showProfile()
     {
         return view('admin.profile.show', [
-            'user' => auth()->user(),
+            'user' => Auth::user(),
         ]);
     }
 
@@ -76,24 +86,33 @@ class AuthController extends Controller
      */
     public function updateProfile(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'current_password' => 'nullable|required_with:new_password',
+            'new_password' => 'nullable|min:8|confirmed',
         ]);
 
-        $user->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-        ]);
+        // Update name and email
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
 
-        if ($request->filled('password')) {
-            $user->update(['password' => bcrypt($validated['password'])]);
+        // Update password if provided
+        if ($request->filled('new_password')) {
+            // Verify current password
+            if (!Hash::check($request->current_password, $user->password)) {
+                throw ValidationException::withMessages([
+                    'current_password' => 'Current password is incorrect.',
+                ]);
+            }
+
+            $user->password = Hash::make($validated['new_password']);
         }
 
-        return redirect()->route('admin.profile.show')
-            ->with('success', 'Profile updated successfully!');
+        $user->save();
+
+        return back()->with('success', 'Profile updated successfully!');
     }
 }
