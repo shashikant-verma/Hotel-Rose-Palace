@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\EnquiryController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /**
  * Public Website Routes
@@ -37,3 +39,63 @@ Route::get('/cancellation', [PageController::class, 'cancellation'])->name('canc
  */
 Route::post('/enquiry', [EnquiryController::class, 'store'])->name('enquiry.store');
 Route::get('/enquiry/success/{reference}', [EnquiryController::class, 'success'])->name('enquiry.success');
+
+/**
+ * Admin Routes
+ */
+
+// Admin Authentication Routes (no middleware yet)
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Login routes
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Protected admin routes
+    Route::middleware('auth')->group(function () {
+        // Dashboard
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Admin profile (placeholder routes for now)
+        Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile.show');
+        Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+
+        // Enquiries management (placeholder)
+        Route::prefix('enquiries')->name('enquiries.')->group(function () {
+            Route::get('/', function () {
+                return view('admin.enquiries.index', [
+                    'enquiries' => \App\Models\Enquiry::with('roomType')->latest()->paginate(15),
+                ]);
+            })->name('index');
+            
+            Route::get('/{enquiry}', function (\App\Models\Enquiry $enquiry) {
+                return view('admin.enquiries.show', ['enquiry' => $enquiry->load('roomType')]);
+            })->name('show');
+        });
+
+        // Rooms management (placeholder)
+        Route::prefix('rooms')->name('rooms.')->group(function () {
+            Route::get('/', function () {
+                return view('admin.rooms.index', [
+                    'rooms' => \App\Models\Room::with('roomType')->latest()->paginate(15),
+                ]);
+            })->name('index');
+        });
+
+        // Room types management (placeholder)
+        Route::prefix('room-types')->name('room-types.')->group(function () {
+            Route::get('/', function () {
+                return view('admin.room-types.index', [
+                    'roomTypes' => \App\Models\RoomType::latest()->paginate(15),
+                ]);
+            })->name('index');
+        });
+
+        // Settings management (placeholder)
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('/', function () {
+                return view('admin.settings.index');
+            })->name('index');
+        });
+    });
+});
