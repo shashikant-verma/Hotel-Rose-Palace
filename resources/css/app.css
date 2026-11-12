@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap');
 
 :root {
-    /* Colors - Primary */
-    --color-navy: #0f1419;
-    --color-ivory: #1a1f2e;
-    --color-gold: #d4af37;
-    --color-white: #f8f7f5;
-    --color-gray: #2a2f3d;
-
-    /* Colors - Secondary */
-    --color-rose: #c9a961;
-    --color-charcoal: #141824;
-    --color-silver: #a0a0a0;
+    /* Champagne Sandstone & Burgundy Rose Palette */
+    --color-sandstone: #EDE4D8;      /* Page Base Background */
+    --color-champagne: #F7F1E8;      /* Card & Surface Background */
+    --color-beige: #E2D5C3;          /* Alternate Section Background */
+    --color-border: #D8CBB8;         /* Card Borders */
+    --color-burgundy: #6E2C3A;       /* Primary Brand (Buttons, Headings) */
+    --color-brass: #B88A44;          /* Secondary Accent (Stars, Badges, Dividers, Icons) */
+    --color-charcoal: #2E1F22;       /* Deep Plum-Charcoal for Headings/Body */
+    --color-mauve: #5E4B4E;          /* Warm Mauve-Grey for Subtitles */
+    --color-white: #FFFFFF;
+    --color-gold: #B88A44;
 
     /* Colors - Functional */
     --color-success: #27ae60;
@@ -59,8 +59,8 @@ html {
 
 body {
     font-family: var(--font-body);
-    color: var(--color-white);
-    background-color: var(--color-navy);
+    color: var(--color-charcoal);
+    background-color: var(--color-sandstone);
     line-height: 1.6;
     font-size: 16px;
 }
@@ -74,6 +74,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: var(--spacing-md);
+    color: var(--color-burgundy);
 }
 
 h1 {
@@ -113,13 +114,13 @@ p {
 }
 
 a {
-    color: var(--color-gold);
+    color: var(--color-brass);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: darken(var(--color-gold), 10%);
+    color: var(--color-burgundy);
 }
 
 /* ============================================
@@ -142,31 +143,31 @@ a:hover {
 }
 
 .btn-primary {
-    background-color: var(--color-gold);
-    color: var(--color-navy);
+    background-color: var(--color-burgundy);
+    color: var(--color-champagne);
     box-shadow: none;
 }
 
 .btn-primary:hover {
-    background-color: #b8944f;
+    background-color: #5a2430;
     box-shadow: var(--shadow-sm);
     transform: translateY(-2px);
 }
 
 .btn-primary:active {
-    background-color: #a68045;
+    background-color: #4d1f27;
     transform: translateY(0);
 }
 
 .btn-secondary {
     background-color: transparent;
-    border: 2px solid var(--color-gold);
-    color: var(--color-navy);
+    border: 2px solid var(--color-brass);
+    color: var(--color-burgundy);
 }
 
 .btn-secondary:hover {
-    background-color: var(--color-gold);
-    color: var(--color-navy);
+    background-color: var(--color-brass);
+    color: var(--color-champagne);
 }
 
 .btn-sm {
@@ -192,7 +193,7 @@ label {
     font-family: var(--font-primary);
     font-size: 14px;
     font-weight: 600;
-    color: var(--color-white);
+    color: var(--color-charcoal);
     margin-bottom: var(--spacing-sm);
 }
 
@@ -208,12 +209,12 @@ textarea,
 select {
     width: 100%;
     padding: 12px 14px;
-    border: 1px solid var(--color-gray);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     font-family: var(--font-body);
     font-size: 16px;
-    background-color: var(--color-ivory);
-    color: var(--color-white);
+    background-color: var(--color-champagne);
+    color: var(--color-charcoal);
     transition: border-color 0.3s ease;
 }
 
@@ -224,8 +225,8 @@ input[type="date"]:focus,
 textarea:focus,
 select:focus {
     outline: none;
-    border-color: var(--color-gold);
-    box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+    border-color: var(--color-brass);
+    box-shadow: 0 0 0 3px rgba(184, 138, 68, 0.1);
 }
 
 textarea {
@@ -244,11 +245,12 @@ textarea {
    ============================================ */
 
 .card {
-    background-color: var(--color-ivory);
+    background-color: var(--color-champagne);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
     transition: all 0.3s ease;
+    border: 1px solid var(--color-border);
 }
 
 .card:hover {
@@ -265,26 +267,26 @@ textarea {
 
 .card-body {
     padding: var(--spacing-lg);
-    background-color: var(--color-navy);
+    background-color: var(--color-champagne);
 }
 
 .card-title {
     font-size: 24px;
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
-    color: var(--color-white);
+    color: var(--color-burgundy);
 }
 
 .card-text {
     font-size: 14px;
-    color: var(--color-white);
+    color: var(--color-mauve);
     margin-bottom: var(--spacing-md);
 }
 
 .card-price {
     font-family: var(--font-heading);
     font-size: 20px;
-    color: var(--color-gold);
+    color: var(--color-brass);
     font-weight: 700;
 }
 
@@ -303,12 +305,12 @@ section {
 }
 
 section.bg-ivory {
-    background-color: var(--color-charcoal);
+    background-color: var(--color-beige);
 }
 
 section.bg-navy {
-    background-color: var(--color-charcoal);
-    color: var(--color-white);
+    background-color: var(--color-beige);
+    color: var(--color-charcoal);
 }
 
 section.bg-navy h2,
@@ -316,7 +318,7 @@ section.bg-navy h3,
 section.bg-navy h4,
 section.bg-navy h5,
 section.bg-navy h6 {
-    color: var(--color-white);
+    color: var(--color-burgundy);
 }
 
 /* ============================================
@@ -324,11 +326,12 @@ section.bg-navy h6 {
    ============================================ */
 
 header {
-    background-color: var(--color-charcoal);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    background-color: rgba(247, 241, 232, 0.95);
+    box-shadow: 0 2px 4px rgba(46, 31, 34, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
+    backdrop-filter: blur(10px);
 }
 
 nav {
@@ -346,7 +349,7 @@ nav {
     font-family: var(--font-heading);
     font-size: 28px;
     font-weight: 700;
-    color: var(--color-gold);
+    color: var(--color-burgundy);
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
@@ -365,7 +368,7 @@ nav {
 }
 
 .nav-menu a {
-    color: var(--color-white);
+    color: var(--color-charcoal);
     font-family: var(--font-primary);
     font-weight: 600;
     font-size: 16px;
@@ -374,7 +377,7 @@ nav {
 
 .nav-menu a:hover,
 .nav-menu a.active {
-    color: var(--color-gold);
+    color: var(--color-brass);
 }
 
 .nav-contact {
@@ -386,22 +389,22 @@ nav {
    ============================================ */
 
 footer {
-    background-color: var(--color-charcoal);
-    color: var(--color-white);
+    background-color: var(--color-burgundy);
+    color: var(--color-champagne);
     padding: var(--spacing-xxl) 0;
     margin-top: var(--spacing-xxl);
 }
 
 footer a {
-    color: var(--color-gold);
+    color: var(--color-brass);
 }
 
 footer a:hover {
-    color: var(--color-white);
+    color: var(--color-champagne);
 }
 
 .footer-section h4 {
-    color: var(--color-white);
+    color: var(--color-champagne);
     font-family: var(--font-primary);
     margin-bottom: var(--spacing-md);
 }
@@ -426,13 +429,13 @@ footer a:hover {
    ============================================ */
 
 .hero {
-    background: linear-gradient(rgba(15, 20, 25, 0.7), rgba(15, 20, 25, 0.7)), url('/images/hero-placeholder.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(110, 44, 58, 0.5), rgba(110, 44, 58, 0.5)), url('/images/hero-placeholder.jpg') center/cover no-repeat;
     height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--color-white);
+    color: var(--color-champagne);
 }
 
 .hero-content h1 {

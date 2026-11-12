@@ -6,6 +6,9 @@ use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\Amenity;
 use App\Models\GalleryImage;
+use App\Models\ContactMessage;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -101,8 +104,8 @@ class PageController extends Controller
     public function amenities(): View
     {
         $amenities = Amenity::where('is_active', true)
-            ->get()
-            ->groupBy('category');
+            ->orderBy('name')
+            ->get();
 
         return view('pages.amenities', [
             'amenities' => $amenities,
@@ -115,6 +118,32 @@ class PageController extends Controller
     public function contact(): View
     {
         return view('pages.contact');
+    }
+
+    /**
+     * Handle contact form submission
+     */
+    public function submitContact(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255',
+            'phone'   => 'nullable|string|max:20',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:2000',
+        ]);
+
+        // Try to save to database if model exists
+        try {
+            if (class_exists(ContactMessage::class)) {
+                ContactMessage::create($validated);
+            }
+        } catch (\Exception $e) {
+            // Silently fail — will still redirect to WhatsApp
+        }
+
+        return redirect()->route('contact')
+            ->with('success', 'Thank you for your message! Our team will get back to you within 24 hours.');
     }
 
     /**

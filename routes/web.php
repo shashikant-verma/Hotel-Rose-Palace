@@ -28,6 +28,7 @@ Route::get('/amenities', [PageController::class, 'amenities'])->name('amenities'
 
 // Contact
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit');
 
 // Legal Pages
 Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
