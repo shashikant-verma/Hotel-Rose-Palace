@@ -1,359 +1,59 @@
-# Hotel Rose Palace - Premium Hotel Website
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-A complete, production-ready hotel website for **Hotel Rose Palace**, Surat, Gujarat, India.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-**Status:** 📋 Documentation & Planning Phase  
-**Last Updated:** November 12, 2026
+## About Laravel
 
----
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-## 🏨 Project Overview
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Hotel Rose Palace is a modern, responsive hotel website built with **Laravel 12** and **MySQL**. The project features:
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-- **Customer-Facing Website** - Premium hotel browsing and WhatsApp-based enquiry system
-- **Admin Dashboard** - Secure backend for managing rooms, enquiries, gallery, and hotel settings
-- **WhatsApp Integration** - Direct booking enquiries with pre-filled messages (no payment gateway)
-- **Dynamic Content** - All hotel information configurable via admin panel
+## Learning Laravel
 
-### Key Features
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
 
-✅ **No Payment Gateway** - Enquiries redirect to WhatsApp for manual confirmation  
-✅ **Responsive Design** - Mobile, tablet, and desktop optimized  
-✅ **Premium Aesthetic** - Luxury hotel appearance  
-✅ **Secure Admin Panel** - Protected admin routes with authentication  
-✅ **Database-Driven** - All content managed via admin  
-✅ **Clean Architecture** - Laravel MVC with service layer  
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
----
+## Laravel Sponsors
 
-## 📍 Hotel Information
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-**Hotel Name:** Hotel Rose Palace  
-**Location:** 4th Floor, Atlanta Business Hub, VIP Road, Vesu, Surat, Gujarat 395007  
-**Phone:** +91 70424 24242 | +91 8071 515 210  
-**Website:** (To be deployed)
+### Premium Partners
 
-### Room Categories
+- **[Vehikl](https://vehikl.com)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Redberry](https://redberry.international/laravel-development)**
+- **[Active Logic](https://activelogic.com)**
 
-- Standard Double Room
-- Superior Room
-- Executive / Family Room
+## Contributing
 
----
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## 🛠 Technology Stack
+## Code of Conduct
 
-### Backend
-- **PHP:** 8.2+
-- **Framework:** Laravel 12
-- **Database:** MySQL 8.0+
-- **ORM:** Eloquent
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-### Frontend
-- **Templates:** Blade Templates
-- **CSS:** Bootstrap 5 / Tailwind CSS
-- **JavaScript:** Vanilla JS + jQuery (optional)
-- **Build Tool:** Vite
+## Security Vulnerabilities
 
-### Additional
-- **Version Control:** Git
-- **Package Manager:** Composer (PHP), npm (Node.js)
-- **Environment:** Windows / Linux / macOS
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
----
+## License
 
-## 📋 Documentation
-
-Complete documentation files are included in the project root:
-
-### 1. **planphase.md** - Development Roadmap
-- 9-phase development plan
-- Detailed tasks and dependencies
-- Progress tracking
-- Testing requirements
-
-### 2. **design.md** - UI/UX Design System
-- Color palette and typography
-- Component designs
-- Layout specifications
-- Responsive design rules
-- WCAG accessibility guidelines
-
-### 3. **archestrate.md** - Technical Architecture
-- Laravel 12 directory structure
-- Database schema (10 tables)
-- API routes and workflows
-- Security architecture
-- Deployment specifications
-
----
-
-## 🚀 Development Phases
-
-The project follows a **strict phase-wise development approach**:
-
-| Phase | Objective | Status |
-|-------|-----------|--------|
-| **Phase 1** | Project Setup & Analysis | ⏳ Pending |
-| **Phase 2** | Premium Frontend UI Development | ⏳ Pending |
-| **Phase 3** | Database Design & Backend Architecture | ⏳ Pending |
-| **Phase 4** | Authentication & Admin Dashboard | ⏳ Pending |
-| **Phase 5** | Room & Category Management | ⏳ Pending |
-| **Phase 6** | Customer Enquiry & WhatsApp Integration | ⏳ Pending |
-| **Phase 7** | Enquiry Management & Website Settings | ⏳ Pending |
-| **Phase 8** | Testing, Security & Optimization | ⏳ Pending |
-| **Phase 9** | Production Deployment | ⏳ Pending |
-
----
-
-## 💾 Database Structure
-
-### Tables (10 total)
-
-1. **users** - Admin/staff users
-2. **room_types** - Room categories (Standard, Superior, Executive)
-3. **rooms** - Individual room records
-4. **room_images** - Room photographs
-5. **amenities** - Hotel features (Wi-Fi, Parking, Restaurant, etc.)
-6. **amenity_room_type** - Amenity-RoomType relationships (pivot)
-7. **enquiries** - Customer booking enquiries
-8. **gallery_images** - Hotel gallery photos
-9. **hotel_settings** - Website configuration/CMS
-10. **contact_messages** - Contact form submissions
-
----
-
-## 📱 Customer Features
-
-### Public Website Pages
-
-- **Home** - Hero section, featured rooms, facilities, gallery preview, testimonials
-- **About** - Hotel introduction and services
-- **Rooms & Suites** - Browse available room categories
-- **Room Details** - Individual room information with images and enquiry form
-- **Gallery** - Hotel and room photographs
-- **Amenities** - Detailed amenities listing
-- **Contact** - Address, phone, Google Maps, contact form
-- **Legal** - Privacy Policy, Terms & Conditions, Cancellation Policy
-
-### Enquiry System
-
-1. Customer selects room and dates
-2. Enters name, phone, and optional message
-3. System saves enquiry to database
-4. Unique reference ID generated
-5. Redirects to WhatsApp with pre-filled message
-6. Hotel staff responds and confirms manually
-
----
-
-## 🔐 Admin Dashboard Features
-
-### Modules
-
-- **Dashboard** - Key metrics (total, new, confirmed, cancelled enquiries)
-- **Room Categories** - Add, edit, delete room types
-- **Room Management** - Add/edit rooms, upload images, manage inventory
-- **Enquiry Management** - View, search, filter enquiries, update status, add notes
-- **Gallery Management** - Upload and delete gallery images
-- **Website Settings** - Configure hotel info, WhatsApp number, contact details
-- **Admin Profile** - Manage admin account
-
-### Enquiry Statuses
-
-- New
-- Contacted
-- Availability Confirmed
-- Booking Confirmed
-- Cancelled
-- Closed
-
----
-
-## 🔒 Security Features
-
-✅ CSRF Protection  
-✅ SQL Injection Prevention (Eloquent ORM)  
-✅ XSS Protection (Blade escaping)  
-✅ Admin Authentication & Authorization  
-✅ Password Hashing (bcrypt)  
-✅ File Upload Validation  
-✅ Rate Limiting  
-✅ Input Validation (Server-side)  
-✅ Environment Variable Protection  
-
----
-
-## 📦 Installation
-
-### Prerequisites
-
-- PHP 8.2 or higher
-- MySQL 8.0 or higher
-- Node.js v18+ and npm
-- Composer
-- Git
-
-### Local Setup (Coming in Phase 1)
-
-```bash
-# Clone the repository
-git clone https://github.com/shashikant-verma/Hotel-Rose-Palace.git
-cd Hotel-Rose-Palace
-
-# Install PHP dependencies
-composer install
-
-# Install Node.js dependencies
-npm install
-
-# Create environment file
-cp .env.example .env
-
-# Generate application key
-php artisan key:generate
-
-# Create database and run migrations
-php artisan migrate
-
-# Seed initial data
-php artisan db:seed
-
-# Build frontend assets
-npm run dev
-
-# Start development server
-php artisan serve
-```
-
-The website will be available at `http://localhost:8000`
-
----
-
-## 🎨 Design System
-
-### Color Palette
-
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Deep Navy | `#1a2332` | Headings, navigation, footer |
-| Warm Ivory | `#f5f3f0` | Backgrounds |
-| Muted Gold | `#c9a961` | Accents, CTAs, buttons |
-| Crisp White | `#ffffff` | Content backgrounds |
-| Light Gray | `#e8e6e3` | Borders, dividers |
-
-### Typography
-
-- **Headings:** Playfair Display (elegant, luxury feel)
-- **Navigation & Buttons:** Poppins (modern, professional)
-- **Body Text:** Lato (high readability)
-
----
-
-## 📁 Project Structure
-
-```
-Hotel-Rose-Palace/
-├── app/
-│   ├── Http/
-│   │   ├── Controllers/
-│   │   ├── Middleware/
-│   │   └── Requests/
-│   ├── Models/
-│   ├── Services/
-│   └── Exceptions/
-├── database/
-│   ├── migrations/
-│   ├── seeders/
-│   └── factories/
-├── resources/
-│   ├── views/
-│   ├── css/
-│   └── js/
-├── routes/
-├── config/
-├── tests/
-├── storage/
-├── public/
-├── .env.example
-├── .gitignore
-├── composer.json
-├── package.json
-├── vite.config.js
-└── README.md
-```
-
----
-
-## 🧪 Testing
-
-Comprehensive testing will be included in Phase 8:
-
-- Unit tests for services
-- Feature tests for controllers
-- Database integration tests
-- Form validation tests
-- Security vulnerability testing
-
----
-
-## 🚢 Deployment
-
-Production deployment configuration will be provided in Phase 9, including:
-
-- Web server setup (Apache/Nginx)
-- SSL/HTTPS configuration
-- Database backups
-- Error monitoring
-- Performance optimization
-
----
-
-## 📚 Documentation Files
-
-1. **planphase.md** - Complete development roadmap with all phases and tasks
-2. **design.md** - UI/UX design system with colors, typography, and layouts
-3. **archestrate.md** - Technical architecture with database schema and workflows
-4. **DOCUMENTATION_SUMMARY.md** - Overview of all three documents
-
----
-
-## 🤝 Contributing
-
-This is a project-specific repository. For development guidelines, refer to the documentation files included in the project root.
-
----
-
-## 📝 License
-
-This project is proprietary. All rights reserved by Hotel Rose Palace.
-
----
-
-## 👤 Developer
-
-**Lead Developer:** Kiro AI Assistant  
-**Project Manager:** Shashikant Verma  
-**Start Date:** November 12, 2026
-
----
-
-## 📞 Support
-
-For questions or issues related to this project, please contact:
-- **Email:** [To be configured]
-- **WhatsApp:** [To be configured]
-
----
-
-## 📋 Current Status
-
-**Phase:** Planning & Documentation  
-**Status:** ✅ Documentation Complete - Awaiting Approval  
-**Next Step:** Phase 1 - Project Setup (after approval)
-
----
-
-**Last Updated:** November 12, 2026  
-**Repository:** https://github.com/shashikant-verma/Hotel-Rose-Palace
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
