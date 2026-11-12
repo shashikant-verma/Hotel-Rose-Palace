@@ -103,30 +103,38 @@
 ═══════════════════════════════════════════════════════ --}}
 <section class="hrp-about-stats-section">
     <div class="container">
-        <div class="hrp-about-stats-grid">
-            <div class="hrp-ab-stat-card" id="stat-rooms">
-                <div class="hrp-ab-stat-icon"><i class="fas fa-bed"></i></div>
-                <div class="hrp-ab-stat-num" data-count="50">50</div>
-                <div class="hrp-ab-stat-plus">+</div>
-                <div class="hrp-ab-stat-label">Luxury Rooms & Suites</div>
+        <div class="hrp-about-stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;">
+            <div class="hrp-ab-stat-card" id="stat-rooms" style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 32px 20px; border-right: 1px solid rgba(184, 138, 68, 0.12);">
+                <div class="hrp-ab-stat-icon" style="margin-bottom: 12px; font-size: 28px; color: rgba(184, 138, 68, 0.3);"><i class="fas fa-bed"></i></div>
+                <div style="display: inline-flex; align-items: baseline; gap: 4px;">
+                    <div class="hrp-ab-stat-num" data-count="50" style="font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; color: var(--color-brass-gold); line-height: 1;">50</div>
+                    <div class="hrp-ab-stat-plus" style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--color-brass-gold);">+</div>
+                </div>
+                <div class="hrp-ab-stat-label" style="display: block; font-size: 11.5px; color: rgba(255,255,255,0.5); font-family: 'Poppins', sans-serif; letter-spacing: 1px; text-transform: uppercase; margin-top: 8px;">Luxury Rooms & Suites</div>
             </div>
-            <div class="hrp-ab-stat-card" id="stat-rating">
-                <div class="hrp-ab-stat-icon"><i class="fas fa-star"></i></div>
-                <div class="hrp-ab-stat-num">4.8</div>
-                <div class="hrp-ab-stat-plus">★</div>
-                <div class="hrp-ab-stat-label">Average Guest Rating</div>
+            <div class="hrp-ab-stat-card" id="stat-rating" style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 32px 20px; border-right: 1px solid rgba(184, 138, 68, 0.12);">
+                <div class="hrp-ab-stat-icon" style="margin-bottom: 12px; font-size: 28px; color: rgba(184, 138, 68, 0.3);"><i class="fas fa-star"></i></div>
+                <div style="display: inline-flex; align-items: baseline; gap: 4px;">
+                    <div class="hrp-ab-stat-num" style="font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; color: var(--color-brass-gold); line-height: 1;">4.8</div>
+                    <div class="hrp-ab-stat-plus" style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--color-brass-gold);">★</div>
+                </div>
+                <div class="hrp-ab-stat-label" style="display: block; font-size: 11.5px; color: rgba(255,255,255,0.5); font-family: 'Poppins', sans-serif; letter-spacing: 1px; text-transform: uppercase; margin-top: 8px;">Average Guest Rating</div>
             </div>
-            <div class="hrp-ab-stat-card" id="stat-guests">
-                <div class="hrp-ab-stat-icon"><i class="fas fa-users"></i></div>
-                <div class="hrp-ab-stat-num" data-count="10000">10K</div>
-                <div class="hrp-ab-stat-plus">+</div>
-                <div class="hrp-ab-stat-label">Happy Guests Served</div>
+            <div class="hrp-ab-stat-card" id="stat-guests" style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 32px 20px; border-right: 1px solid rgba(184, 138, 68, 0.12);">
+                <div class="hrp-ab-stat-icon" style="margin-bottom: 12px; font-size: 28px; color: rgba(184, 138, 68, 0.3);"><i class="fas fa-users"></i></div>
+                <div style="display: inline-flex; align-items: baseline; gap: 4px;">
+                    <div class="hrp-ab-stat-num" data-count="10000" style="font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; color: var(--color-brass-gold); line-height: 1;">10K</div>
+                    <div class="hrp-ab-stat-plus" style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--color-brass-gold);">+</div>
+                </div>
+                <div class="hrp-ab-stat-label" style="display: block; font-size: 11.5px; color: rgba(255,255,255,0.5); font-family: 'Poppins', sans-serif; letter-spacing: 1px; text-transform: uppercase; margin-top: 8px;">Happy Guests Served</div>
             </div>
-            <div class="hrp-ab-stat-card" id="stat-service">
-                <div class="hrp-ab-stat-icon"><i class="fas fa-concierge-bell"></i></div>
-                <div class="hrp-ab-stat-num">24</div>
-                <div class="hrp-ab-stat-plus">/7</div>
-                <div class="hrp-ab-stat-label">Concierge & Dining</div>
+            <div class="hrp-ab-stat-card" id="stat-service" style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 32px 20px;">
+                <div class="hrp-ab-stat-icon" style="margin-bottom: 12px; font-size: 28px; color: rgba(184, 138, 68, 0.3);"><i class="fas fa-concierge-bell"></i></div>
+                <div style="display: inline-flex; align-items: baseline; gap: 4px;">
+                    <div class="hrp-ab-stat-num" style="font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; color: var(--color-brass-gold); line-height: 1;">24</div>
+                    <div class="hrp-ab-stat-plus" style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--color-brass-gold);">/7</div>
+                </div>
+                <div class="hrp-ab-stat-label" style="display: block; font-size: 11.5px; color: rgba(255,255,255,0.5); font-family: 'Poppins', sans-serif; letter-spacing: 1px; text-transform: uppercase; margin-top: 8px;">Concierge & Dining</div>
             </div>
         </div>
     </div>

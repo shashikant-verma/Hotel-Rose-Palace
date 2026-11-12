@@ -18,10 +18,12 @@ return [
     ],
     
     'contact' => [
-        'phone_1' => '+91 70424 24242',
+        'phone_1' => '+91 87991 29929',
         'phone_2' => '+91 8071 515 210',
         'email' => env('HOTEL_EMAIL', 'info@hotelrosepalace.com'),
-        'whatsapp_number' => env('WHATSAPP_NUMBER', '+91xxxxxxxxx'),
+        'whatsapp_number' => env('WHATSAPP_NUMBER', '+91 87991 29929'),
+        'instagram' => 'https://www.instagram.com/hotelrosepalace9',
+        'google_maps' => 'https://maps.app.goo.gl/1xEWyWLUTnMqAc4q8',
     ],
     
     'rooms' => [

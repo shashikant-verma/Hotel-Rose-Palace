@@ -109,6 +109,19 @@
                 <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '919042424242')) }}" target="_blank" class="hrp-footer-wa-btn">
                     <i class="fab fa-whatsapp"></i> Chat with us on WhatsApp
                 </a>
+
+                {{-- Social Links Row --}}
+                <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
+                    {{-- Instagram Link --}}
+                    <a href="{{ config('hotel.contact.instagram', '#') }}" target="_blank" class="hrp-footer-social-btn" title="Follow us on Instagram">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </a>
+                    
+                    {{-- Google Maps Link --}}
+                    <a href="{{ config('hotel.contact.google_maps', '#') }}" target="_blank" class="hrp-footer-social-btn" title="View on Google Maps">
+                        <i class="fas fa-map-location-dot"></i> Location
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -291,6 +304,31 @@
     box-shadow: 0 4px 16px rgba(37,211,102,0.3);
 }
 .hrp-footer-wa-btn i { font-size: 16px; }
+
+/* Social buttons (Instagram, Location) */
+.hrp-footer-social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(184, 138, 68, 0.15);
+    border: 1px solid rgba(184, 138, 68, 0.3);
+    color: #B88A44;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.hrp-footer-social-btn:hover {
+    background: #B88A44;
+    color: #6E2C3A;
+    border-color: #B88A44;
+    box-shadow: 0 4px 12px rgba(184, 138, 68, 0.25);
+    transform: translateY(-2px);
+}
+.hrp-footer-social-btn i { font-size: 14px; }
 
 /* Bottom bar */
 .hrp-footer-bottom {

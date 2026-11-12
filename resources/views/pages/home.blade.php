@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Hero Section -->
-<section class="hero bg-sandstone-base" style="background: linear-gradient(rgba(110, 44, 58, 0.5), rgba(110, 44, 58, 0.5)), url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200') center/cover no-repeat; min-height: 600px; display: flex; align-items: center; padding: 60px 0;">
+<section class="hero bg-sandstone-base" style="background: linear-gradient(rgba(110, 44, 58, 0.5), rgba(110, 44, 58, 0.5)), url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200') center/cover no-repeat; min-height: 600px; display: flex; align-items: center; padding: 60px 0; position: relative;">
     <div class="container">
         <div class="hero-content text-center" style="color: var(--color-champagne);">
             <span style="color: var(--color-brass-gold); font-family: var(--font-ui); font-weight: 600; font-size: 16px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 16px;">Luxury Hospitality in Surat</span>
@@ -20,7 +20,41 @@
             </a>
         </div>
     </div>
+
+    <!-- Floating Quick Availability Bar -->
+    <div style="position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 900px; z-index: 100;">
+        <div style="background: linear-gradient(135deg, var(--color-champagne), var(--color-cream)); border-radius: 16px; padding: 24px; box-shadow: 0 10px 40px rgba(46, 31, 34, 0.2); border: 1px solid var(--color-border-subtle);">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; align-items: flex-end;">
+                <div>
+                    <label style="display: block; font-weight: 600; color: var(--color-charcoal-deep); margin-bottom: 8px; font-size: 13px;">Check-in Date</label>
+                    <input type="date" style="width: 100%; padding: 10px 12px; background: var(--color-champagne); border: 1.5px solid var(--color-border-subtle); border-radius: 8px; font-family: var(--font-ui); color: var(--color-charcoal-deep); transition: all 0.3s ease;" onfocus="this.style.borderColor = 'var(--color-burgundy-rose)'; this.style.boxShadow = '0 0 0 3px rgba(110, 44, 58, 0.1)';" onblur="this.style.borderColor = 'var(--color-border-subtle)'; this.style.boxShadow = 'none';">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; color: var(--color-charcoal-deep); margin-bottom: 8px; font-size: 13px;">Check-out Date</label>
+                    <input type="date" style="width: 100%; padding: 10px 12px; background: var(--color-champagne); border: 1.5px solid var(--color-border-subtle); border-radius: 8px; font-family: var(--font-ui); color: var(--color-charcoal-deep); transition: all 0.3s ease;" onfocus="this.style.borderColor = 'var(--color-burgundy-rose)'; this.style.boxShadow = '0 0 0 3px rgba(110, 44, 58, 0.1)';" onblur="this.style.borderColor = 'var(--color-border-subtle)'; this.style.boxShadow = 'none';">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; color: var(--color-charcoal-deep); margin-bottom: 8px; font-size: 13px;">Guests</label>
+                    <select style="width: 100%; padding: 10px 12px; background: var(--color-champagne); border: 1.5px solid var(--color-border-subtle); border-radius: 8px; font-family: var(--font-ui); color: var(--color-charcoal-deep); cursor: pointer; transition: all 0.3s ease; appearance: none; background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%236E2C3A%27 stroke-width=%272%27%3E%3Cpolyline points=%276 9 12 15 18 9%27%3E%3C/polyline%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 10px center; padding-right: 36px;">
+                        <option>1 Guest</option>
+                        <option>2 Guests</option>
+                        <option>3 Guests</option>
+                        <option>4 Guests</option>
+                        <option>5+ Guests</option>
+                    </select>
+                </div>
+                <div>
+                    <button style="width: 100%; padding: 10px 20px; background: var(--color-burgundy-rose); color: var(--color-champagne); border: none; border-radius: 8px; font-weight: 600; font-family: var(--font-ui); cursor: pointer; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background = 'var(--color-burgundy-dark)'; this.style.transform = 'translateY(-2px)'; this.style.boxShadow = 'var(--shadow-md)';" onmouseout="this.style.background = 'var(--color-burgundy-rose)'; this.style.transform = 'translateY(0)'; this.style.boxShadow = 'none';">
+                        Check Availability
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+<!-- Spacer for floating bar -->
+<div style="height: 60px;"></div>
 
 <!-- Welcome Section -->
 <section style="background-color: var(--color-sandstone-base); padding: 60px 0;">
@@ -111,6 +145,57 @@
                     <p style="color: var(--color-mauve-grey);">No amenities to display.</p>
                 </div>
             @endforelse
+        </div>
+    </div>
+</section>
+
+<!-- Curated Experiences Section -->
+<section style="background-color: var(--color-sandstone-base); padding: 60px 0;">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 48px;">
+            <h2 style="color: var(--color-charcoal-deep); margin-bottom: 16px;">Curated Experiences</h2>
+            <p style="color: var(--color-mauve-grey); font-size: 16px;">Tailored packages designed for your unique journey</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px;">
+            <!-- Corporate Stays -->
+            <div class="card" style="transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0);" onmouseover="this.style.transform = 'translateY(-8px)'; this.style.boxShadow = 'var(--shadow-lg)';" onmouseout="this.style.transform = 'translateY(0)'; this.style.boxShadow = 'var(--shadow-sm)';">
+                <div style="height: 200px; background: linear-gradient(135deg, rgba(110, 44, 58, 0.1), rgba(184, 138, 68, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                    <i class="fas fa-briefcase" style="font-size: 48px; color: var(--color-brass-gold);"></i>
+                </div>
+                <h4 style="color: var(--color-charcoal-deep); margin-bottom: 12px;">Corporate Stays</h4>
+                <p style="color: var(--color-mauve-grey); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">Flexible check-in, dedicated business center, high-speed Wi-Fi, and executive lounge access — designed for productive business travelers.</p>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--color-border-subtle);">
+                    <span style="font-weight: 600; color: var(--color-brass-gold);">From ₹4,999/night</span>
+                    <a href="{{ route('contact') }}" style="color: var(--color-burgundy-rose); font-weight: 600; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color = 'var(--color-brass-gold)';" onmouseout="this.style.color = 'var(--color-burgundy-rose)';">Learn More →</a>
+                </div>
+            </div>
+
+            <!-- Banquet & Events -->
+            <div class="card" style="transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0);" onmouseover="this.style.transform = 'translateY(-8px)'; this.style.boxShadow = 'var(--shadow-lg)';" onmouseout="this.style.transform = 'translateY(0)'; this.style.boxShadow = 'var(--shadow-sm)';">
+                <div style="height: 200px; background: linear-gradient(135deg, rgba(110, 44, 58, 0.1), rgba(184, 138, 68, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                    <i class="fas fa-champagne-glasses" style="font-size: 48px; color: var(--color-brass-gold);"></i>
+                </div>
+                <h4 style="color: var(--color-charcoal-deep); margin-bottom: 12px;">Banquet & Events</h4>
+                <p style="color: var(--color-mauve-grey); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">Host unforgettable celebrations with our sophisticated venues, expert catering, and dedicated event planning team.</p>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--color-border-subtle);">
+                    <span style="font-weight: 600; color: var(--color-brass-gold);">Customized Pricing</span>
+                    <a href="{{ route('contact') }}" style="color: var(--color-burgundy-rose); font-weight: 600; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color = 'var(--color-brass-gold)';" onmouseout="this.style.color = 'var(--color-burgundy-rose)';">Enquire →</a>
+                </div>
+            </div>
+
+            <!-- Weekend Packages -->
+            <div class="card" style="transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0);" onmouseover="this.style.transform = 'translateY(-8px)'; this.style.boxShadow = 'var(--shadow-lg)';" onmouseout="this.style.transform = 'translateY(0)'; this.style.boxShadow = 'var(--shadow-sm)';">
+                <div style="height: 200px; background: linear-gradient(135deg, rgba(110, 44, 58, 0.1), rgba(184, 138, 68, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                    <i class="fas fa-heart" style="font-size: 48px; color: var(--color-brass-gold);"></i>
+                </div>
+                <h4 style="color: var(--color-charcoal-deep); margin-bottom: 12px;">Weekend Packages</h4>
+                <p style="color: var(--color-mauve-grey); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">Romantic getaways and rejuvenating retreats with spa credits, fine dining experiences, and exclusive weekend perks.</p>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--color-border-subtle);">
+                    <span style="font-weight: 600; color: var(--color-brass-gold);">From ₹5,499/night</span>
+                    <a href="{{ route('contact') }}" style="color: var(--color-burgundy-rose); font-weight: 600; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color = 'var(--color-brass-gold)';" onmouseout="this.style.color = 'var(--color-burgundy-rose)';">Book Now →</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -257,4 +342,89 @@
     </div>
 </section>
 
+@endsection
+
+@section('extra_css')
+<style>
+/* Phase 5 Enhancements - Home Page */
+
+/* Gold Gradient Dividers */
+section {
+    position: relative;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--color-brass-gold), transparent);
+    border-radius: 2px;
+}
+
+section:first-of-type::before {
+    display: none;
+}
+
+/* Card Hover Lift Animation */
+.card {
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 16px 40px rgba(110, 44, 58, 0.15) !important;
+    border-color: var(--color-brass-gold) !important;
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Quick Availability Bar Animation */
+div[style*="position: absolute; bottom: -80px"] {
+    animation: slideUpAvail 0.8s ease 0.3s both;
+}
+
+@keyframes slideUpAvail {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Amenity cards slight scale */
+div[style*="background-color: var(--color-champagne); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 32px; text-align: center;"] {
+    transition: all 0.3s ease;
+}
+
+div[style*="background-color: var(--color-champagne); border: 1px solid var(--color-border-subtle); border-radius: 12px; padding: 32px; text-align: center;"]:hover {
+    transform: scale(1.03) translateY(-4px);
+    border-color: var(--color-brass-gold);
+    box-shadow: 0 10px 30px rgba(184, 138, 68, 0.2);
+}
+
+/* Button hover effects */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(110, 44, 58, 0.25);
+}
+
+/* Text transitions */
+a {
+    transition: color 0.3s ease;
+}
+</style>
 @endsection
