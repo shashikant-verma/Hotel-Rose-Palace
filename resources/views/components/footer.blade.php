@@ -25,16 +25,10 @@
                 </p>
                 {{-- Social Icons --}}
                 <div class="hrp-footer-socials">
-                    @php
-                        $fb = \App\Models\HotelSettings::getValue('social_facebook','#');
-                        $ig = \App\Models\HotelSettings::getValue('social_instagram','#');
-                        $tw = \App\Models\HotelSettings::getValue('social_twitter','#');
-                        $yt = \App\Models\HotelSettings::getValue('social_youtube','#');
-                    @endphp
-                    <a href="{{ $fb }}" target="_blank" class="hrp-social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="{{ $ig }}" target="_blank" class="hrp-social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="{{ $tw }}" target="_blank" class="hrp-social-icon" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-                    <a href="{{ $yt }}" target="_blank" class="hrp-social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.facebook.com/hotelrosepalace" target="_blank" rel="noopener noreferrer" class="hrp-social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ config('hotel.contact.instagram', '#') }}" target="_blank" rel="noopener noreferrer" class="hrp-social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.twitter.com/hotelrosepalace" target="_blank" rel="noopener noreferrer" class="hrp-social-icon" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://www.youtube.com/hotelrosepalace" target="_blank" rel="noopener noreferrer" class="hrp-social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
 

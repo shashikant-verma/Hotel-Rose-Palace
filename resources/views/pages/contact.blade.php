@@ -147,13 +147,13 @@
                     <div class="hrp-ci-social">
                         <span class="hrp-ci-social-label">Follow Us</span>
                         <div class="hrp-ci-social-icons">
-                            <a href="#" class="hrp-ci-social-icon" aria-label="Facebook" id="contact-fb">
+                            <a href="https://www.facebook.com/hotelrosepalace" target="_blank" rel="noopener noreferrer" class="hrp-ci-social-icon" aria-label="Facebook" id="contact-fb">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="#" class="hrp-ci-social-icon" aria-label="Instagram" id="contact-ig">
+                            <a href="{{ config('hotel.contact.instagram', '#') }}" target="_blank" rel="noopener noreferrer" class="hrp-ci-social-icon" aria-label="Instagram" id="contact-ig">
                                 <i class="fab fa-instagram"></i>
                             </a>
-                            <a href="#" class="hrp-ci-social-icon" aria-label="Twitter" id="contact-tw">
+                            <a href="https://www.twitter.com/hotelrosepalace" target="_blank" rel="noopener noreferrer" class="hrp-ci-social-icon" aria-label="Twitter" id="contact-tw">
                                 <i class="fab fa-x-twitter"></i>
                             </a>
                         </div>
