@@ -105,21 +105,21 @@
                     </div>
                 </div>
 
-                {{-- WhatsApp CTA --}}
+                {{-- WhatsApp CTA Button --}}
                 <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '919042424242')) }}" target="_blank" class="hrp-footer-wa-btn">
                     <i class="fab fa-whatsapp"></i> Chat with us on WhatsApp
                 </a>
 
-                {{-- Social Links Row --}}
-                <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
-                    {{-- Instagram Link --}}
-                    <a href="{{ config('hotel.contact.instagram', '#') }}" target="_blank" class="hrp-footer-social-btn" title="Follow us on Instagram">
-                        <i class="fab fa-instagram"></i> Instagram
+                {{-- Social Icons Row - Instagram & Location --}}
+                <div style="display: flex; gap: 16px; margin-top: 16px; align-items: center;">
+                    {{-- Instagram Icon --}}
+                    <a href="{{ config('hotel.contact.instagram', '#') }}" target="_blank" class="hrp-footer-icon-btn" title="Follow us on Instagram">
+                        <i class="fab fa-instagram"></i>
                     </a>
                     
-                    {{-- Google Maps Link --}}
-                    <a href="{{ config('hotel.contact.google_maps', '#') }}" target="_blank" class="hrp-footer-social-btn" title="View on Google Maps">
-                        <i class="fas fa-map-location-dot"></i> Location
+                    {{-- Google Maps Icon --}}
+                    <a href="{{ config('hotel.contact.google_maps', '#') }}" target="_blank" class="hrp-footer-icon-btn" title="View on Google Maps">
+                        <i class="fas fa-map-location-dot"></i>
                     </a>
                 </div>
             </div>
@@ -305,32 +305,27 @@
 }
 .hrp-footer-wa-btn i { font-size: 16px; }
 
-/* Social buttons (Instagram, Location) */
-.hrp-footer-social-btn {
+/* Social Icon Buttons (Instagram, Location) */
+.hrp-footer-icon-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #B88A44, #9d7340);
-    border: 1px solid #B88A44;
-    color: #FFFFFF;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 11px 18px;
-    border-radius: 8px;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(184, 138, 68, 0.15);
+    border: 2px solid #B88A44;
+    color: #B88A44;
+    font-size: 18px;
     text-decoration: none;
     transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 12px rgba(184, 138, 68, 0.3);
 }
-.hrp-footer-social-btn:hover {
-    background: linear-gradient(135deg, #C5A059, #B88A44);
-    border-color: #C5A059;
-    color: #FFFFFF;
-    box-shadow: 0 8px 20px rgba(184, 138, 68, 0.4);
-    transform: translateY(-3px);
+.hrp-footer-icon-btn:hover {
+    background: #B88A44;
+    color: #6E2C3A;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(184, 138, 68, 0.3);
 }
-.hrp-footer-social-btn i { font-size: 16px; }
 
 /* Bottom bar */
 .hrp-footer-bottom {
