@@ -64,7 +64,7 @@
                         <i class="fas fa-sign-in-alt"></i>
                         <div>
                             <span class="hrp-ci-label">Check-in</span>
-                            <span class="hrp-ci-value">2:00 PM</span>
+                            <span class="hrp-ci-value">12:00 PM</span>
                         </div>
                     </div>
                     <div class="hrp-ci-row">
