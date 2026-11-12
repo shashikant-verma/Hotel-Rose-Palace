@@ -43,7 +43,7 @@ class SecurityHeaders
             "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com",
             "img-src 'self' data: https:",
             "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com",
-            "connect-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+            "connect-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.google.com",
             "frame-src 'self' https://www.google.com https://maps.google.com https://www.google.com/maps",
             "frame-ancestors 'self'",
             "base-uri 'self'",
