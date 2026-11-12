@@ -20,7 +20,7 @@
                     type="text" 
                     class="form-control" 
                     name="settings[hotel_name]" 
-                    value="{{ \App\Models\HotelSettings::getValue('hotel_name', 'Hotel Rose Palace') }}"
+                    value="{{ $settings['hotel_name'] }}"
                     required
                 >
             </div>
@@ -31,7 +31,7 @@
                     type="text" 
                     class="form-control" 
                     name="settings[hotel_tagline]" 
-                    value="{{ \App\Models\HotelSettings::getValue('hotel_tagline', 'Luxury Stay in Surat') }}"
+                    value="{{ $settings['hotel_tagline'] }}"
                 >
             </div>
 
@@ -41,7 +41,7 @@
                     class="form-control" 
                     name="settings[hotel_description]" 
                     rows="3"
-                >{{ \App\Models\HotelSettings::getValue('hotel_description', 'Welcome to Hotel Rose Palace') }}</textarea>
+                >{{ $settings['hotel_description'] }}</textarea>
             </div>
 
             <div class="col-12 mb-3">
@@ -50,7 +50,7 @@
                     class="form-control" 
                     name="settings[hotel_address]" 
                     rows="2"
-                >{{ \App\Models\HotelSettings::getValue('hotel_address', '4th Floor, Atlanta Business Hub, VIP Road, Vesu, Surat, Gujarat 395007') }}</textarea>
+                >{{ $settings['hotel_address'] }}</textarea>
             </div>
         </div>
     </div>
@@ -67,7 +67,7 @@
                     type="tel" 
                     class="form-control" 
                     name="settings[contact_phone]" 
-                    value="{{ \App\Models\HotelSettings::getValue('contact_phone', '+91 1234567890') }}"
+                    value="{{ $settings['contact_phone'] }}"
                 >
             </div>
 
@@ -77,7 +77,7 @@
                     type="tel" 
                     class="form-control" 
                     name="settings[whatsapp_number]" 
-                    value="{{ \App\Models\HotelSettings::getValue('whatsapp_number', '+91 1234567890') }}"
+                    value="{{ $settings['whatsapp_number'] }}"
                     required
                 >
                 <small class="text-muted">Used for enquiry WhatsApp integration</small>
@@ -89,7 +89,7 @@
                     type="email" 
                     class="form-control" 
                     name="settings[contact_email]" 
-                    value="{{ \App\Models\HotelSettings::getValue('contact_email', 'info@hotelrosepalace.com') }}"
+                    value="{{ $settings['contact_email'] }}"
                 >
             </div>
         </div>
@@ -107,7 +107,7 @@
                     type="url" 
                     class="form-control" 
                     name="settings[social_facebook]" 
-                    value="{{ \App\Models\HotelSettings::getValue('social_facebook', '') }}"
+                    value="{{ $settings['social_facebook'] }}"
                     placeholder="https://facebook.com/yourpage"
                 >
             </div>
@@ -118,7 +118,7 @@
                     type="url" 
                     class="form-control" 
                     name="settings[social_instagram]" 
-                    value="{{ \App\Models\HotelSettings::getValue('social_instagram', '') }}"
+                    value="{{ $settings['social_instagram'] }}"
                     placeholder="https://instagram.com/yourprofile"
                 >
             </div>
@@ -129,7 +129,7 @@
                     type="url" 
                     class="form-control" 
                     name="settings[social_twitter]" 
-                    value="{{ \App\Models\HotelSettings::getValue('social_twitter', '') }}"
+                    value="{{ $settings['social_twitter'] }}"
                     placeholder="https://twitter.com/yourprofile"
                 >
             </div>
@@ -140,7 +140,7 @@
                     type="url" 
                     class="form-control" 
                     name="settings[social_youtube]" 
-                    value="{{ \App\Models\HotelSettings::getValue('social_youtube', '') }}"
+                    value="{{ $settings['social_youtube'] }}"
                     placeholder="https://youtube.com/yourchannel"
                 >
             </div>
@@ -159,7 +159,7 @@
                     type="time" 
                     class="form-control" 
                     name="settings[checkin_time]" 
-                    value="{{ \App\Models\HotelSettings::getValue('checkin_time', '14:00') }}"
+                    value="{{ $settings['checkin_time'] }}"
                 >
             </div>
 
@@ -169,7 +169,7 @@
                     type="time" 
                     class="form-control" 
                     name="settings[checkout_time]" 
-                    value="{{ \App\Models\HotelSettings::getValue('checkout_time', '11:00') }}"
+                    value="{{ $settings['checkout_time'] }}"
                 >
             </div>
 
@@ -179,7 +179,7 @@
                     type="text" 
                     class="form-control" 
                     name="settings[reception_hours]" 
-                    value="{{ \App\Models\HotelSettings::getValue('reception_hours', '24/7') }}"
+                    value="{{ $settings['reception_hours'] }}"
                     placeholder="24/7"
                 >
             </div>
@@ -198,7 +198,7 @@
                     type="text" 
                     class="form-control" 
                     name="settings[meta_title]" 
-                    value="{{ \App\Models\HotelSettings::getValue('meta_title', 'Hotel Rose Palace - Luxury Stay in Surat') }}"
+                    value="{{ $settings['meta_title'] }}"
                     maxlength="60"
                 >
                 <small class="text-muted">Recommended: 50-60 characters</small>
@@ -211,7 +211,7 @@
                     name="settings[meta_description]" 
                     rows="2"
                     maxlength="160"
-                >{{ \App\Models\HotelSettings::getValue('meta_description', 'Experience luxury accommodation at Hotel Rose Palace in Surat. Modern amenities, comfortable rooms, and excellent service.') }}</textarea>
+                >{{ $settings['meta_description'] }}</textarea>
                 <small class="text-muted">Recommended: 150-160 characters</small>
             </div>
 
@@ -221,7 +221,7 @@
                     type="text" 
                     class="form-control" 
                     name="settings[meta_keywords]" 
-                    value="{{ \App\Models\HotelSettings::getValue('meta_keywords', 'hotel surat, luxury hotel, rose palace, accommodation surat') }}"
+                    value="{{ $settings['meta_keywords'] }}"
                 >
                 <small class="text-muted">Comma-separated keywords</small>
             </div>
