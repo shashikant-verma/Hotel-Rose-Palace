@@ -18,8 +18,8 @@ return [
     ],
     
     'contact' => [
-        'phone_1' => '+91 87991 29929',
-        'phone_2' => '+91 8071 515 210',
+        'phone_1' => '+91 88667 71900',
+        'phone_2' => '+91 87991 29929',
         'email' => env('HOTEL_EMAIL', 'info@hotelrosepalace.com'),
         'whatsapp_number' => env('WHATSAPP_NUMBER', '+91 87991 29929'),
         'instagram' => 'https://www.instagram.com/hotelrosepalace9',

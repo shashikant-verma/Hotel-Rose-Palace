@@ -22,20 +22,27 @@
     </div>
 
     <!-- Floating Quick Availability Bar -->
-    <div style="position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 900px; z-index: 100;">
-        <div style="background: linear-gradient(135deg, var(--color-champagne), var(--color-cream)); border-radius: 16px; padding: 24px; box-shadow: 0 10px 40px rgba(46, 31, 34, 0.2); border: 1px solid var(--color-border-subtle);">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; align-items: flex-end;">
+    <div style="position: absolute; bottom: -100px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 950px; z-index: 100;">
+        <div style="background: linear-gradient(135deg, rgba(247,241,232,0.98), rgba(250,246,240,0.98)); border-radius: 20px; padding: 28px 32px; box-shadow: 0 15px 50px rgba(46, 31, 34, 0.25); border: 1px solid rgba(184, 138, 68, 0.4); backdrop-filter: blur(10px);">
+            <h4 style="text-align: center; color: #2E1F22; margin-bottom: 20px; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700;">Check Availability</h4>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; align-items: flex-end;">
+                <!-- Check-in Date -->
                 <div>
-                    <label style="display: block; font-weight: 600; color: var(--color-charcoal-deep); margin-bottom: 8px; font-size: 13px;">Check-in Date</label>
-                    <input type="date" style="width: 100%; padding: 10px 12px; background: var(--color-champagne); border: 1.5px solid var(--color-border-subtle); border-radius: 8px; font-family: var(--font-ui); color: var(--color-charcoal-deep); transition: all 0.3s ease;" onfocus="this.style.borderColor = 'var(--color-burgundy-rose)'; this.style.boxShadow = '0 0 0 3px rgba(110, 44, 58, 0.1)';" onblur="this.style.borderColor = 'var(--color-border-subtle)'; this.style.boxShadow = 'none';">
+                    <label style="display: block; font-weight: 700; color: #2E1F22; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase;">Check-in</label>
+                    <input type="date" style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #D8CBB8; border-radius: 8px; font-family: var(--font-ui); color: #2E1F22; transition: all 0.3s ease; font-size: 14px;" onfocus="this.style.borderColor = '#6E2C3A'; this.style.boxShadow = '0 0 0 3px rgba(110, 44, 58, 0.1)';" onblur="this.style.borderColor = '#D8CBB8'; this.style.boxShadow = 'none';">
                 </div>
+                
+                <!-- Check-out Date -->
                 <div>
-                    <label style="display: block; font-weight: 600; color: var(--color-charcoal-deep); margin-bottom: 8px; font-size: 13px;">Check-out Date</label>
-                    <input type="date" style="width: 100%; padding: 10px 12px; background: var(--color-champagne); border: 1.5px solid var(--color-border-subtle); border-radius: 8px; font-family: var(--font-ui); color: var(--color-charcoal-deep); transition: all 0.3s ease;" onfocus="this.style.borderColor = 'var(--color-burgundy-rose)'; this.style.boxShadow = '0 0 0 3px rgba(110, 44, 58, 0.1)';" onblur="this.style.borderColor = 'var(--color-border-subtle)'; this.style.boxShadow = 'none';">
+                    <label style="display: block; font-weight: 700; color: #2E1F22; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase;">Check-out</label>
+                    <input type="date" style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #D8CBB8; border-radius: 8px; font-family: var(--font-ui); color: #2E1F22; transition: all 0.3s ease; font-size: 14px;" onfocus="this.style.borderColor = '#6E2C3A'; this.style.boxShadow = '0 0 0 3px rgba(110, 44, 58, 0.1)';" onblur="this.style.borderColor = '#D8CBB8'; this.style.boxShadow = 'none';">
                 </div>
+                
+                <!-- Guests -->
                 <div>
-                    <label style="display: block; font-weight: 600; color: var(--color-charcoal-deep); margin-bottom: 8px; font-size: 13px;">Guests</label>
-                    <select style="width: 100%; padding: 10px 12px; background: var(--color-champagne); border: 1.5px solid var(--color-border-subtle); border-radius: 8px; font-family: var(--font-ui); color: var(--color-charcoal-deep); cursor: pointer; transition: all 0.3s ease; appearance: none; background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%236E2C3A%27 stroke-width=%272%27%3E%3Cpolyline points=%276 9 12 15 18 9%27%3E%3C/polyline%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 10px center; padding-right: 36px;">
+                    <label style="display: block; font-weight: 700; color: #2E1F22; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase;">Guests</label>
+                    <select style="width: 100%; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #D8CBB8; border-radius: 8px; font-family: var(--font-ui); color: #2E1F22; cursor: pointer; transition: all 0.3s ease; font-size: 14px;">
                         <option>1 Guest</option>
                         <option>2 Guests</option>
                         <option>3 Guests</option>
@@ -43,8 +50,10 @@
                         <option>5+ Guests</option>
                     </select>
                 </div>
+                
+                <!-- Check Availability Button -->
                 <div>
-                    <button style="width: 100%; padding: 10px 20px; background: var(--color-burgundy-rose); color: var(--color-champagne); border: none; border-radius: 8px; font-weight: 600; font-family: var(--font-ui); cursor: pointer; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background = 'var(--color-burgundy-dark)'; this.style.transform = 'translateY(-2px)'; this.style.boxShadow = 'var(--shadow-md)';" onmouseout="this.style.background = 'var(--color-burgundy-rose)'; this.style.transform = 'translateY(0)'; this.style.boxShadow = 'none';">
+                    <button style="width: 100%; padding: 12px 24px; background: linear-gradient(135deg, #6E2C3A, #58222E); color: #F7F1E8; border: none; border-radius: 8px; font-weight: 700; font-family: var(--font-ui); font-size: 14px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(110, 44, 58, 0.2);" onmouseover="this.style.transform = 'translateY(-2px)'; this.style.boxShadow = '0 8px 25px rgba(110, 44, 58, 0.35)';" onmouseout="this.style.transform = 'translateY(0)'; this.style.boxShadow = '0 4px 15px rgba(110, 44, 58, 0.2)';">
                         Check Availability
                     </button>
                 </div>

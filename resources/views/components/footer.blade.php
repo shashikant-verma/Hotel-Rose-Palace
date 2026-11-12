@@ -309,26 +309,28 @@
 .hrp-footer-social-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: rgba(184, 138, 68, 0.15);
-    border: 1px solid rgba(184, 138, 68, 0.3);
-    color: #B88A44;
+    gap: 8px;
+    background: linear-gradient(135deg, #B88A44, #9d7340);
+    border: 1px solid #B88A44;
+    color: #FFFFFF;
     font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 9px 14px;
-    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 11px 18px;
+    border-radius: 8px;
     text-decoration: none;
     transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(184, 138, 68, 0.3);
 }
 .hrp-footer-social-btn:hover {
-    background: #B88A44;
-    color: #6E2C3A;
-    border-color: #B88A44;
-    box-shadow: 0 4px 12px rgba(184, 138, 68, 0.25);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #C5A059, #B88A44);
+    border-color: #C5A059;
+    color: #FFFFFF;
+    box-shadow: 0 8px 20px rgba(184, 138, 68, 0.4);
+    transform: translateY(-3px);
 }
-.hrp-footer-social-btn i { font-size: 14px; }
+.hrp-footer-social-btn i { font-size: 16px; }
 
 /* Bottom bar */
 .hrp-footer-bottom {
