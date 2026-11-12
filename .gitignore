@@ -1,0 +1,45 @@
+# Laravel
+/vendor/
+/node_modules/
+/.env
+/.env.local
+/.env.*.local
+/storage/logs/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/cache/*
+/bootstrap/cache/*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Composer
+composer.lock
+
+# npm
+package-lock.json
+yarn.lock
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Laravel Mix / Webpack
+/public/css/app.css
+/public/js/app.js
+/public/mix-manifest.json
+
+# Vite
+/public/build/
+
+# Testing
+/.phpunit.result.cache
+/coverage/
+
+# Local development files
+.editorconfig
