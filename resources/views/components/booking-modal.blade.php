@@ -44,11 +44,8 @@
                 <form id="hrpDirectBookingForm" method="POST" action="{{ route('enquiry.store') }}">
                     @csrf
 
-                    {{-- Top Row: Currency Toggle & Promo Notice --}}
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 pb-2" style="border-bottom: 1px solid #D8CBB8;">
-                        <span style="font-size: 13px; color: #5E4B4E;">
-                            <i class="fas fa-tag text-gold"></i> Direct guests enjoy <strong>10% dining discount</strong>
-                        </span>
+                    {{-- Top Row: Currency Toggle --}}
+                    <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mb-3 pb-2" style="border-bottom: 1px solid #D8CBB8;">
                         <div class="hrp-currency-toggle">
                             <button type="button" class="hrp-curr-btn active" id="modalCurrINR" onclick="setBookingCurrency('INR')">INR (₹)</button>
                             <button type="button" class="hrp-curr-btn" id="modalCurrUSD" onclick="setBookingCurrency('USD')">USD ($)</button>
@@ -121,33 +118,6 @@
                                 <button type="button" class="hrp-counter-btn" onclick="updateCounter('Children', 1)">+</button>
                             </div>
                             <input type="hidden" id="numChildrenInput" name="num_children" value="0">
-                        </div>
-                    </div>
-
-                    {{-- Optional Luxury Add-ons --}}
-                    <div class="mb-3 p-3 rounded" style="background: rgba(226, 213, 195, 0.4); border: 1px solid #D8CBB8;">
-                        <span style="font-size: 12px; font-weight: 700; color: #2E1F22; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">
-                            <i class="fas fa-concierge-bell text-gold"></i> Optional Stay Enhancements:
-                        </span>
-                        <div class="row g-2">
-                            <div class="col-md-6">
-                                <label class="d-flex align-items-center gap-2" style="font-size: 13.5px; cursor: pointer; color: #2E1F22;">
-                                    <input type="checkbox" id="addonPickup" value="600" onchange="calculateBookingPrice()" style="accent-color: #6E2C3A;">
-                                    <span>Airport Pickup & Drop (<span class="addon-price" data-inr="600">+₹600</span>)</span>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="d-flex align-items-center gap-2" style="font-size: 13.5px; cursor: pointer; color: #2E1F22;">
-                                    <input type="checkbox" id="addonDinner" value="1999" onchange="calculateBookingPrice()" style="accent-color: #6E2C3A;">
-                                    <span>Candlelight Dinner Setup (<span class="addon-price" data-inr="1999">+₹1,999</span>)</span>
-                                </label>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="d-flex align-items-center gap-2" style="font-size: 13.5px; cursor: pointer; color: #2E1F22;">
-                                    <input type="checkbox" id="addonBed" value="800" onchange="calculateBookingPrice()" style="accent-color: #6E2C3A;">
-                                    <span>Extra Luxury Rollaway Bed (<span class="addon-price" data-inr="800">+₹800/night</span>)</span>
-                                </label>
-                            </div>
                         </div>
                     </div>
 
@@ -296,15 +266,8 @@ function calculateBookingPrice() {
     const selectedOption = roomSelect.options[roomSelect.selectedIndex];
     const baseRatePerNight = parseFloat(selectedOption?.getAttribute('data-price')) || 3999;
 
-    let baseSubtotal = baseRatePerNight * nights * numRooms;
-
-    // Addons
-    let addonsSubtotal = 0;
-    if (document.getElementById('addonPickup')?.checked) addonsSubtotal += 600;
-    if (document.getElementById('addonDinner')?.checked) addonsSubtotal += 1999;
-    if (document.getElementById('addonBed')?.checked) addonsSubtotal += (800 * nights);
-
-    const subtotal = baseSubtotal + addonsSubtotal;
+    const baseSubtotal = baseRatePerNight * nights * numRooms;
+    const subtotal = baseSubtotal;
     const gst = Math.round(subtotal * 0.12);
     const grandTotal = subtotal + gst;
 
@@ -323,12 +286,7 @@ function calculateBookingPrice() {
     document.getElementById('summaryBasePrice').textContent = fmt(baseSubtotal);
     
     const addonsRow = document.getElementById('summaryAddonsRow');
-    if (addonsSubtotal > 0) {
-        addonsRow.style.display = 'flex';
-        document.getElementById('summaryAddonsPrice').textContent = fmt(addonsSubtotal);
-    } else {
-        addonsRow.style.display = 'none';
-    }
+    if (addonsRow) addonsRow.style.display = 'none';
 
     document.getElementById('summaryGstPrice').textContent = fmt(gst);
     document.getElementById('summaryTotalPrice').textContent = fmt(grandTotal);
@@ -347,23 +305,16 @@ function submitBookingToWhatsApp() {
     const total = document.getElementById('summaryTotalPrice')?.textContent || '';
     const requests = document.getElementById('modalSpecialRequests')?.value || 'None';
 
-    let addonsList = [];
-    if (document.getElementById('addonPickup')?.checked) addonsList.push('Airport Pickup');
-    if (document.getElementById('addonDinner')?.checked) addonsList.push('Candlelight Dinner');
-    if (document.getElementById('addonBed')?.checked) addonsList.push('Extra Bed');
-
     const msg = `*HOTEL ROSE PALACE — DIRECT RESERVATION ENQUIRY*
 ━━━━━━━━━━━━━━━━━━━━━━
 🏨 *Room:* ${roomName} (${rooms} Room)
 📅 *Dates:* ${checkIn} to ${checkOut}
 👥 *Guests:* ${adults} Adults, ${children} Children
-✨ *Add-ons:* ${addonsList.length > 0 ? addonsList.join(', ') : 'None'}
 💰 *Estimated Total:* ${total} (incl. 12% GST)
 ━━━━━━━━━━━━━━━━━━━━━━
 👤 *Guest Name:* ${name}
-📞 *Phone:* ${phone}
-📝 *Special Requests:* ${requests}
-Promo Code: ROSEDIRECT (10% Dining Discount Applied)`;
+� *Phone:* ${phone}
+📝 *Special Requests:* ${requests}`;
 
     const waNumber = '{{ preg_replace("/\D/", "", config("hotel.contact.whatsapp_number", "918799129929")) }}';
     const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;

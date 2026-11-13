@@ -49,19 +49,18 @@
         
         @php
         $galleryCatalog = [
-            ['src' => asset('images/hotel/hero-1.jpg'), 'cat' => 'rooms', 'title' => 'Maharaja Grand Suite', 'desc' => 'High-resolution suite view with ambient blue lighting'],
-            ['src' => asset('images/hotel/hero-2.jpg'), 'cat' => 'rooms', 'title' => 'Royal Heritage Suite', 'desc' => 'Master bedroom with plush king bedding'],
-            ['src' => asset('images/hotel/lobby.jpg'), 'cat' => 'lobby', 'title' => 'Grand Reception & Lounge', 'desc' => 'Welcoming front desk and guest waiting area'],
-            ['src' => asset('images/hotel/room-deluxe.jpg'), 'cat' => 'rooms', 'title' => 'Deluxe King Room', 'desc' => 'Spacious room with modern lighting and workstation'],
-            ['src' => asset('images/hotel/room-executive.jpg'), 'cat' => 'rooms', 'title' => 'Superior Twin Sanctuary', 'desc' => 'Dual luxury beds for corporate travelers'],
-            ['src' => asset('images/hotel/room-suite.jpg'), 'cat' => 'rooms', 'title' => 'Executive Living Salon', 'desc' => 'Dedicated sitting area with premium amenities'],
-            ['src' => asset('images/hotel/gallery-1.jpg'), 'cat' => 'rooms', 'title' => 'Executive Work-Desk Suite', 'desc' => 'Ergonomic workspace and fast Wi-Fi'],
-            ['src' => asset('images/hotel/gallery-2.jpg'), 'cat' => 'lobby', 'title' => 'Main Reception Salon', 'desc' => 'Grand arrival lobby and check-in desk'],
-            ['src' => asset('images/hotel/gallery-3.jpg'), 'cat' => 'rooms', 'title' => 'Deluxe Suite Interior', 'desc' => 'Modern fixtures and ambient ceiling lighting'],
-            ['src' => asset('images/hotel/gallery-4.jpg'), 'cat' => 'rooms', 'title' => 'Attached Luxury Bathroom', 'desc' => 'Modern vanity and 24/7 hot water supply'],
-            ['src' => asset('images/hotel/gallery-5.jpg'), 'cat' => 'rooms', 'title' => 'Corporate Suite Room', 'desc' => 'Tailored for corporate productivity in Surat'],
-            ['src' => asset('images/hotel/gallery-6.jpg'), 'cat' => 'rooms', 'title' => 'Family Suite Bedroom', 'desc' => 'Comfortable setup for families and groups'],
-            ['src' => asset('images/hotel/exterior.jpg'), 'cat' => 'exterior', 'title' => 'Main Entrance & Facade', 'desc' => 'Atlanta Business Hub, VIP Road, Vesu'],
+            ['src' => asset('images/hotel/hero-1.jpg'), 'cat' => 'exterior', 'title' => 'Hotel Rose Palace Arrival Facade', 'desc' => 'Warm-lit entrance and architecture at VIP Road, Vesu, Surat'],
+            ['src' => asset('images/hotel/lobby.jpg'), 'cat' => 'lobby', 'title' => 'Grand Reception & Front Desk Lounge', 'desc' => 'Warm sandstone boutique front desk with ambient golden lighting'],
+            ['src' => asset('images/gallery/gallery-1.jpg'), 'cat' => 'rooms', 'title' => 'Executive Reading Corner', 'desc' => 'Warm ambient lamp and boutique armchair in executive suite'],
+            ['src' => asset('images/gallery/gallery-2.jpg'), 'cat' => 'spa', 'title' => 'En-Suite Marble Luxury Bathroom', 'desc' => 'Spacious marble bathroom vanity with backlit mirror'],
+            ['src' => asset('images/gallery/gallery-3.jpg'), 'cat' => 'exterior', 'title' => 'Sunset Terrace & Relaxation Lounge', 'desc' => 'Outdoor evening relaxation terrace with golden hour skyline views'],
+            ['src' => asset('images/gallery/gallery-4.jpg'), 'cat' => 'lobby', 'title' => 'Grand Heritage Archway Corridor', 'desc' => 'Illuminated sandstone hallway with luxury arches and polished floors'],
+            ['src' => asset('images/gallery/gallery-5.jpg'), 'cat' => 'dining', 'title' => 'Royal Dining & Breakfast Salon', 'desc' => 'Boutique restaurant and dining area with warm golden chandeliers'],
+            ['src' => asset('images/gallery/gallery-6.jpg'), 'cat' => 'rooms', 'title' => 'Sandstone & Burgundy VIP Lounge', 'desc' => 'Intimate seating corner in warm champagne sandstone tones'],
+            ['src' => asset('images/rooms/deluxe.jpg'), 'cat' => 'rooms', 'title' => 'Deluxe King Sanctuary', 'desc' => 'Deluxe bedroom featuring plush Italian bedding and warm lighting'],
+            ['src' => asset('images/rooms/executive.jpg'), 'cat' => 'rooms', 'title' => 'Executive Corporate Suite', 'desc' => 'Executive suite with ergonomic work desk and warm ambient lamps'],
+            ['src' => asset('images/rooms/family.jpg'), 'cat' => 'rooms', 'title' => 'Rose Palace Family Suite', 'desc' => 'Spacious family accommodations with warm wood accents'],
+            ['src' => asset('images/rooms/suite.jpg'), 'cat' => 'rooms', 'title' => 'Presidential Royal Suite', 'desc' => 'Ultra-luxury suite bedroom with warm ambient glow and grand king bed'],
         ];
         @endphp
 

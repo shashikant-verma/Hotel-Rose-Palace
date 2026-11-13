@@ -43,7 +43,7 @@
                             id="room_number" 
                             name="room_number" 
                             value="{{ old('room_number') }}" 
-                            placeholder="e.g., 101, 202, A-301"
+                            placeholder="e.g., 101, 102, 115"
                             required
                         >
                         @error('room_number')
@@ -144,7 +144,7 @@
             <ul class="list-unstyled">
                 <li class="mb-2">
                     <i class="fas fa-check text-success me-2"></i>
-                    <strong>Room Number:</strong> Use unique identifiers like floor + number (e.g., 101, 202)
+                    <strong>Room Number:</strong> Use unique room numbers (e.g., 101 to 115)
                 </li>
                 <li class="mb-2">
                     <i class="fas fa-check text-success me-2"></i>

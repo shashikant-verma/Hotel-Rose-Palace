@@ -72,12 +72,12 @@
                 'name' => 'Deluxe Double Room',
                 'category' => 'double',
                 'price' => 1725,
-                'img' => asset('images/hotel/room-deluxe.jpg'),
+                'img' => asset('images/rooms/deluxe.jpg'),
                 'bed' => 'Plush King Bed',
                 'size' => '320 sq.ft',
                 'occupancy' => '2 Adults',
-                'floor' => 'Floor 2',
-                'desc' => 'Spacious and elegantly appointed, featuring a plush king-size bed, blue ambient ceiling cove, study desk, and an en-suite rain shower.',
+                'floor' => 'Floor 1',
+                'desc' => 'Spacious and elegantly appointed, featuring a plush king-size bed, warm golden ambient lighting, study desk, and an en-suite rain shower.',
                 'features' => ['Free Wi-Fi', 'Air Conditioning', 'Flat-Screen TV', 'En-suite Rain Shower', 'Complimentary Breakfast', 'Work Desk'],
             ],
             [
@@ -86,11 +86,11 @@
                 'name' => 'Deluxe Twin Room',
                 'category' => 'double',
                 'price' => 1725,
-                'img' => asset('images/hotel/room-executive.jpg'),
+                'img' => asset('images/rooms/executive.jpg'),
                 'bed' => 'Dual Twin Beds',
                 'size' => '340 sq.ft',
                 'occupancy' => '2 Adults',
-                'floor' => 'Floor 2',
+                'floor' => 'Floor 1',
                 'desc' => 'Ideal for colleagues and friends, featuring two luxury single beds, silent split AC, bedside nightstand, and modern hospitality conveniences.',
                 'features' => ['High-Speed Wi-Fi', 'Dual Single Beds', 'Split Air Conditioning', 'Luggage Bench', 'Complimentary Breakfast', 'Attached Bath'],
             ],
@@ -100,11 +100,11 @@
                 'name' => 'Executive Business Room',
                 'category' => 'business',
                 'price' => 2399,
-                'img' => asset('images/hotel/room-suite.jpg'),
+                'img' => asset('images/rooms/executive.jpg'),
                 'bed' => 'Plush King Bed',
                 'size' => '420 sq.ft',
                 'occupancy' => '2 Adults',
-                'floor' => 'Floor 3',
+                'floor' => 'Floor 1',
                 'desc' => 'Purpose-built for corporate executives visiting Surat — wooden wardrobe, flat-screen TV console, high-speed internet, and flexible check-in.',
                 'features' => ['Dedicated Wi-Fi', 'Wooden Wardrobe', 'Flat-Screen TV', 'Split AC', 'Tea & Coffee Maker', 'Business Centre Access'],
             ],
@@ -114,13 +114,13 @@
                 'name' => 'Executive Work-Desk Suite',
                 'category' => 'suite',
                 'price' => 2599,
-                'img' => asset('images/hotel/gallery-1.jpg'),
+                'img' => asset('images/rooms/deluxe.jpg'),
                 'bed' => 'Plush King Bed',
                 'size' => '480 sq.ft',
                 'occupancy' => '3 Guests',
-                'floor' => 'Floor 3',
-                'desc' => 'A distinct sanctuary featuring an expansive king bed, traditional Indian wall art, luggage bench, and en-suite luxury bathroom.',
-                'features' => ['Luggage Stool', 'Modern En-Suite Bathroom', 'Indian Art Decor', 'Priority Room Service', 'Complimentary High Tea', 'High Floor'],
+                'floor' => 'Floor 1',
+                'desc' => 'A distinct sanctuary featuring an expansive king bed, warm ambient boutique lighting, luggage bench, and en-suite luxury bathroom.',
+                'features' => ['Luggage Stool', 'Modern En-Suite Bathroom', 'Boutique Art Decor', 'Priority Room Service', 'Complimentary High Tea', 'Floor 1'],
             ],
             [
                 'id' => 5,
@@ -128,11 +128,11 @@
                 'name' => 'Royal Heritage Suite',
                 'category' => 'family',
                 'price' => 3499,
-                'img' => asset('images/hotel/hero-2.jpg'),
+                'img' => asset('images/rooms/family.jpg'),
                 'bed' => 'King Bed + Coffee Table Lounge',
                 'size' => '560 sq.ft',
                 'occupancy' => '4 Guests (Family)',
-                'floor' => 'Floor 4',
+                'floor' => 'Floor 1',
                 'desc' => 'Spacious quarters featuring an independent sitting coffee table lounge, wooden wardrobe, ambient ceiling lighting, and attached marble bathroom.',
                 'features' => ['Coffee Lounge Table', 'Large Wardrobe', 'Luxury Bath Amenities', 'Kid-friendly Setup', 'Complimentary Breakfast', 'Mini Refrigerator'],
             ],
@@ -142,12 +142,12 @@
                 'name' => 'Maharaja Grand Suite',
                 'category' => 'suite',
                 'price' => 4499,
-                'img' => asset('images/hotel/hero-1.jpg'),
+                'img' => asset('images/rooms/suite.jpg'),
                 'bed' => 'Emperor Luxury Bed',
                 'size' => '680 sq.ft',
                 'occupancy' => '4 Guests',
-                'floor' => 'Floor 4 (Royal Wing)',
-                'desc' => 'The crown jewel of Hotel Rose Palace. Vibrant embroidered cushion runners, wooden headboard, flat-screen entertainment, and royal hospitality.',
+                'floor' => 'Floor 1 (Royal Wing)',
+                'desc' => 'The crown jewel of Hotel Rose Palace. Warm ambient glow, luxury headboard, flat-screen entertainment, and royal hospitality.',
                 'features' => ['Embroidered Royal Runners', 'Dedicated Butler Call', 'Seating Salon', 'VIP Airport Transfer', 'Welcome Refreshments', 'Black Marble Bath'],
             ],
         ];
@@ -159,8 +159,8 @@
                 <div class="card p-0 overflow-hidden h-100" style="display: flex; flex-direction: column;">
                     
                     {{-- Photo Banner --}}
-                    <div style="position: relative; height: 260px; overflow: hidden;">
-                        <img src="{{ $room['img'] }}" alt="{{ $room['name'] }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" loading="lazy">
+                    <div style="position: relative; overflow: hidden; aspect-ratio: 16 / 10;">
+                        <img src="{{ $room['img'] }}" alt="{{ $room['name'] }}" class="hrp-room-img" style="width: 100%; height: 100%; object-fit: cover; object-position: center; aspect-ratio: 16 / 10;" loading="lazy">
                         <div style="position: absolute; top: 16px; left: 16px; display: flex; gap: 8px;">
                             <span class="badge" style="background: rgba(110,44,58,0.92); color: #F7F1E8; padding: 6px 12px; font-size: 11px; text-transform: uppercase;">
                                 {{ ucfirst($room['category']) }}
