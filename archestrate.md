@@ -67,11 +67,13 @@ Hotel-Rose-Palace/
 │   │   ├── HotelSettings.php               # Website configuration
 │   │   └── ContactMessage.php              # Contact form messages
 │   ├── Services/
-│   │   ├── WhatsAppService.php             # WhatsApp URL generation
-│   │   ├── ImageUploadService.php          # Image handling
-│   │   ├── SettingsService.php             # Settings management
-│   │   ├── EnquiryService.php              # Enquiry business logic
-│   │   └── RoomService.php                 # Room business logic
+│   │   ├── OtpService.php                # OTP generation & verification
+│   │   ├── RazorpayService.php          # Razorpay payment integration
+│   │   ├── RoomAvailabilityService.php  # Room availability calculations
+│   │   ├── ImageUploadService.php       # Image handling
+│   │   ├── SettingsService.php          # Settings management
+│   │   ├── EnquiryService.php           # Enquiry business logic
+│   │   └── RoomService.php              # Room business logic
 │   ├── Traits/
 │   │   ├── HasTimestamps.php               # Timestamp management
 │   │   └── HandleImages.php                # Image handling trait
@@ -156,7 +158,7 @@ Hotel-Rose-Palace/
 │   └── js/
 │       ├── app.js                          # Main JS
 │       ├── form-validation.js              # Client-side validation
-│       ├── whatsapp-handler.js             # WhatsApp integration
+│       ├── booking.js                      # Booking flow & checkout
 │       └── admin.js                        # Admin-specific JS
 ├── routes/
 │   ├── web.php                             # Public routes
@@ -829,52 +831,382 @@ public function handle(Request $request, Closure $next, $action) {
    ├─ Form validation (client & server)
    ├─ Data saved to 'enquiries' table
    ├─ Reference ID generated (HRP-2024-xxxxx)
-   ├─ WhatsApp message formatted
-   ├─ Customer redirected to WhatsApp
-   │  └─ If WhatsApp unavailable, success page shows
-   │     with WhatsApp number to manually contact
-   └─ Success page displays reference ID
+   ├─ Success page displays reference ID
+   └─ Manual follow-up available
       
 5. ADMIN VIEWS ENQUIRY IN DASHBOARD
    ├─ New enquiry appears in admin panel
-   ├─ Admin can update status (New → Contacted → Confirmed → Booked)
-   ├─ Admin can add internal notes
-   ├─ Admin can open customer WhatsApp chat
-   └─ Admin confirms booking manually via WhatsApp
+   ├─ Admin can update status
+   └─ Admin can add internal notes
 
-6. CUSTOMER RECEIVES RESPONSE
-   └─ Hotel staff responds via WhatsApp
+6. MANUAL FOLLOW-UP
+   └─ Hotel staff contacts via phone/WhatsApp
 ```
 
 ---
 
-## WHATSAPP INTEGRATION WORKFLOW
+## DIRECT BOOKING SYSTEM ARCHITECTURE
 
-### Message Format
+### Overview
 
-```
-Hi, I'd like to make a booking enquiry!
+The Direct Booking System replaces the traditional enquiry workflow with a seamless, fully automated online booking experience. Customers can search for available rooms in real-time, book directly on the website, verify their identity via OTP, and pay securely—all without creating an account or waiting for manual approval.
 
-Hotel: Hotel Rose Palace
-Room Type: Superior Room
-Check-in: 15 Dec 2024
-Check-out: 18 Dec 2024
-Adults: 2
-Children: 0
-Enquiry Ref: HRP-2024-001234
+**Key Features:**
+- ✅ Real-time room availability calculation
+- ✅ Category-wise inventory management with overbooking prevention  
+- ✅ Mobile OTP verification (no passwords required)
+- ✅ 100% online payment via Razorpay
+- ✅ Automatic booking confirmation after payment
+- ✅ Customer self-service booking management
+- ✅ 24-hour cancellation policy with automatic refunds
+- ✅ Complete audit trail and security
 
-Message: I'd like to know about special rates.
-
-Please contact me to confirm availability and pricing.
-```
-
-### URL Generation
+### Direct Booking Customer Journey
 
 ```
-Base URL: https://wa.me/PHONE_NUMBER
-Message: URL-encoded pre-filled message
-Final URL: https://wa.me/919876543210?text=ENCODED_MESSAGE
+1. CUSTOMER SEARCHES FOR ROOMS
+   ↓ Enters check-in, check-out, number of guests
+   ↓ System displays available categories with real-time prices
+   │
+2. CUSTOMER SELECTS ROOM & QUANTITY
+   ↓ Selects desired category and number of rooms
+   ↓ Enters guest details (name, mobile, email)
+   │
+3. CUSTOMER VERIFIES MOBILE VIA OTP
+   ↓ Enters 6-digit OTP sent to mobile
+   ↓ OTP verified server-side (bcrypt hashed)
+   │
+4. SYSTEM CALCULATES FINAL AMOUNT
+   ↓ Server-side calculation: base + tax (never client-side)
+   ↓ Creates temporary reservation (15-minute hold)
+   │
+5. SYSTEM CREATES RAZORPAY ORDER
+   ↓ Redirects to Razorpay Checkout
+   │
+6. CUSTOMER COMPLETES PAYMENT
+   ↓ Card, UPI, NetBanking, or Wallet
+   ↓ Razorpay captures payment
+   │
+7. SYSTEM VERIFIES PAYMENT
+   ↓ Verifies HMAC-SHA256 signature
+   ↓ Processes Razorpay webhook
+   ↓ Converts temporary reservation to confirmed booking
+   │
+8. BOOKING CONFIRMED AUTOMATICALLY
+   ↓ Physical rooms allocated
+   ↓ Booking reference generated
+   ↓ Confirmation email + SMS sent
+   │
+9. CUSTOMER RECEIVES CONFIRMATION
+   ↓ Booking reference visible on screen
+   ↓ Downloadable receipt
+   ↓ Cancellation policy clearly displayed
+   │
+10. CUSTOMER CAN MANAGE BOOKING
+    ↓ Access "My Bookings" via OTP (no password)
+    ↓ View booking details, refund policy
+    ↓ Request cancellation anytime
+    │
+11. CUSTOMER CAN CANCEL & GET REFUND
+    ↓ Refund calculated automatically (24-hour policy)
+    ↓ Razorpay refund initiated immediately
+    ↓ Refund status tracked and displayed
+    │
+12. REFUND COMPLETED
+    └─ Original payment method refunded within 5-7 business days
 ```
+
+---
+
+### Database Schema - Direct Booking System
+
+#### 11. `bookings` Table
+```sql
+CREATE TABLE bookings (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  booking_reference VARCHAR(50) NOT NULL UNIQUE,
+  customer_name VARCHAR(255) NOT NULL,
+  customer_mobile VARCHAR(20) NOT NULL,
+  customer_email VARCHAR(255),
+  room_type_id BIGINT UNSIGNED NOT NULL,
+  check_in_date DATE NOT NULL,
+  check_out_date DATE NOT NULL,
+  num_adults INT NOT NULL,
+  num_children INT NOT NULL,
+  room_quantity INT NOT NULL DEFAULT 1,
+  base_amount DECIMAL(10,2) NOT NULL,
+  tax_amount DECIMAL(10,2) NOT NULL,
+  total_amount DECIMAL(10,2) NOT NULL,
+  razorpay_order_id VARCHAR(100) NOT NULL UNIQUE,
+  razorpay_payment_id VARCHAR(100) UNIQUE,
+  booking_status ENUM('confirmed', 'cancelled', 'checked_in', 'checked_out') DEFAULT 'confirmed',
+  payment_status ENUM('pending', 'paid', 'refunded', 'partially_refunded') DEFAULT 'pending',
+  special_requests TEXT,
+  cancelled_at TIMESTAMP NULL,
+  cancellation_reason TEXT,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP,
+  deleted_at TIMESTAMP NULL,
+  FOREIGN KEY (room_type_id) REFERENCES room_types(id),
+  INDEX idx_customer_mobile (customer_mobile),
+  INDEX idx_dates (check_in_date, check_out_date)
+);
+```
+
+#### 12. `room_allocations` Table
+```sql
+CREATE TABLE room_allocations (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  booking_id BIGINT UNSIGNED NOT NULL,
+  room_id BIGINT UNSIGNED NOT NULL,
+  check_in_date DATE NOT NULL,
+  check_out_date DATE NOT NULL,
+  allocation_status ENUM('temporary', 'confirmed', 'released') DEFAULT 'temporary',
+  allocated_at TIMESTAMP,
+  released_at TIMESTAMP NULL,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP,
+  FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
+  FOREIGN KEY (room_id) REFERENCES rooms(id)
+);
+```
+
+#### 13. `temporary_reservations` Table
+```sql
+CREATE TABLE temporary_reservations (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  reservation_token VARCHAR(100) NOT NULL UNIQUE,
+  customer_mobile VARCHAR(20) NOT NULL,
+  room_type_id BIGINT UNSIGNED NOT NULL,
+  room_quantity INT NOT NULL DEFAULT 1,
+  check_in_date DATE NOT NULL,
+  check_out_date DATE NOT NULL,
+  total_amount DECIMAL(10,2) NOT NULL,
+  razorpay_order_id VARCHAR(100),
+  expires_at TIMESTAMP NOT NULL,
+  status ENUM('active', 'expired', 'converted', 'released') DEFAULT 'active',
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP,
+  FOREIGN KEY (room_type_id) REFERENCES room_types(id)
+);
+```
+
+#### 14. `otp_verifications` Table
+```sql
+CREATE TABLE otp_verifications (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  mobile_number VARCHAR(20) NOT NULL,
+  otp_hash VARCHAR(255) NOT NULL,
+  purpose ENUM('booking', 'manage_bookings') DEFAULT 'booking',
+  expires_at TIMESTAMP NOT NULL,
+  verified BOOLEAN DEFAULT FALSE,
+  verified_at TIMESTAMP NULL,
+  attempt_count INT DEFAULT 0,
+  last_attempt_at TIMESTAMP NULL,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+);
+```
+
+#### 15. `payments` Table
+```sql
+CREATE TABLE payments (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  booking_id BIGINT UNSIGNED NOT NULL,
+  razorpay_order_id VARCHAR(100) NOT NULL UNIQUE,
+  razorpay_payment_id VARCHAR(100) UNIQUE,
+  razorpay_signature VARCHAR(255),
+  amount DECIMAL(10,2) NOT NULL,
+  currency VARCHAR(3) DEFAULT 'INR',
+  payment_method VARCHAR(50),
+  payment_status ENUM('pending', 'captured', 'failed', 'refunded') DEFAULT 'pending',
+  capture_response JSON,
+  webhook_payload JSON,
+  error_message TEXT,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP,
+  FOREIGN KEY (booking_id) REFERENCES bookings(id)
+);
+```
+
+#### 16. `refunds` Table
+```sql
+CREATE TABLE refunds (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  booking_id BIGINT UNSIGNED NOT NULL,
+  payment_id BIGINT UNSIGNED NOT NULL,
+  razorpay_refund_id VARCHAR(100) NOT NULL UNIQUE,
+  refund_amount DECIMAL(10,2) NOT NULL,
+  refund_percent INT NOT NULL,
+  policy_applied ENUM('full_refund', 'partial_refund', 'no_refund'),
+  refund_status ENUM('processing', 'completed', 'failed') DEFAULT 'processing',
+  refund_notes TEXT,
+  webhook_payload JSON,
+  initiated_by VARCHAR(50) DEFAULT 'system',
+  initiated_at TIMESTAMP,
+  completed_at TIMESTAMP NULL,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP,
+  FOREIGN KEY (booking_id) REFERENCES bookings(id),
+  FOREIGN KEY (payment_id) REFERENCES payments(id)
+);
+```
+
+#### 17. `webhook_events` Table
+```sql
+CREATE TABLE webhook_events (
+  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  razorpay_event_id VARCHAR(100) NOT NULL UNIQUE,
+  event_type VARCHAR(50) NOT NULL,
+  payload JSON NOT NULL,
+  processed BOOLEAN DEFAULT FALSE,
+  processed_at TIMESTAMP NULL,
+  processed_by VARCHAR(50),
+  error_message TEXT,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+);
+```
+
+---
+
+### OTP Security & Verification
+
+**OTP Architecture:**
+- 6-digit backend-generated (never logged)
+- Bcrypt hashed for storage
+- 5-minute expiry (configurable)
+- Max 3 requests per 15 minutes per mobile
+- Max 5 verification attempts per OTP
+- Single-use validation
+- Session timeout: 2 hours
+
+**OTP Verification Flow:**
+1. Customer requests OTP → SMS sent (hashed stored)
+2. Customer enters 6-digit OTP → verified against hash
+3. On success → session created, OTP marked verified
+4. Session valid for 2 hours for booking/management access
+
+---
+
+### Room Availability & Overbooking Prevention
+
+**Availability Calculation:**
+```php
+Available = Total Rooms - Active Bookings - Non-Expired Temporary Reservations
+```
+
+**Concurrency Protection:**
+- Database transactions with row-level locks (FOR UPDATE)
+- Fresh availability check inside transaction
+- Atomic allocation prevents TOCTOU bugs
+- Temporary reservations auto-expire (15 minutes)
+
+**Physical Room Allocation:**
+- Specific physical rooms allocated from available pool
+- Status lifecycle: temporary → confirmed → released
+- Supports multiple rooms per booking
+
+---
+
+### Server-Side Pricing
+
+**CRITICAL:** All pricing calculated server-side only.
+
+**Calculation Formula:**
+```
+nights = (checkout_date - checkin_date).days
+base_amount = room_type.base_price × nights × quantity
+tax_amount = base_amount × (GST_PERCENT / 100)  # Default 12%
+total_amount = base_amount + tax_amount
+```
+
+**Security Measures:**
+- Pricing recalculated before payment
+- Frontend display only (not trusted)
+- Razorpay amount must match exactly
+- Payment rejected if amount mismatch
+
+---
+
+### Razorpay Payment Integration
+
+**Payment Flow:**
+1. Temporary reservation created → Razorpay order generated
+2. Customer proceeds to checkout → Razorpay Checkout modal
+3. Payment completed → Client signature verification
+4. Server verifies signature → Webhook processing
+5. Booking confirmed automatically
+
+**Signature Verification (HMAC-SHA256):**
+```
+expected_signature = HMAC-SHA256(order_id|payment_id, KEY_SECRET)
+```
+
+**Webhook Idempotency:**
+- Each Razorpay event processed exactly once
+- Duplicate events rejected automatically
+- All events logged in webhook_events table
+
+---
+
+### 24-Hour Cancellation & Refund Policy
+
+**Refund Calculation (Asia/Kolkata Timezone):**
+- ≥24 hours before check-in (12:00 PM) = 100% refund
+- <24 hours and ≥0 hours before check-in = 50% refund
+- <0 hours (after check-in) = 0% refund
+
+**Original-Payment Refund:**
+- Refunds processed ONLY to original payment method
+- Razorpay refund API called with refund amount
+- No customer-provided payment IDs accepted
+- Completed within 5-7 business days
+
+**Duplicate Refund Prevention:**
+- One confirmed refund per booking
+- Razorpay idempotency key prevents double-refunds
+- Payment status tracked in payments table
+
+---
+
+### Service Layer - Direct Booking System
+
+**11 New Service Classes:**
+
+1. **RoomAvailabilityService** - Real-time availability queries
+2. **RoomAllocationService** - Physical room assignment
+3. **OtpService** - OTP generation, verification, rate limiting
+4. **SmsService (Interface)** - Provider-agnostic SMS sending
+5. **TemporaryReservationService** - 15-minute checkout holds
+6. **PricingService** - Server-side pricing calculations
+7. **RazorpayService** - Razorpay API interactions
+8. **PaymentVerificationService** - Signature & webhook verification
+9. **BookingConfirmationService** - Booking creation & notifications
+10. **RefundService** - Cancellation & refund processing
+11. **CustomerAuthService** - OTP-based session management
+
+---
+
+### Security Measures - Direct Booking
+
+**OTP Security:**
+- Bcrypt hashing, configurable expiry, rate limiting, attempt limiting, single-use
+
+**Payment Security:**
+- Server-side amounts only, signature verification, webhook verification, HTTPS required
+
+**Booking Security:**
+- Mobile verification, IDOR protection, transaction safety, row-level locking
+
+**Session Security:**
+- 2-hour timeout, random tokens, HTTPS only, auto-logout
+
+**Audit Trail:**
+- All bookings, payments, refunds, webhooks logged with timestamp
+- Complete history for troubleshooting and compliance
+
+---
 
 ---
 
