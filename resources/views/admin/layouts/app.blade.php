@@ -644,6 +644,9 @@
             <a href="{{ route('admin.enquiries.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.enquiries.*') ? 'active' : '' }}">
                 <i class="fas fa-concierge-bell"></i> Room Bookings
             </a>
+            <a href="{{ route('admin.cancellations.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.cancellations.*') ? 'active' : '' }}">
+                <i class="fas fa-undo-alt"></i> Cancellations &amp; Refunds
+            </a>
             <a href="{{ route('admin.banquets.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.banquets.*') ? 'active' : '' }}">
                 <i class="fas fa-champagne-glasses"></i> Banquet Bookings
             </a>

@@ -36,6 +36,100 @@ Route::get('/terms', [PageController::class, 'terms'])->name('terms');
 Route::get('/cancellation', [PageController::class, 'cancellation'])->name('cancellation');
 
 /**
+ * OTP Verification Routes
+ */
+Route::prefix('otp')->name('otp.')->group(function () {
+    // Request OTP form
+    Route::get('/send-request', [\App\Http\Controllers\OtpController::class, 'showSendForm'])
+        ->name('send.form');
+    
+    // Send OTP
+    Route::post('/send', [\App\Http\Controllers\OtpController::class, 'send'])
+        ->name('send');
+    
+    // Verify OTP form
+    Route::get('/verify', [\App\Http\Controllers\OtpController::class, 'showVerifyForm'])
+        ->name('verify.form');
+    
+    // Verify OTP
+    Route::post('/verify', [\App\Http\Controllers\OtpController::class, 'verify'])
+        ->name('verify');
+    
+    // Resend OTP
+    Route::post('/resend', [\App\Http\Controllers\OtpController::class, 'resend'])
+        ->name('resend');
+    
+    // Check verification status (AJAX)
+    Route::get('/check-verification', [\App\Http\Controllers\OtpController::class, 'checkVerification'])
+        ->name('check-verification');
+    
+    // Logout (clear OTP verification)
+    Route::post('/logout', [\App\Http\Controllers\OtpController::class, 'logout'])
+        ->name('logout');
+});
+
+/**
+ * Direct Booking Routes (Phase 8C)
+ */
+Route::prefix('booking')->name('booking.')->group(function () {
+    // Search form (no auth required)
+    Route::get('/search', [\App\Http\Controllers\BookingController::class, 'searchForm'])
+        ->name('search.form');
+    
+    // Check availability via AJAX (no auth required)
+    Route::post('/check-availability', [\App\Http\Controllers\BookingController::class, 'checkAvailability'])
+        ->name('check-availability');
+    
+    // Protected routes (require OTP verification)
+    Route::middleware('otp.verified')->group(function () {
+        // Show booking form
+        Route::get('/form', [\App\Http\Controllers\BookingController::class, 'showForm'])
+            ->name('form');
+        
+        // Store booking (create temporary reservation)
+        Route::post('/store', [\App\Http\Controllers\BookingController::class, 'store'])
+            ->name('store');
+        
+        // Review booking before payment
+        Route::get('/{booking}/review', [\App\Http\Controllers\BookingController::class, 'review'])
+            ->name('review');
+        
+        // Check booking status
+        Route::get('/{booking}/status', [\App\Http\Controllers\BookingController::class, 'status'])
+            ->name('status');
+        
+        // Payment Processing (Phase 8D - Razorpay Full Online Payment)
+        Route::get('/{booking}/payment', [\App\Http\Controllers\PaymentController::class, 'checkout'])
+            ->name('payment');
+        Route::post('/{booking}/payment/verify', [\App\Http\Controllers\PaymentController::class, 'verify'])
+            ->name('payment.verify');
+        Route::post('/{booking}/payment/failed', [\App\Http\Controllers\PaymentController::class, 'failed'])
+            ->name('payment.failed');
+    });
+});
+
+/**
+ * Razorpay Webhook Routes (Phase 8D)
+ */
+Route::post('/api/webhooks/razorpay', [\App\Http\Controllers\RazorpayWebhookController::class, 'handle'])
+    ->name('webhooks.razorpay');
+Route::post('/webhooks/razorpay', [\App\Http\Controllers\RazorpayWebhookController::class, 'handle']);
+
+/**
+ * Customer Booking Management Routes (Phase 8E)
+ */
+Route::prefix('my-bookings')->name('customer.bookings.')->middleware('otp.verified')->group(function () {
+    Route::get('/', [\App\Http\Controllers\CustomerBookingController::class, 'index'])->name('index');
+    Route::get('/{booking}', [\App\Http\Controllers\CustomerBookingController::class, 'show'])->name('show');
+    Route::get('/{booking}/confirmation', [\App\Http\Controllers\CustomerBookingController::class, 'confirmation'])->name('confirmation');
+    Route::get('/{booking}/cancel', [\App\Http\Controllers\CustomerBookingController::class, 'showCancelForm'])->name('cancel');
+    Route::post('/{booking}/cancel', [\App\Http\Controllers\CustomerBookingController::class, 'submitCancellation'])->name('cancel.submit');
+});
+
+// Backward-compatible alias for /customer/bookings -> /my-bookings
+Route::get('/customer/bookings', fn() => redirect()->route('customer.bookings.index'))->middleware('otp.verified');
+
+/**
  * Enquiry Routes (with rate limiting)
  */
 Route::middleware(['throttle:enquiry'])->group(function () {
@@ -94,6 +188,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('/{banquet}', 'update')->name('update');
             Route::patch('/{banquet}/status', 'updateStatus')->name('update-status');
             Route::delete('/{banquet}', 'destroy')->name('destroy');
+        });
+
+        // Cancellation & Refund Management (Phase 8F)
+        Route::prefix('cancellations')->name('cancellations.')->controller(\App\Http\Controllers\Admin\CancellationController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{booking}', 'show')->name('show');
+            Route::post('/{booking}/approve', 'approve')->name('approve');
+            Route::post('/{booking}/reject', 'reject')->name('reject');
+            Route::post('/{booking}/retry', 'retryRefund')->name('retry');
         });
 
         // Room Types Management - Full CRUD

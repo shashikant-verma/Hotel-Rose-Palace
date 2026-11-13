@@ -48,6 +48,11 @@
                     <li class="nav-item">
                         <a class="nav-link hrp-link {{ request()->routeIs('contact') ? 'hrp-link--active' : '' }}" href="{{ route('contact') }}">Contact</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link hrp-link {{ request()->routeIs('customer.bookings.*') ? 'hrp-link--active' : '' }}" href="{{ route('customer.bookings.index') }}">
+                            <i class="fas fa-suitcase me-1"></i> My Bookings
+                        </a>
+                    </li>
                     <li class="nav-item ms-lg-2">
                         <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '918799129929')) }}?text={{ urlencode('Hello Hotel Rose Palace! I would like to enquire about room availability.') }}" target="_blank" class="hrp-btn-whatsapp">
                             <i class="fab fa-whatsapp"></i>

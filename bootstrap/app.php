@@ -11,9 +11,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Register admin authentication middleware
+        // Register route middleware aliases
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminAuthenticate::class,
+            'otp.verified' => \App\Http\Middleware\RequireOtpVerification::class,
+        ]);
+
+        // Exempt webhook endpoints from CSRF verification
+        $middleware->validateCsrfTokens(except: [
+            'api/webhooks/razorpay',
+            'webhooks/razorpay',
         ]);
 
         // Add security headers to all web requests

@@ -44,6 +44,39 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
+        // OTP Rate Limiting - Form views (higher limit for just viewing)
+        RateLimiter::for('otp_form', function (Request $request) {
+            return Limit::perMinute(10)->by($request->ip());
+        });
+
+        // OTP Send Rate Limiting - 3 OTP requests per mobile per 15 minutes
+        // (enforced in OtpService via Cache, this is additional HTTP-level throttle)
+        RateLimiter::for('otp_send', function (Request $request) {
+            return Limit::perMinute(3)->by($request->ip())->response(function () {
+                return response()->json([
+                    'message' => 'Too many OTP requests. Please wait before trying again.',
+                ], 429);
+            });
+        });
+
+        // OTP Verify Rate Limiting - 5 verification attempts per minute per IP
+        RateLimiter::for('otp_verify', function (Request $request) {
+            return Limit::perMinute(5)->by($request->ip())->response(function () {
+                return response()->json([
+                    'message' => 'Too many verification attempts. Please try again later.',
+                ], 429);
+            });
+        });
+
+        // OTP Resend Rate Limiting - 3 resend attempts per 10 minutes
+        RateLimiter::for('otp_resend', function (Request $request) {
+            return Limit::perMinutes(10, 3)->by($request->ip())->response(function () {
+                return response()->json([
+                    'message' => 'Too many resend attempts. Please try again later.',
+                ], 429);
+            });
+        });
+
         // Enquiry Form Rate Limiting - 3 enquiries per hour per IP
         RateLimiter::for('enquiry', function (Request $request) {
             return Limit::perHour(3)->by($request->ip())->response(function () {
