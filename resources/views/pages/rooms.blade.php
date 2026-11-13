@@ -8,7 +8,7 @@
 {{-- ═══════════════════════════════════════════════════════
      PAGE HERO
 ═══════════════════════════════════════════════════════ --}}
-<section class="text-center" style="background: linear-gradient(180deg, rgba(110,44,58,0.4) 0%, rgba(46,31,34,0.85) 100%), url('{{ asset('images/hotel/hero-2.jpg') }}') center/cover no-repeat; padding: 100px 20px 80px; position: relative;">
+<section class="text-center" style="background: linear-gradient(180deg, rgba(110,44,58,0.4) 0%, rgba(46,31,34,0.85) 100%), url('{{ asset('images/hotel/hero-hd-2.jpg') }}') center/cover no-repeat; padding: 100px 20px 80px; position: relative;">
     <div class="container position-relative" style="z-index: 2;">
         <span style="color: var(--hrp-gold-light); font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 12px;">
             ✦ Bespoke Living Spaces ✦

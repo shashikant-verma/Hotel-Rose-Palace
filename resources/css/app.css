@@ -547,11 +547,11 @@ section {
   object-position: center center;
   image-rendering: -webkit-optimize-contrast;
   display: block;
-  transition: transform 0.6s ease;
+  transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
 .hrp-arch-frame:hover img {
-  transform: scale(1.05);
+  filter: brightness(1.03);
 }
 
 .hrp-crest-badge {
@@ -1049,6 +1049,7 @@ section {
   aspect-ratio: 16 / 10;
   object-fit: cover;
   object-position: center;
+  image-rendering: -webkit-optimize-contrast;
   display: block;
 }
 
@@ -1059,6 +1060,7 @@ section {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: center;
+  image-rendering: -webkit-optimize-contrast;
   display: block;
 }
 
