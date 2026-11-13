@@ -5,11 +5,61 @@
 
 @section('content')
 <div class="table-card mb-4">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
         <h5 class="mb-0"><i class="fas fa-images me-2"></i> Gallery Images</h5>
-        <a href="{{ route('admin.gallery.create') }}" class="btn btn-primary">
-            <i class="fas fa-upload me-2"></i> Upload Images
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <!-- Category Button (on the left side of Upload Images) -->
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" type="button" id="categoryFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="border: 1px solid var(--color-border-subtle); background: var(--color-champagne); color: var(--color-charcoal-deep); font-weight: 500;">
+                    <i class="fas fa-tags" style="color: var(--color-burgundy-rose);"></i>
+                    <span>Category: <strong>{{ request('category') && request('category') !== 'all' ? ucfirst(request('category')) : 'All' }}</strong></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="categoryFilterDropdown" style="min-width: 210px; border: 1px solid var(--color-border-subtle); background: var(--color-champagne);">
+                    <li>
+                        <h6 class="dropdown-header text-uppercase" style="font-size: 11px; letter-spacing: 0.5px; color: var(--color-burgundy-rose); font-weight: 700;">Filter by Category</h6>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex justify-content-between align-items-center py-2 {{ !request('category') || request('category') === 'all' ? 'active' : '' }}" href="{{ route('admin.gallery.index') }}">
+                            <span><i class="fas fa-th-large me-2 text-muted"></i> All Categories</span>
+                            <span class="badge rounded-pill {{ !request('category') || request('category') === 'all' ? 'bg-light text-dark' : 'bg-secondary' }}">{{ $totalCount ?? $images->total() }}</span>
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider my-1" style="border-color: var(--color-border-subtle);"></li>
+                    @foreach($categories as $cat)
+                        <li>
+                            <a class="dropdown-item d-flex justify-content-between align-items-center py-2 {{ request('category') === $cat ? 'active' : '' }}" href="{{ route('admin.gallery.index', ['category' => $cat]) }}">
+                                <span><i class="fas fa-tag me-2 text-muted"></i> {{ ucfirst($cat) }}</span>
+                                @if(isset($counts[$cat]))
+                                    <span class="badge rounded-pill {{ request('category') === $cat ? 'bg-light text-dark' : 'bg-light text-dark border' }}">{{ $counts[$cat] }}</span>
+                                @endif
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <!-- Upload Images Button -->
+            <a href="{{ route('admin.gallery.create') }}" class="btn btn-primary d-flex align-items-center gap-2">
+                <i class="fas fa-upload"></i>
+                <span>Upload Images</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Category Quick Filter Pills -->
+    <div class="d-flex align-items-center gap-2 flex-wrap pt-3 mt-3 border-top" style="border-color: var(--color-border-subtle) !important;">
+        <span class="text-muted small fw-semibold me-1"><i class="fas fa-filter me-1"></i> Filter:</span>
+        <a href="{{ route('admin.gallery.index') }}" class="btn btn-sm {{ !request('category') || request('category') === 'all' ? 'btn-primary' : 'btn-outline-secondary' }}" style="border-radius: 20px; padding: 4px 14px; font-size: 13px;">
+            All <span class="badge {{ !request('category') || request('category') === 'all' ? 'bg-white text-dark' : 'bg-secondary' }} ms-1" style="font-size: 10px;">{{ $totalCount ?? $images->total() }}</span>
         </a>
+        @foreach($categories as $cat)
+            <a href="{{ route('admin.gallery.index', ['category' => $cat]) }}" class="btn btn-sm {{ request('category') === $cat ? 'btn-primary' : 'btn-outline-secondary' }}" style="border-radius: 20px; padding: 4px 14px; font-size: 13px;">
+                {{ ucfirst($cat) }} 
+                @if(isset($counts[$cat]))
+                    <span class="badge {{ request('category') === $cat ? 'bg-white text-dark' : 'bg-secondary' }} ms-1" style="font-size: 10px;">{{ $counts[$cat] }}</span>
+                @endif
+            </a>
+        @endforeach
     </div>
 </div>
 
@@ -88,11 +138,24 @@
 @else
     <div class="table-card">
         <div class="text-center py-5 text-muted">
-            <i class="fas fa-images fa-3x mb-3"></i>
-            <p>No images in gallery yet</p>
-            <a href="{{ route('admin.gallery.create') }}" class="btn btn-primary mt-3">
-                <i class="fas fa-upload me-2"></i> Upload First Images
-            </a>
+            <i class="fas fa-images fa-3x mb-3" style="color: var(--color-border-subtle);"></i>
+            @if(request('category'))
+                <h5 class="text-dark">No images found in "{{ ucfirst(request('category')) }}"</h5>
+                <p class="text-muted">There are no photos assigned to this category yet.</p>
+                <div class="d-flex justify-content-center gap-2 mt-3">
+                    <a href="{{ route('admin.gallery.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> View All Categories
+                    </a>
+                    <a href="{{ route('admin.gallery.create', ['category' => request('category')]) }}" class="btn btn-primary">
+                        <i class="fas fa-upload me-2"></i> Upload to {{ ucfirst(request('category')) }}
+                    </a>
+                </div>
+            @else
+                <p>No images in gallery yet</p>
+                <a href="{{ route('admin.gallery.create') }}" class="btn btn-primary mt-3">
+                    <i class="fas fa-upload me-2"></i> Upload First Images
+                </a>
+            @endif
         </div>
     </div>
 @endif

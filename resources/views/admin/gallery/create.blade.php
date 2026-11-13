@@ -48,6 +48,7 @@
                         id="category" 
                         name="category" 
                         list="categories"
+                        value="{{ old('category', request('category')) }}"
                         placeholder="e.g., rooms, facilities, dining"
                     >
                     <datalist id="categories">

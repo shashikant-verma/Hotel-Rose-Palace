@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\GalleryImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
@@ -12,11 +13,18 @@ class GalleryController extends Controller
     /**
      * Display gallery management page
      */
-    public function index()
+    public function index(Request $request)
     {
-        $images = GalleryImage::orderBy('display_order')
+        $query = GalleryImage::query();
+
+        if ($request->filled('category') && $request->category !== 'all') {
+            $query->where('category', $request->category);
+        }
+
+        $images = $query->orderBy('display_order')
             ->orderBy('created_at', 'desc')
-            ->paginate(24);
+            ->paginate(24)
+            ->withQueryString();
 
         $categories = GalleryImage::distinct()
             ->pluck('category')
@@ -24,7 +32,13 @@ class GalleryController extends Controller
             ->sort()
             ->values();
 
-        return view('admin.gallery.index', compact('images', 'categories'));
+        $counts = GalleryImage::select('category', DB::raw('count(*) as count'))
+            ->groupBy('category')
+            ->pluck('count', 'category');
+
+        $totalCount = GalleryImage::count();
+
+        return view('admin.gallery.index', compact('images', 'categories', 'counts', 'totalCount'));
     }
 
     /**
