@@ -73,6 +73,11 @@
         </button>
     </div>
 
+    {{-- Floating WhatsApp Button (Desktop & Tablet) --}}
+    <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '918799129929')) }}?text={{ urlencode('Hello Hotel Rose Palace! I would like to enquire about room availability.') }}" target="_blank" class="hrp-floating-whatsapp" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     {{-- Fullscreen Lightbox Modal for Photo Gallery & Room Detail --}}
     <div id="hrpGlobalLightbox" class="hrp-lightbox" onclick="if(event.target === this) closeLightbox();">
         <button class="hrp-lightbox-close" onclick="closeLightbox()" aria-label="Close lightbox">&times;</button>
