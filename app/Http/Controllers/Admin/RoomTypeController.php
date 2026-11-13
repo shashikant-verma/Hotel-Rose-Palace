@@ -134,27 +134,11 @@ class RoomTypeController extends Controller
      */
     public function destroy(RoomType $roomType)
     {
-        $roomCount = $roomType->rooms()->count();
-        
-        if ($roomCount > 0) {
-            // If force delete is requested, cascade delete all rooms
-            if (request()->input('force_delete') === 'true') {
-                // Soft delete all related rooms
-                $roomType->rooms()->delete();
-                // Soft delete related enquiries
-                $roomType->enquiries()->delete();
-                // Then soft delete the room type
-                $roomType->delete();
-                
-                return redirect()
-                    ->route('admin.room-types.index')
-                    ->with('warning', "Room type and $roomCount associated room(s) deleted successfully!");
-            }
-            
-            // Return with error and count of rooms
-            return back()->with('error', "Cannot delete this room type. It has $roomCount associated room(s). You can either: 1) Reassign rooms to another type, 2) Delete the rooms first, or 3) Use force delete (which will also delete associated rooms).");
-        }
-
+        // Soft delete all related rooms
+        $roomType->rooms()->delete();
+        // Soft delete related enquiries
+        $roomType->enquiries()->delete();
+        // Then soft delete the room type
         $roomType->delete();
 
         return redirect()

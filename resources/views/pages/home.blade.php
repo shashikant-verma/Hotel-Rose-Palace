@@ -23,7 +23,7 @@
             
             {{-- Slide 1: Grand Facade / Entrance --}}
             <div class="carousel-item active hrp-carousel-item">
-                <div class="hrp-hero-bg" style="background-image: url('{{ asset('images/hotel/hero-1.jpg') }}');"></div>
+                <div class="hrp-hero-bg" style="background-image: url('{{ asset('images/hotel/hero-hd-1.jpg') }}');"></div>
                 <div class="hrp-hero-vignette"></div>
                 <div class="hrp-hero-content container">
                     <span class="hrp-hero-eyebrow">✦ Premier Luxury in Surat ✦</span>
@@ -42,7 +42,7 @@
 
             {{-- Slide 2: Royal Suites & Living Sanctuaries --}}
             <div class="carousel-item hrp-carousel-item">
-                <div class="hrp-hero-bg" style="background-image: url('{{ asset('images/hotel/hero-2.jpg') }}');"></div>
+                <div class="hrp-hero-bg" style="background-image: url('{{ asset('images/hotel/hero-hd-2.jpg') }}');"></div>
                 <div class="hrp-hero-vignette"></div>
                 <div class="hrp-hero-content container">
                     <span class="hrp-hero-eyebrow">✦ Sanctuaries of Refinement ✦</span>
@@ -61,7 +61,7 @@
 
             {{-- Slide 3: Pure Veg Culinary Delights & Banquets --}}
             <div class="carousel-item hrp-carousel-item">
-                <div class="hrp-hero-bg" style="background-image: url('{{ asset('images/hotel/hero-3.jpg') }}');"></div>
+                <div class="hrp-hero-bg" style="background-image: url('{{ asset('images/hotel/hero-hd-3.jpg') }}');"></div>
                 <div class="hrp-hero-vignette"></div>
                 <div class="hrp-hero-content container">
                     <span class="hrp-hero-eyebrow">✦ Culinary Purity & Celebrations ✦</span>
@@ -244,7 +244,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="card h-100 p-0 overflow-hidden">
                     <div style="position: relative; overflow: hidden;">
-                        <img src="{{ asset('images/hotel/room-deluxe.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/deluxe-city-view.jpg') }}';" alt="Deluxe Double Room" class="hrp-room-card-img" style="transition: transform 0.4s ease;" loading="lazy">
+                        <img src="{{ asset('images/hotel/room-deluxe.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/deluxe-city-view.jpg') }}';" alt="Deluxe Double Room" class="hrp-room-card-img" loading="lazy">
                         <span class="badge" style="position: absolute; top: 16px; left: 16px; background: rgba(110,44,58,0.92); color: #F7F1E8; padding: 6px 12px; font-size: 12px; border-radius: 4px;">
                             Most Popular
                         </span>
@@ -276,7 +276,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="card h-100 p-0 overflow-hidden">
                     <div style="position: relative; overflow: hidden;">
-                        <img src="{{ asset('images/hotel/room-executive.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/deluxe-twin.jpg') }}';" alt="Superior Twin Room" class="hrp-room-card-img" style="transition: transform 0.4s ease;" loading="lazy">
+                        <img src="{{ asset('images/hotel/room-executive.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/deluxe-twin.jpg') }}';" alt="Superior Twin Room" class="hrp-room-card-img" loading="lazy">
                         <span class="badge" style="position: absolute; top: 16px; left: 16px; background: rgba(184,138,68,0.92); color: #2E1F22; padding: 6px 12px; font-size: 12px; border-radius: 4px; font-weight: 700;">
                             Business Travel Choice
                         </span>
@@ -308,7 +308,7 @@
             <div class="col-lg-4 col-md-12">
                 <div class="card h-100 p-0 overflow-hidden">
                     <div style="position: relative; overflow: hidden;">
-                        <img src="{{ asset('images/hotel/room-suite.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/royal-heritage-suite.jpg') }}';" alt="Executive Suite" class="hrp-room-card-img" style="transition: transform 0.4s ease;" loading="lazy">
+                        <img src="{{ asset('images/hotel/room-suite.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/royal-heritage-suite.jpg') }}';" alt="Executive Suite" class="hrp-room-card-img" loading="lazy">
                         <span class="badge" style="position: absolute; top: 16px; left: 16px; background: rgba(110,44,58,0.92); color: #F7F1E8; padding: 6px 12px; font-size: 12px; border-radius: 4px;">
                             VIP Suite
                         </span>
