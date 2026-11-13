@@ -8,7 +8,7 @@
 {{-- ═══════════════════════════════════════════════════════
      PAGE HERO
 ═══════════════════════════════════════════════════════ --}}
-<section class="text-center" style="background: linear-gradient(180deg, rgba(110,44,58,0.45) 0%, rgba(46,31,34,0.85) 100%), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=85') center/cover no-repeat; padding: 100px 20px 80px; position: relative;">
+<section class="text-center" style="background: linear-gradient(180deg, rgba(110,44,58,0.45) 0%, rgba(46,31,34,0.85) 100%), url('{{ asset('images/hotel/hero-1.jpg') }}') center/cover no-repeat; padding: 100px 20px 80px; position: relative;">
     <div class="container position-relative" style="z-index: 2;">
         <span style="color: var(--hrp-gold-light); font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 12px;">
             ✦ The Rose Palace Legacy ✦
@@ -35,7 +35,7 @@
             {{-- Arch Image --}}
             <div class="col-lg-5 col-md-12">
                 <div class="hrp-arch-frame" style="height: 480px;">
-                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=85" alt="Hotel Rose Palace Grand Lobby" loading="lazy">
+                    <img src="{{ asset('images/hotel/lobby.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/hotel/hotel-rose-palace-entrance-door.jpg') }}';" alt="Hotel Rose Palace Entrance & Reception" loading="lazy">
                     <div class="hrp-crest-badge">
                         <span class="year">Est.</span>
                         <span class="label">Surat, Gujarat</span>

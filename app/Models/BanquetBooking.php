@@ -12,13 +12,18 @@ class BanquetBooking extends Model
 
     protected $fillable = [
         'reference_id',
+        'event_name',
+        'organizer_name',
+        'phone',
         'customer_name',
         'customer_phone',
         'customer_email',
         'event_date',
         'slot',
+        'time_slot',
         'event_type',
         'guest_count',
+        'seating_layout',
         'catering_package',
         'total_amount',
         'advance_paid',
@@ -36,6 +41,26 @@ class BanquetBooking extends Model
             'advance_paid' => 'decimal:2',
             'guest_count' => 'integer',
         ];
+    }
+
+    public function getEventNameAttribute($value)
+    {
+        return $value ?? $this->event_type;
+    }
+
+    public function getOrganizerNameAttribute($value)
+    {
+        return $value ?? $this->customer_name;
+    }
+
+    public function getPhoneAttribute($value)
+    {
+        return $value ?? $this->customer_phone;
+    }
+
+    public function getTimeSlotAttribute($value)
+    {
+        return $value ?? $this->slot;
     }
 
     public function getBalanceDueAttribute(): float

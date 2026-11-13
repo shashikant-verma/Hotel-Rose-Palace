@@ -122,8 +122,9 @@
                                             @php
                                                 $statusColor = match($booking->status) {
                                                     'checked_in' => '#27ae60',
-                                                    'booking_confirmed' => '#6E2C3A',
+                                                    'booking_confirmed', 'confirmed' => '#6E2C3A',
                                                     'availability_confirmed' => '#B88A44',
+                                                    'pending', 'new' => '#F39C12',
                                                     default => '#5E4B4E'
                                                 };
                                             @endphp

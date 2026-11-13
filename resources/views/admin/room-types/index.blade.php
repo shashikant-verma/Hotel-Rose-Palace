@@ -55,6 +55,11 @@
                             <a href="{{ route('admin.room-types.edit', $roomType) }}" class="btn btn-sm btn-outline-primary">
                                 <i class="fas fa-edit"></i>
                             </a>
+                            @if($roomType->rooms_count > 0)
+                            <button type="button" class="btn btn-sm btn-outline-warning" onclick="showForceDeleteModal({{ $roomType->id }}, '{{ $roomType->name }}', {{ $roomType->rooms_count }})">
+                                <i class="fas fa-trash"></i> Force
+                            </button>
+                            @else
                             <form action="{{ route('admin.room-types.destroy', $roomType) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this room type?');">
                                 @csrf
                                 @method('DELETE')
@@ -62,6 +67,7 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
@@ -82,4 +88,52 @@
         </div>
     @endif
 </div>
+
+{{-- Force Delete Modal --}}
+<div class="modal fade" id="forceDeleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i> Force Delete Room Type</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Room Type:</strong> <span id="forceDeleteName"></span></p>
+                <p class="text-danger"><strong>⚠️ Warning:</strong> This will delete the room type and <strong id="forceDeleteCount"></strong> associated room(s) along with their data.</p>
+                <p>This action cannot be undone!</p>
+                <p>Type the room type name to confirm:</p>
+                <input type="text" id="forceDeleteConfirmInput" class="form-control" placeholder="Type room type name to confirm">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="forceDeleteForm" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="force_delete" value="true">
+                    <button type="submit" class="btn btn-danger" id="forceDeleteBtn" disabled>
+                        <i class="fas fa-trash me-2"></i> Delete Permanently
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showForceDeleteModal(roomTypeId, roomTypeName, roomCount) {
+    const modal = new bootstrap.Modal(document.getElementById('forceDeleteModal'));
+    document.getElementById('forceDeleteName').textContent = roomTypeName;
+    document.getElementById('forceDeleteCount').textContent = roomCount;
+    document.getElementById('forceDeleteForm').action = `/admin/room-types/${roomTypeId}`;
+    document.getElementById('forceDeleteConfirmInput').value = '';
+    document.getElementById('forceDeleteBtn').disabled = true;
+    
+    // Enable button only when name is typed correctly
+    document.getElementById('forceDeleteConfirmInput').addEventListener('input', function() {
+        document.getElementById('forceDeleteBtn').disabled = this.value !== roomTypeName;
+    });
+    
+    modal.show();
+}
+</script>
 @endsection

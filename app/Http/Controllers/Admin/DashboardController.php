@@ -28,19 +28,19 @@ class DashboardController extends Controller
             'clean_available_rooms' => Room::where('is_available', true)->where('housekeeping_status', 'clean')->count(),
             'dirty_rooms' => Room::where('housekeeping_status', 'dirty')->count(),
             'maintenance_rooms' => Room::where('housekeeping_status', 'maintenance')->count(),
-            'today_checkins' => Enquiry::whereDate('check_in_date', $today)->whereIn('status', ['booking_confirmed', 'checked_in'])->count(),
+            'today_checkins' => Enquiry::whereDate('check_in_date', $today)->whereIn('status', ['confirmed', 'booking_confirmed', 'checked_in'])->count(),
             'today_checkouts' => Enquiry::whereDate('check_out_date', $today)->whereIn('status', ['checked_in', 'checked_out'])->count(),
             'active_inhouse_guests' => Enquiry::where('status', 'checked_in')->count(),
             'monthly_revenue' => Enquiry::whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('paid_amount') + BanquetBooking::whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('advance_paid'),
             'total_room_types' => RoomType::count(),
             'gallery_images' => GalleryImage::count(),
-            'upcoming_banquets_count' => BanquetBooking::where('event_date', '>=', $today)->where('status', 'confirmed')->count(),
+            'upcoming_banquets_count' => BanquetBooking::where('event_date', '>=', $today)->whereIn('status', ['confirmed', 'tentative'])->count(),
         ];
 
         // Today's arrivals for front desk quick action
         $todayArrivals = Enquiry::with(['roomType', 'room'])
             ->whereDate('check_in_date', $today)
-            ->whereIn('status', ['booking_confirmed', 'contacted', 'availability_confirmed', 'checked_in'])
+            ->whereIn('status', ['confirmed', 'booking_confirmed', 'contacted', 'availability_confirmed', 'checked_in'])
             ->orderBy('check_in_date')
             ->take(8)
             ->get();

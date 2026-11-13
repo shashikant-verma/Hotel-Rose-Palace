@@ -1038,3 +1038,31 @@ section {
 .hrp-lightbox-close { top: 20px; right: 20px; }
 .hrp-lightbox-prev { left: 20px; }
 .hrp-lightbox-next { right: 20px; }
+
+/* ── Hotel Image Aspect Ratios & Responsive Media ──────────────── */
+.hrp-room-img,
+.room-card-item img,
+.hrp-room-card-img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.hrp-gallery-img,
+.gallery-card img,
+.gallery-photo-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.hrp-hero-bg {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+

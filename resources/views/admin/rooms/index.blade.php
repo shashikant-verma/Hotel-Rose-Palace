@@ -124,7 +124,14 @@
                             </form>
                         </td>
                         <td>
-                            <span class="badge bg-light text-dark border">{{ $room->images->count() }} images</span>
+                            <div class="d-flex align-items-center gap-2">
+                                @if($room->image_path && file_exists(public_path($room->image_path)))
+                                    <img src="{{ asset($room->image_path) }}" alt="Room {{ $room->room_number }}" class="rounded shadow-sm" style="width: 44px; height: 34px; object-fit: cover; border: 1px solid var(--color-border-subtle);">
+                                @endif
+                                <span class="badge bg-light text-dark border" style="font-size: 11px;">
+                                    {{ $room->images->count() > 0 ? $room->images->count() . ' photo(s)' : ($room->image_path ? 'Photo Linked' : 'No photo') }}
+                                </span>
+                            </div>
                         </td>
                         <td class="text-end pe-3">
                             <a href="{{ route('admin.rooms.edit', $room) }}" class="btn btn-sm btn-outline-primary" title="Edit Room">

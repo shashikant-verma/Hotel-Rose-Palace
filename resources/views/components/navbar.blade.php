@@ -34,10 +34,10 @@
                         <a class="nav-link hrp-link {{ request()->routeIs('home') ? 'hrp-link--active' : '' }}" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link hrp-link {{ request()->routeIs('about') ? 'hrp-link--active' : '' }}" href="{{ route('about') }}">About</a>
+                        <a class="nav-link hrp-link {{ request()->routeIs('rooms') ? 'hrp-link--active' : '' }}" href="{{ route('rooms') }}">Rooms</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link hrp-link {{ request()->routeIs('rooms') ? 'hrp-link--active' : '' }}" href="{{ route('rooms') }}">Rooms</a>
+                        <a class="nav-link hrp-link {{ request()->routeIs('about') ? 'hrp-link--active' : '' }}" href="{{ route('about') }}">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hrp-link {{ request()->routeIs('amenities') ? 'hrp-link--active' : '' }}" href="{{ route('amenities') }}">Amenities</a>

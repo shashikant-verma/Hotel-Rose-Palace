@@ -28,8 +28,19 @@
                 
                 {{-- Main Gallery Viewer with Thumbnails --}}
                 <div class="card p-0 overflow-hidden mb-4" style="border: 1px solid var(--hrp-border);">
+                    @php
+                        $realRoomPhotos = [
+                            asset('images/hotel/room-deluxe.jpg'),
+                            asset('images/hotel/hero-1.jpg'),
+                            asset('images/hotel/hero-2.jpg'),
+                            asset('images/hotel/room-executive.jpg'),
+                            asset('images/hotel/room-suite.jpg'),
+                            asset('images/hotel/gallery-4.jpg'),
+                        ];
+                        $initialPhoto = $realRoomPhotos[0];
+                    @endphp
                     <div style="position: relative; height: 420px; overflow: hidden; background: var(--hrp-plum);">
-                        <img id="mainGalleryViewer" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85" alt="{{ $roomType->name }}" style="width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease;" class="hrp-lightbox-trigger" onclick="openLightbox(this.src)">
+                        <img id="mainGalleryViewer" src="{{ $initialPhoto }}" alt="{{ $roomType->name }}" style="width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease;" class="hrp-lightbox-trigger" onclick="openLightbox(this.src)">
                         <button type="button" onclick="openLightbox(document.getElementById('mainGalleryViewer').src)" class="btn btn-secondary btn-sm" style="position: absolute; bottom: 16px; right: 16px; background: rgba(247,241,232,0.9); backdrop-filter: blur(8px);">
                             <i class="fas fa-expand"></i> Fullscreen View
                         </button>
@@ -37,15 +48,7 @@
 
                     {{-- Clickable Thumbnails Row --}}
                     <div class="p-3 d-flex gap-2 overflow-auto" style="background: var(--hrp-surface); border-top: 1px solid var(--hrp-border);">
-                        @php
-                        $samplePhotos = [
-                            'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&q=80',
-                            'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&q=80',
-                            'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400&q=80',
-                            'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=400&q=80',
-                        ];
-                        @endphp
-                        @foreach($samplePhotos as $idx => $photo)
+                        @foreach($realRoomPhotos as $idx => $photo)
                         <img src="{{ $photo }}" alt="Thumbnail {{ $idx + 1 }}" style="width: 90px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid {{ $idx === 0 ? 'var(--hrp-gold)' : 'transparent' }}; opacity: {{ $idx === 0 ? '1' : '0.75' }}; transition: all 0.2s ease;" onclick="switchMainPhoto('{{ $photo }}', this)" class="thumb-selector">
                         @endforeach
                     </div>

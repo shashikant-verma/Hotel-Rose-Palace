@@ -23,9 +23,10 @@
                         $statusBadge = match($enquiry->status) {
                             'checked_in' => 'bg-success text-white',
                             'checked_out' => 'bg-secondary text-white',
-                            'booking_confirmed' => 'bg-primary text-white',
+                            'booking_confirmed', 'confirmed' => 'bg-primary text-white',
                             'availability_confirmed' => 'bg-warning text-dark',
                             'contacted' => 'bg-info text-dark',
+                            'pending' => 'bg-warning text-dark',
                             'cancelled' => 'bg-danger text-white',
                             default => 'bg-light text-dark border'
                         };

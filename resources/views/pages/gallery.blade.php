@@ -8,7 +8,7 @@
 {{-- ═══════════════════════════════════════════════════════
      PAGE HERO
 ═══════════════════════════════════════════════════════ --}}
-<section class="text-center" style="background: linear-gradient(180deg, rgba(110,44,58,0.45) 0%, rgba(46,31,34,0.85) 100%), url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1600&q=85') center/cover no-repeat; padding: 100px 20px 80px; position: relative;">
+<section class="text-center" style="background: linear-gradient(180deg, rgba(110,44,58,0.45) 0%, rgba(46,31,34,0.85) 100%), url('{{ asset('images/hotel/hero-1.jpg') }}') center/cover no-repeat; padding: 100px 20px 80px; position: relative;">
     <div class="container position-relative" style="z-index: 2;">
         <span style="color: var(--hrp-gold-light); font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 12px;">
             ✦ Visual Chronicle ✦
@@ -49,23 +49,41 @@
         
         @php
         $galleryCatalog = [
-            ['src' => 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=85', 'cat' => 'rooms', 'title' => 'Deluxe King Suite', 'desc' => 'Plush king bedding with ambient LED lighting'],
-            ['src' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=85', 'cat' => 'lobby', 'title' => 'Grand Entrance & Reception', 'desc' => 'Welcoming front desk and concierge salon'],
-            ['src' => 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=85', 'cat' => 'dining', 'title' => 'Pure Veg Dining Room', 'desc' => 'Fine multi-cuisine Gujarati & North Indian dining'],
-            ['src' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=900&q=85', 'cat' => 'rooms', 'title' => 'Executive Living Salon', 'desc' => 'Dedicated sitting lounge in the Executive Suite'],
-            ['src' => 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=900&q=85', 'cat' => 'spa', 'title' => 'Wellness & Relaxation Lounge', 'desc' => 'Peaceful sanctuary for rejuvenation'],
-            ['src' => 'https://images.unsplash.com/photo-1512918728672-f9d96f4fff8c?w=900&q=85', 'cat' => 'rooms', 'title' => 'Superior Twin Sanctuary', 'desc' => 'Dual luxury beds for corporate travel'],
-            ['src' => 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=85', 'cat' => 'dining', 'title' => 'Royal Kathiyawadi Table', 'desc' => 'Traditional authentic thali presentation'],
-            ['src' => 'https://images.unsplash.com/photo-1521783593447-5702b9bfd267?w=900&q=85', 'cat' => 'lobby', 'title' => 'Business Center Lounge', 'desc' => 'High-speed executive meeting hub'],
-            ['src' => 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=900&q=85', 'cat' => 'spa', 'title' => 'Therapy Room', 'desc' => 'Calming treatment and massage amenities'],
-            ['src' => 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=900&q=85', 'cat' => 'lobby', 'title' => 'Celebration Banquet Venue', 'desc' => 'Modern acoustics for gatherings up to 350 guests'],
-            ['src' => 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=900&q=85', 'cat' => 'rooms', 'title' => 'Royal Palace Master Bedroom', 'desc' => 'Mughal-inspired palace suite decor'],
-            ['src' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=85', 'cat' => 'exterior', 'title' => 'Vesu Skyline & Property Exterior', 'desc' => 'Atlanta Business Hub, VIP Road location'],
+            ['src' => asset('images/hotel/hero-1.jpg'), 'cat' => 'rooms', 'title' => 'Maharaja Grand Suite', 'desc' => 'High-resolution suite view with ambient blue lighting'],
+            ['src' => asset('images/hotel/hero-2.jpg'), 'cat' => 'rooms', 'title' => 'Royal Heritage Suite', 'desc' => 'Master bedroom with plush king bedding'],
+            ['src' => asset('images/hotel/lobby.jpg'), 'cat' => 'lobby', 'title' => 'Grand Reception & Lounge', 'desc' => 'Welcoming front desk and guest waiting area'],
+            ['src' => asset('images/hotel/room-deluxe.jpg'), 'cat' => 'rooms', 'title' => 'Deluxe King Room', 'desc' => 'Spacious room with modern lighting and workstation'],
+            ['src' => asset('images/hotel/room-executive.jpg'), 'cat' => 'rooms', 'title' => 'Superior Twin Sanctuary', 'desc' => 'Dual luxury beds for corporate travelers'],
+            ['src' => asset('images/hotel/room-suite.jpg'), 'cat' => 'rooms', 'title' => 'Executive Living Salon', 'desc' => 'Dedicated sitting area with premium amenities'],
+            ['src' => asset('images/hotel/gallery-1.jpg'), 'cat' => 'rooms', 'title' => 'Executive Work-Desk Suite', 'desc' => 'Ergonomic workspace and fast Wi-Fi'],
+            ['src' => asset('images/hotel/gallery-2.jpg'), 'cat' => 'lobby', 'title' => 'Main Reception Salon', 'desc' => 'Grand arrival lobby and check-in desk'],
+            ['src' => asset('images/hotel/gallery-3.jpg'), 'cat' => 'rooms', 'title' => 'Deluxe Suite Interior', 'desc' => 'Modern fixtures and ambient ceiling lighting'],
+            ['src' => asset('images/hotel/gallery-4.jpg'), 'cat' => 'rooms', 'title' => 'Attached Luxury Bathroom', 'desc' => 'Modern vanity and 24/7 hot water supply'],
+            ['src' => asset('images/hotel/gallery-5.jpg'), 'cat' => 'rooms', 'title' => 'Corporate Suite Room', 'desc' => 'Tailored for corporate productivity in Surat'],
+            ['src' => asset('images/hotel/gallery-6.jpg'), 'cat' => 'rooms', 'title' => 'Family Suite Bedroom', 'desc' => 'Comfortable setup for families and groups'],
+            ['src' => asset('images/hotel/exterior.jpg'), 'cat' => 'exterior', 'title' => 'Main Entrance & Facade', 'desc' => 'Atlanta Business Hub, VIP Road, Vesu'],
         ];
         @endphp
 
+        @php
+        $displayImages = [];
+        if (isset($galleryImages) && $galleryImages->count() > 0) {
+            foreach ($galleryImages as $img) {
+                $src = str_starts_with($img->image_url ?? '', 'http') ? $img->image_url : asset(ltrim($img->image_url ?? 'images/' . $img->image_path, '/'));
+                $displayImages[] = [
+                    'src' => $src,
+                    'cat' => $img->category ?? 'rooms',
+                    'title' => $img->title ?? 'Hotel Rose Palace',
+                    'desc' => $img->alt_text ?? 'Hotel Rose Palace Vesu Surat',
+                ];
+            }
+        } else {
+            $displayImages = $galleryCatalog;
+        }
+        @endphp
+
         <div class="row g-4" id="galleryContainer">
-            @foreach($galleryCatalog as $idx => $item)
+            @foreach($displayImages as $idx => $item)
             <div class="col-lg-4 col-md-6 gallery-card" data-category="{{ $item['cat'] }}">
                 <div class="card p-0 overflow-hidden h-100" style="cursor: pointer;" onclick="openLightbox('{{ $item['src'] }}', '.gallery-photo-img')">
                     <div style="position: relative; height: 260px; overflow: hidden;">

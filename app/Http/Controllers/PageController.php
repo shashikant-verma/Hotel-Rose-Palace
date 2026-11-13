@@ -91,7 +91,7 @@ class PageController extends Controller
     {
         $galleryImages = GalleryImage::where('is_active', true)
             ->orderBy('display_order')
-            ->paginate(12);
+            ->paginate(24);
 
         return view('pages.gallery', [
             'galleryImages' => $galleryImages,

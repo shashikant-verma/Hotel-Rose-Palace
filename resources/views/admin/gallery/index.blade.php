@@ -34,7 +34,7 @@
                     <div class="col-md-3 col-sm-4 col-6">
                         <div class="card image-card">
                             <div class="image-wrapper">
-                                <img src="{{ Storage::url($image->image_path) }}" class="card-img-top" alt="{{ $image->alt_text }}">
+                                <img src="{{ $image->image_url ? asset(ltrim($image->image_url, '/')) : Storage::url($image->image_path) }}" class="card-img-top" alt="{{ $image->alt_text }}" style="height: 160px; object-fit: cover;">
                                 <div class="image-overlay">
                                     <input 
                                         type="checkbox" 

@@ -37,8 +37,8 @@
                 <h6 class="hrp-footer-heading">Quick Links</h6>
                 <ul class="hrp-footer-links">
                     <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ route('about') }}">About Us</a></li>
                     <li><a href="{{ route('rooms') }}">Rooms & Suites</a></li>
+                    <li><a href="{{ route('about') }}">About Us</a></li>
                     <li><a href="{{ route('amenities') }}">Amenities</a></li>
                     <li><a href="{{ route('gallery') }}">Gallery</a></li>
                     <li><a href="{{ route('contact') }}">Contact Us</a></li>
