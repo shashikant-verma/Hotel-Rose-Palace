@@ -15,7 +15,7 @@
         </span>
         <h1 style="color: var(--hrp-surface); font-size: 46px; margin-bottom: 16px;">Contact Our Concierge</h1>
         <p style="color: var(--hrp-tint); font-size: 18px; max-width: 680px; margin: 0 auto 24px; line-height: 1.6;">
-            Have an inquiry about room bookings, airport shuttles, banquet celebrations, or dining reservations? We are here to assist around the clock.
+            Have an inquiry about room bookings, airport shuttles, banquet celebrations, or corporate corporate stays? We are here to assist around the clock.
         </p>
         <div class="d-inline-flex align-items-center gap-2" style="background: rgba(247,241,232,0.15); backdrop-filter: blur(10px); padding: 6px 16px; border-radius: 30px; border: 1px solid rgba(247,241,232,0.3); font-size: 13px; color: var(--hrp-surface);">
             <a href="{{ route('home') }}" style="color: var(--hrp-surface);">Home</a>
@@ -181,7 +181,6 @@
                                     <option value="Room Reservation">Room & Suite Reservation</option>
                                     <option value="Banquet & Event Inquiry">Banquet / Conference Venue Inquiry</option>
                                     <option value="Airport Shuttle Request">Airport Taxi / Shuttle Request</option>
-                                    <option value="Dining & Table Booking">Restaurant & Dining Table Booking</option>
                                     <option value="General Question">General Hotel Question</option>
                                 </select>
                             </div>

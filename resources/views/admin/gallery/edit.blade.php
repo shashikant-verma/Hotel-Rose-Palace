@@ -55,18 +55,15 @@
                             name="category"
                             value="{{ old('category', $gallery->category) }}"
                             list="category-options"
-                            placeholder="e.g., rooms, facilities, dining"
+                            placeholder="e.g., rooms, lobby, exterior"
                         >
                         <datalist id="category-options">
                             @foreach($categories as $cat)
                                 <option value="{{ $cat }}">
                             @endforeach
                             <option value="rooms">
-                            <option value="facilities">
-                            <option value="dining">
-                            <option value="exterior">
                             <option value="lobby">
-                            <option value="events">
+                            <option value="exterior">
                         </datalist>
                         @error('category')
                             <div class="invalid-feedback">{{ $message }}</div>

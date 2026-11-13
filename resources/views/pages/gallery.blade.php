@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Gallery — Hotel Rose Palace | Visual Journey Through Luxury Surat')
-@section('meta_description', 'Explore the visual gallery of Hotel Rose Palace Surat. Luxurious suites, fine dining spaces, modern banquet halls, and elegant architecture on VIP Road, Vesu.')
+@section('meta_description', 'Explore the visual gallery of Hotel Rose Palace Surat. Luxurious suites, modern banquet halls, and elegant architecture on VIP Road, Vesu.')
 
 @section('content')
 
@@ -15,7 +15,7 @@
         </span>
         <h1 style="color: var(--hrp-surface); font-size: 46px; margin-bottom: 16px;">The Rose Palace Gallery</h1>
         <p style="color: var(--hrp-tint); font-size: 18px; max-width: 680px; margin: 0 auto 24px; line-height: 1.6;">
-            A glimpse into the architectural splendor, royal suites, pristine dining, and celebration venues that define our property in Surat.
+            A glimpse into the architectural splendor, royal suites, and celebration venues that define our property in Surat.
         </p>
         <div class="d-inline-flex align-items-center gap-2" style="background: rgba(247,241,232,0.15); backdrop-filter: blur(10px); padding: 6px 16px; border-radius: 30px; border: 1px solid rgba(247,241,232,0.3); font-size: 13px; color: var(--hrp-surface);">
             <a href="{{ route('home') }}" style="color: var(--hrp-surface);">Home</a>
@@ -33,9 +33,7 @@
         <div class="d-flex justify-content-center flex-wrap gap-2" id="galleryFilters">
             <button class="hrp-menu-tab-btn active" data-filter="all" onclick="filterGallery('all', this)">All Photography</button>
             <button class="hrp-menu-tab-btn" data-filter="rooms" onclick="filterGallery('rooms', this)">Rooms & Suites</button>
-            <button class="hrp-menu-tab-btn" data-filter="dining" onclick="filterGallery('dining', this)">Dining & Gastronomy</button>
             <button class="hrp-menu-tab-btn" data-filter="lobby" onclick="filterGallery('lobby', this)">Lobby & Reception</button>
-            <button class="hrp-menu-tab-btn" data-filter="spa" onclick="filterGallery('spa', this)">Spa & Wellness</button>
             <button class="hrp-menu-tab-btn" data-filter="exterior" onclick="filterGallery('exterior', this)">Exterior & Views</button>
         </div>
     </div>
@@ -52,10 +50,10 @@
             ['src' => asset('images/hotel/hero-1.jpg'), 'cat' => 'exterior', 'title' => 'Hotel Rose Palace Arrival Facade', 'desc' => 'Warm-lit entrance and architecture at VIP Road, Vesu, Surat'],
             ['src' => asset('images/hotel/lobby.jpg'), 'cat' => 'lobby', 'title' => 'Grand Reception & Front Desk Lounge', 'desc' => 'Warm sandstone boutique front desk with ambient golden lighting'],
             ['src' => asset('images/gallery/gallery-1.jpg'), 'cat' => 'rooms', 'title' => 'Executive Reading Corner', 'desc' => 'Warm ambient lamp and boutique armchair in executive suite'],
-            ['src' => asset('images/gallery/gallery-2.jpg'), 'cat' => 'spa', 'title' => 'En-Suite Marble Luxury Bathroom', 'desc' => 'Spacious marble bathroom vanity with backlit mirror'],
+            ['src' => asset('images/gallery/gallery-2.jpg'), 'cat' => 'rooms', 'title' => 'En-Suite Marble Luxury Bathroom', 'desc' => 'Spacious marble bathroom vanity with backlit mirror'],
             ['src' => asset('images/gallery/gallery-3.jpg'), 'cat' => 'exterior', 'title' => 'Sunset Terrace & Relaxation Lounge', 'desc' => 'Outdoor evening relaxation terrace with golden hour skyline views'],
             ['src' => asset('images/gallery/gallery-4.jpg'), 'cat' => 'lobby', 'title' => 'Grand Heritage Archway Corridor', 'desc' => 'Illuminated sandstone hallway with luxury arches and polished floors'],
-            ['src' => asset('images/gallery/gallery-5.jpg'), 'cat' => 'dining', 'title' => 'Royal Dining & Breakfast Salon', 'desc' => 'Boutique restaurant and dining area with warm golden chandeliers'],
+            ['src' => asset('images/gallery/gallery-5.jpg'), 'cat' => 'rooms', 'title' => 'Deluxe Family Guest Bedroom', 'desc' => 'Spacious family guest room with ambient lighting and plush furnishings'],
             ['src' => asset('images/gallery/gallery-6.jpg'), 'cat' => 'rooms', 'title' => 'Sandstone & Burgundy VIP Lounge', 'desc' => 'Intimate seating corner in warm champagne sandstone tones'],
             ['src' => asset('images/rooms/deluxe.jpg'), 'cat' => 'rooms', 'title' => 'Deluxe King Sanctuary', 'desc' => 'Deluxe bedroom featuring plush Italian bedding and warm lighting'],
             ['src' => asset('images/rooms/executive.jpg'), 'cat' => 'rooms', 'title' => 'Executive Corporate Suite', 'desc' => 'Executive suite with ergonomic work desk and warm ambient lamps'],
@@ -110,7 +108,7 @@
         <span style="color: var(--hrp-gold); font-family: var(--font-ui); font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">✦ Experience It In Person ✦</span>
         <h2 style="font-size: 38px; color: var(--hrp-plum); margin: 8px 0 16px;">Step Inside Hotel Rose Palace</h2>
         <p style="color: var(--hrp-mauve); max-width: 600px; margin: 0 auto 28px;">
-            Book direct via our website to receive our guaranteed best rate, complimentary early check-in, and 10% off dining.
+            Book direct via our website to receive our guaranteed best rate, complimentary early check-in, and personalized concierge care.
         </p>
         <div class="d-flex justify-content-center gap-3 flex-wrap">
             <button type="button" onclick="window.openBookingModal()" class="btn btn-primary btn-lg">

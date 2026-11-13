@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Hotel Rose Palace — Luxury Hotel in Vesu, Surat | Official Site')
-@section('meta_description', 'Book direct at Hotel Rose Palace Surat for best rates, complimentary early check-in & dining discounts. Luxury rooms, pure veg dining, banquet halls on VIP Road, Vesu.')
+@section('meta_description', 'Book direct at Hotel Rose Palace Surat for guaranteed best rates, complimentary early check-in, and personalized hospitality on VIP Road, Vesu.')
 
 @section('content')
 
@@ -59,20 +59,20 @@
                 </div>
             </div>
 
-            {{-- Slide 3: Pure Veg Culinary Delights & Banquets --}}
+            {{-- Slide 3: Prime Vesu Location & Connectivity --}}
             <div class="carousel-item hrp-carousel-item">
                 <div class="hrp-hero-bg" style="background-image: url('{{ asset('images/hotel/hero-1.jpg') }}');"></div>
                 <div class="hrp-hero-vignette"></div>
                 <div class="hrp-hero-content container">
-                    <span class="hrp-hero-eyebrow">✦ Culinary Purity & Celebrations ✦</span>
-                    <h1 class="hrp-hero-title">100% Pure Veg & <em>Jain Gastronomy</em></h1>
-                    <p class="hrp-hero-sub">From authentic Surati Kathiyawadi thalis to grand celebratory banquets, experience gastronomic perfection.</p>
+                    <span class="hrp-hero-eyebrow">✦ Prime Vesu Location ✦</span>
+                    <h1 class="hrp-hero-title">Surat's Premier <em>Boutique Stay</em></h1>
+                    <p class="hrp-hero-sub">Strategically situated at Atlanta Business Hub on VIP Road, minutes from Surat Airport and Diamond Bourse.</p>
                     <div class="hrp-hero-ctas">
-                        <a href="#dining-preview" class="btn btn-gold btn-lg">
-                            <i class="fas fa-utensils"></i> View Dining Menu
-                        </a>
-                        <a href="#banquet-quote" class="btn btn-secondary btn-lg">
-                            Banquet Hall Enquiries
+                        <button type="button" onclick="window.openBookingModal()" class="btn btn-gold btn-lg">
+                            <i class="fas fa-calendar-check"></i> Book Your Stay
+                        </button>
+                        <a href="{{ route('rooms') }}" class="btn btn-secondary btn-lg">
+                            View All 15 Rooms
                         </a>
                     </div>
                 </div>
@@ -536,156 +536,7 @@
 </section>
 
 {{-- ═══════════════════════════════════════════════════════
-     6. DINING & PURE VEG / JAIN MENU PREVIEW
-═══════════════════════════════════════════════════════ --}}
-<section id="dining-preview" class="hrp-section-divider" style="background-color: var(--hrp-surface);">
-    <div class="container">
-        
-        <div class="text-center mb-4">
-            <div class="d-inline-flex align-items-center gap-2 mb-2">
-                <span class="hrp-diet-badge">
-                    <span class="hrp-veg-icon"></span> 100% Pure Vegetarian Kitchen
-                </span>
-                <span class="badge" style="background: rgba(184,138,68,0.15); color: #B88A44; border: 1px solid rgba(184,138,68,0.3); padding: 5px 12px; border-radius: 20px;">
-                    Special Jain Options
-                </span>
-            </div>
-            <h2 style="font-size: 38px; color: var(--hrp-plum);">Culinary Excellence & Gastronomy</h2>
-            <p style="max-width: 650px; margin: 0 auto; color: var(--hrp-mauve);">Prepared with pristine purity and age-old culinary craftsmanship by master chefs in Surat.</p>
-        </div>
-
-        {{-- Menu Category Tabs --}}
-        <div class="hrp-menu-tabs">
-            <button class="hrp-menu-tab-btn active" onclick="showMenuCategory('breakfast', this)">Royal Breakfast</button>
-            <button class="hrp-menu-tab-btn" onclick="showMenuCategory('thali', this)">Authentic Gujarati Thali</button>
-            <button class="hrp-menu-tab-btn" onclick="showMenuCategory('north', this)">North Indian & Continental</button>
-            <button class="hrp-menu-tab-btn" onclick="showMenuCategory('dessert', this)">Beverages & Desserts</button>
-        </div>
-
-        {{-- Tab Content Panes --}}
-        <div class="row g-4" id="menuItemsGrid">
-            
-            {{-- Breakfast --}}
-            <div class="col-md-6 menu-cat-item menu-breakfast">
-                <div class="card p-3 d-flex flex-row gap-3 align-items-center">
-                    <div style="font-size: 28px; width: 50px; text-align: center; color: var(--hrp-gold);">🥞</div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0; color: var(--hrp-plum); font-size: 16px;">Surati Nylon Khaman & Farsan</h5>
-                            <span style="font-weight: 700; color: var(--hrp-burgundy);">Included in Stay</span>
-                        </div>
-                        <p style="margin: 0; font-size: 13px; color: var(--hrp-mauve);">Steamed gram flour delight garnished with mustard seeds and fresh coriander.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 menu-cat-item menu-breakfast">
-                <div class="card p-3 d-flex flex-row gap-3 align-items-center">
-                    <div style="font-size: 28px; width: 50px; text-align: center; color: var(--hrp-gold);">☕</div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0; color: var(--hrp-plum); font-size: 16px;">Kulhad Masala Chai & Poha</h5>
-                            <span style="font-weight: 700; color: var(--hrp-burgundy);">Fresh Daily</span>
-                        </div>
-                        <p style="margin: 0; font-size: 13px; color: var(--hrp-mauve);">Indori poha with ratlami sev and aromatic lemongrass ginger masala tea.</p>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Thali --}}
-            <div class="col-md-6 menu-cat-item menu-thali d-none">
-                <div class="card p-3 d-flex flex-row gap-3 align-items-center">
-                    <div style="font-size: 28px; width: 50px; text-align: center; color: var(--hrp-gold);">🍲</div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0; color: var(--hrp-plum); font-size: 16px;">Surati Undhiyu & Puri</h5>
-                            <span style="font-weight: 700; color: var(--hrp-burgundy);">Chef Special</span>
-                        </div>
-                        <p style="margin: 0; font-size: 13px; color: var(--hrp-mauve);">Seasonal vegetables simmered with authentic spices, muthia, and warm puris.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 menu-cat-item menu-thali d-none">
-                <div class="card p-3 d-flex flex-row gap-3 align-items-center">
-                    <div style="font-size: 28px; width: 50px; text-align: center; color: var(--hrp-gold);">🍚</div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0; color: var(--hrp-plum); font-size: 16px;">Kathiyawadi Rotla & White Butter</h5>
-                            <span style="font-weight: 700; color: var(--hrp-burgundy);">Jain Available</span>
-                        </div>
-                        <p style="margin: 0; font-size: 13px; color: var(--hrp-mauve);">Handmade bajra rotla served with homemade white butter and jaggery.</p>
-                    </div>
-                </div>
-            </div>
-
-            {{-- North Indian --}}
-            <div class="col-md-6 menu-cat-item menu-north d-none">
-                <div class="card p-3 d-flex flex-row gap-3 align-items-center">
-                    <div style="font-size: 28px; width: 50px; text-align: center; color: var(--hrp-gold);">🥘</div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0; color: var(--hrp-plum); font-size: 16px;">Paneer Rose Lababdar</h5>
-                            <span style="font-weight: 700; color: var(--hrp-burgundy);">Signature</span>
-                        </div>
-                        <p style="margin: 0; font-size: 13px; color: var(--hrp-mauve);">Fresh cottage cheese cubes in rich tomato cashew gravy with rose petal essence.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 menu-cat-item menu-north d-none">
-                <div class="card p-3 d-flex flex-row gap-3 align-items-center">
-                    <div style="font-size: 28px; width: 50px; text-align: center; color: var(--hrp-gold);">🍕</div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0; color: var(--hrp-plum); font-size: 16px;">Wood-Fired Margherita Pizza</h5>
-                            <span style="font-weight: 700; color: var(--hrp-burgundy);">Pure Veg</span>
-                        </div>
-                        <p style="margin: 0; font-size: 13px; color: var(--hrp-mauve);">San Marzano tomato coulis, fresh mozzarella, and sweet garden basil.</p>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Desserts --}}
-            <div class="col-md-6 menu-cat-item menu-dessert d-none">
-                <div class="card p-3 d-flex flex-row gap-3 align-items-center">
-                    <div style="font-size: 28px; width: 50px; text-align: center; color: var(--hrp-gold);">🍨</div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0; color: var(--hrp-plum); font-size: 16px;">Royal Rose Falooda</h5>
-                            <span style="font-weight: 700; color: var(--hrp-burgundy);">House Delight</span>
-                        </div>
-                        <p style="margin: 0; font-size: 13px; color: var(--hrp-mauve);">Damascus rose syrup, chilled vermicelli, chia seeds, and kulfi scoop.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 menu-cat-item menu-dessert d-none">
-                <div class="card p-3 d-flex flex-row gap-3 align-items-center">
-                    <div style="font-size: 28px; width: 50px; text-align: center; color: var(--hrp-gold);">🥛</div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0; color: var(--hrp-plum); font-size: 16px;">Kesar Pista Shrikhand</h5>
-                            <span style="font-weight: 700; color: var(--hrp-burgundy);">100% Traditional</span>
-                        </div>
-                        <p style="margin: 0; font-size: 13px; color: var(--hrp-mauve);">Strained hung curd laced with Kashmiri saffron threads and sliced pistachios.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '918799129929')) }}?text={{ urlencode('Hello! I would like to reserve a table for dining at Hotel Rose Palace.') }}" target="_blank" class="btn btn-primary">
-                <i class="fas fa-utensils"></i> Reserve a Table on WhatsApp
-            </a>
-        </div>
-
-    </div>
-</section>
-
-{{-- ═══════════════════════════════════════════════════════
-     7. SURAT CONNECTIVITY & TRANSIT MATRIX
+     6. SURAT CONNECTIVITY & TRANSIT MATRIX
 ═══════════════════════════════════════════════════════ --}}
 <section class="hrp-section-divider" style="background-color: var(--hrp-canvas);">
     <div class="container">
@@ -920,7 +771,7 @@
                     <i class="fas fa-chevron-down hrp-faq-icon"></i>
                 </div>
                 <div class="hrp-faq-answer">
-                    Yes, Hotel Rose Palace operates a strictly 100% Pure Vegetarian kitchen. Customized Jain preparations (made without onion, garlic, or root vegetables) are gladly prepared upon advance notice or dining order.
+                    Hotel Rose Palace caters to corporate and family guests with warm hospitality. For banquets, group bookings, and celebrations, customized Pure Vegetarian and Jain catering can be arranged upon advance notice.
                 </div>
             </div>
 
@@ -968,14 +819,6 @@ function triggerHeroBookingModal() {
     window.openBookingModal(null, dIn, dOut, guests);
 }
 
-// Menu category tab switcher
-function showMenuCategory(cat, btn) {
-    document.querySelectorAll('.hrp-menu-tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    document.querySelectorAll('.menu-cat-item').forEach(el => el.classList.add('d-none'));
-    document.querySelectorAll('.menu-' + cat).forEach(el => el.classList.remove('d-none'));
-}
 
 // Banquet quote calculator
 function calculateBanquetQuote() {

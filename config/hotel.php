@@ -21,7 +21,7 @@ return [
         'phone_1' => '+91 88667 71900',
         'phone_2' => '+91 87991 29929',
         'email' => env('HOTEL_EMAIL', 'Hotelrosepalacesurat@gmail.com'),
-        'whatsapp_number' => env('WHATSAPP_NUMBER', '+91 87991 29929'),
+        'whatsapp_number' => env('WHATSAPP_NUMBER', '+91 88667 71900'),
         'instagram' => 'https://www.instagram.com/hotelrosepalace9?vrfl=MTFqOXo6bjh0OGh0MQ==',
         'google_maps' => 'https://www.google.com/maps/search/Hotel+Rose+Palace+Atlanta+Business+Hub+VIP+Road+Vesu+Surat+Gujarat+395007',
     ],

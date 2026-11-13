@@ -56,7 +56,7 @@
                             name="category"
                             value="{{ old('category', $amenity->category) }}"
                             list="category-options"
-                            placeholder="e.g., connectivity, dining, wellness"
+                            placeholder="e.g., connectivity, services, comfort"
                             required
                         >
                         <datalist id="category-options">
@@ -64,9 +64,8 @@
                                 <option value="{{ $cat }}">
                             @endforeach
                             <option value="connectivity">
-                            <option value="dining">
-                            <option value="wellness">
                             <option value="services">
+                            <option value="comfort">
                             <option value="entertainment">
                             <option value="facilities">
                         </datalist>

@@ -245,7 +245,7 @@
 
                     $waVoucher = "Namaste {$enquiry->customer_name}, your booking at Hotel Rose Palace Surat is confirmed!\n\n📋 Reference: {$enquiry->reference_id}\n🛏️ Room: {$roomNum} (" . ($enquiry->roomType->name ?? 'Standard') . ")\n📅 Check-In: {$checkInText} (12:00 PM)\n📅 Check-Out: {$checkOutText} (11:00 AM)\n📍 Location Map: https://maps.app.goo.gl/HotelRosePalaceVesu\n\nDirect Reception: +91 98765 43210. We look forward to hosting you!";
                     
-                    $waCheckout = "Namaste {$enquiry->customer_name}, thank you for staying with us at Hotel Rose Palace Surat! We hope you enjoyed our hospitality and pure vegetarian dining.\n\nCould you take 30 seconds to share your review on Google? It means the world to our team:\n⭐ https://g.page/r/HotelRosePalaceSurat/review\n\nHave a safe journey!";
+                    $waCheckout = "Namaste {$enquiry->customer_name}, thank you for staying with us at Hotel Rose Palace Surat! We hope you enjoyed your comfortable stay.\n\nCould you take 30 seconds to share your review on Google? It means the world to our team:\n⭐ https://g.page/r/HotelRosePalaceSurat/review\n\nHave a safe journey!";
                 @endphp
 
                 <a href="https://wa.me/{{ $cleanPhone }}?text={{ urlencode($waVoucher) }}" target="_blank" class="btn-whatsapp-pms justify-content-center py-2">

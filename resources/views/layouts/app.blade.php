@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Hotel Rose Palace — Luxury Hotel in Surat, Gujarat')</title>
-    <meta name="description" content="@yield('meta_description', 'Experience premier luxury hospitality at Hotel Rose Palace, Surat. Featuring royal suites, pure veg dining, corporate banquet halls, and 24/7 personalized service on VIP Road, Vesu.')">
+    <meta name="description" content="@yield('meta_description', 'Experience premier luxury hospitality at Hotel Rose Palace, Surat. Featuring royal suites, corporate banquet halls, and 24/7 personalized service on VIP Road, Vesu.')">
     <meta name="keywords" content="@yield('meta_keywords', 'hotel rose palace surat, luxury hotel surat, best hotel in vesu surat, hotel near surat airport, diamond bourse hotel, rooms booking surat')">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url()->current() }}">
@@ -13,7 +13,7 @@
     <meta property="og:type" content="hotel">
     <meta property="og:site_name" content="Hotel Rose Palace">
     <meta property="og:title" content="@yield('title', 'Hotel Rose Palace — Where Elegance Meets Comfort')">
-    <meta property="og:description" content="@yield('meta_description', 'Premier luxury stay in Surat, Gujarat. World-class suites, 100% Pure Veg dining, and bespoke hospitality.')">
+    <meta property="og:description" content="@yield('meta_description', 'Premier luxury stay in Surat, Gujarat. World-class suites, banquet halls, and bespoke hospitality.')">
     <meta property="og:url" content="{{ url()->current() }}">
 
     {{-- Twitter Card --}}

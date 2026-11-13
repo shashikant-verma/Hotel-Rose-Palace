@@ -2,7 +2,7 @@
     {{-- Slim Top Offer Strip --}}
     <div class="hrp-top-strip">
         <div class="container hrp-top-strip-inner">
-            <span>✦ Book directly on our website & enjoy 10% off on dining + complimentary early check-in. Use code: <strong class="hrp-code-badge">ROSEDIRECT</strong> ✦</span>
+            <span>✦ Book directly on our website & enjoy 10% off your stay + complimentary early check-in. Use code: <strong class="hrp-code-badge">ROSEDIRECT</strong> ✦</span>
         </div>
     </div>
 

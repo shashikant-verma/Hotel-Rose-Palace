@@ -49,15 +49,14 @@
                         name="category" 
                         list="categories"
                         value="{{ old('category', request('category')) }}"
-                        placeholder="e.g., rooms, facilities, dining"
+                        placeholder="e.g., rooms, lobby, exterior"
                     >
                     <datalist id="categories">
                         @foreach($categories as $cat)
                             <option value="{{ $cat }}">
                         @endforeach
                         <option value="rooms">
-                        <option value="facilities">
-                        <option value="dining">
+                        <option value="lobby">
                         <option value="exterior">
                     </datalist>
                 </div>

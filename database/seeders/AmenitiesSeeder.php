@@ -32,14 +32,8 @@ class AmenitiesSeeder extends Seeder
                 'category' => 'Services',
             ],
             [
-                'name' => 'Restaurant',
-                'description' => 'On-site restaurant with diverse cuisines',
-                'icon_class' => 'fas fa-utensils',
-                'category' => 'Dining',
-            ],
-            [
                 'name' => 'Room Service',
-                'description' => 'In-room dining available 24/7',
+                'description' => '24/7 in-room tea, coffee, and assistance',
                 'icon_class' => 'fas fa-concierge-bell',
                 'category' => 'Services',
             ],

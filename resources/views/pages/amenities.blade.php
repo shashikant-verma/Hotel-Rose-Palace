@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'World-Class Amenities — Hotel Rose Palace | Premium Facilities Surat')
-@section('meta_description', 'Discover Hotel Rose Palace amenities: high-speed Wi-Fi, 100% pure veg dining, 24/7 front desk, airport shuttle, and free valet parking on VIP Road, Vesu, Surat.')
+@section('meta_description', 'Discover Hotel Rose Palace amenities: high-speed Wi-Fi, 24/7 front desk, airport shuttle, and free valet parking on VIP Road, Vesu, Surat.')
 
 @section('content')
 
@@ -47,8 +47,8 @@
             </div>
             <span class="d-none d-md-inline" style="color: var(--hrp-border);">|</span>
             <div class="d-flex align-items-center gap-2">
-                <i class="fas fa-seedling text-gold fs-5"></i>
-                <span style="font-size: 13.5px; font-weight: 700; color: var(--hrp-plum);">100% Pure Veg Dining</span>
+                <i class="fas fa-mug-hot text-gold fs-5"></i>
+                <span style="font-size: 13.5px; font-weight: 700; color: var(--hrp-plum);">24/7 Room Assistance</span>
             </div>
             <span class="d-none d-md-inline" style="color: var(--hrp-border);">|</span>
             <div class="d-flex align-items-center gap-2">
@@ -77,7 +77,7 @@
                 'icon' => 'fas fa-wifi',
                 'cat' => 'Business',
                 'title' => 'Ultra-Fast Dedicated Wi-Fi',
-                'desc' => 'Seamless 500 Mbps coverage across all rooms, executive suites, and dining areas. Perfect for video conferencing and streaming.',
+                'desc' => 'Seamless 500 Mbps coverage across all rooms, executive suites, and guest lounges. Perfect for video conferencing and streaming.',
                 'timing' => '24/7 Unlimited'
             ],
             [
@@ -95,11 +95,11 @@
                 'timing' => '24 Hours / 365 Days'
             ],
             [
-                'icon' => 'fas fa-utensils',
-                'cat' => 'Culinary',
-                'title' => '100% Pure Veg & Jain Restaurant',
-                'desc' => 'Artisanal vegetarian gastronomy with dedicated Jain preparations, royal Gujarati thalis, and multi-cuisine breakfast buffet.',
-                'timing' => 'Breakfast 7:30 AM • Dining till 11:00 PM'
+                'icon' => 'fas fa-mug-hot',
+                'cat' => 'Hospitality',
+                'title' => 'In-Room Tea & Coffee Refreshments',
+                'desc' => 'Electric kettle with assorted tea and coffee amenities in every room, plus warm assistance around the clock.',
+                'timing' => '24/7 Available in All Rooms'
             ],
             [
                 'icon' => 'fas fa-car',
@@ -113,6 +113,10 @@
                 'cat' => 'Safety',
                 'title' => 'Daily Housekeeping & Sanitization',
                 'desc' => 'Meticulous linen sanitization, room turnaround, touchpoint disinfection, and premium eco-friendly toiletries.',
+                'timing' => 'Daily 9:00 AM – 5:00 PM'
+            ]
+        ];
+        @endphp
                 'timing' => 'Daily Morning & Evening Turn-down'
             ],
             [

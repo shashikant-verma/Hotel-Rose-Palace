@@ -66,7 +66,7 @@ class HotelOperationsSeeder extends Seeder
         $presidentialType = RoomType::create([
             'name' => 'Presidential Sky Suite',
             'slug' => 'presidential-sky-suite',
-            'description' => 'The pinnacle of luxury in Vesu Surat with panoramic skyline vistas, royal dining area, and dedicated butler service.',
+            'description' => 'The pinnacle of luxury in Vesu Surat with panoramic skyline vistas, expansive living lounge, and personalized concierge care.',
             'base_price' => 5499.00,
             'max_occupancy' => 6,
             'max_adults' => 4,
@@ -628,7 +628,7 @@ class HotelOperationsSeeder extends Seeder
                 'payment_mode' => 'UPI / GPay',
                 'payment_status' => 'partial',
                 'status' => 'confirmed',
-                'special_notes' => 'Projector screen, podium mic, and separate executive lunch dining area required.',
+                'special_notes' => 'Projector screen, podium mic, and separate executive seating setup required.',
             ],
             [
                 'reference_id' => 'HRP-BNQ-2026-0002',
@@ -711,7 +711,7 @@ class HotelOperationsSeeder extends Seeder
             ],
             [
                 'title' => 'En-Suite Marble Luxury Bathroom',
-                'category' => 'spa',
+                'category' => 'rooms',
                 'image_path' => 'gallery/gallery-2.jpg',
                 'image_url' => '/images/gallery/gallery-2.jpg',
                 'alt_text' => 'Spacious marble bathroom vanity with backlit mirror and premium bath amenities',
@@ -737,11 +737,11 @@ class HotelOperationsSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'title' => 'Royal Dining & Breakfast Salon',
-                'category' => 'dining',
+                'title' => 'Deluxe Family Guest Bedroom',
+                'category' => 'rooms',
                 'image_path' => 'gallery/gallery-5.jpg',
                 'image_url' => '/images/gallery/gallery-5.jpg',
-                'alt_text' => 'Boutique restaurant and dining area with warm golden chandeliers',
+                'alt_text' => 'Spacious family guest room with ambient lighting and plush furnishings',
                 'display_order' => 7,
                 'is_active' => true,
             ],
