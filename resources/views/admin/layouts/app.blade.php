@@ -521,6 +521,99 @@
             font-size: 12px;
             color: var(--color-mauve-grey);
         }
+        /* ─── PMS ENHANCEMENTS & HOUSEKEEPING TOKENS ──────────────────────── */
+        .badge-housekeeping {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        .badge-housekeeping-clean {
+            background-color: rgba(39, 174, 96, 0.15);
+            color: #1e5631;
+            border-color: rgba(39, 174, 96, 0.35);
+        }
+        .badge-housekeeping-clean:hover {
+            background-color: #27ae60;
+            color: #ffffff;
+        }
+        .badge-housekeeping-dirty {
+            background-color: rgba(243, 156, 18, 0.18);
+            color: #8c5b08;
+            border-color: rgba(243, 156, 18, 0.45);
+        }
+        .badge-housekeeping-dirty:hover {
+            background-color: #f39c12;
+            color: #ffffff;
+        }
+        .badge-housekeeping-maintenance {
+            background-color: rgba(231, 76, 60, 0.15);
+            color: #8a2419;
+            border-color: rgba(231, 76, 60, 0.4);
+        }
+        .badge-housekeeping-maintenance:hover {
+            background-color: #e74c3c;
+            color: #ffffff;
+        }
+
+        .btn-whatsapp-pms {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #25D366 0%, #1ea952 100%);
+            color: #ffffff !important;
+            border: none;
+            border-radius: 50px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 2px 6px rgba(37, 211, 102, 0.25);
+            transition: all 0.2s ease;
+        }
+        .btn-whatsapp-pms:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.35);
+            color: #ffffff !important;
+        }
+
+        .btn-pms-checkin {
+            background-color: #27ae60;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-pms-checkin:hover {
+            background-color: #219653;
+            color: #ffffff;
+        }
+
+        .btn-pms-checkout {
+            background-color: #6E2C3A;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-pms-checkout:hover {
+            background-color: #58222E;
+            color: #ffffff;
+        }
     </style>
 
     @stack('styles')
@@ -539,20 +632,28 @@
         </div>
 
         <div class="sidebar-menu">
-            <span class="sidebar-menu-section-title">Main</span>
+            <span class="sidebar-menu-section-title">Front Desk & PMS</span>
             <a href="{{ route('admin.dashboard') }}" class="sidebar-menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-chart-line"></i> Dashboard
             </a>
+            <a href="{{ route('admin.calendar') }}" class="sidebar-menu-item {{ request()->routeIs('admin.calendar') ? 'active' : '' }}">
+                <i class="fas fa-calendar-alt"></i> Occupancy Calendar
+            </a>
 
-            <span class="sidebar-menu-section-title">Management</span>
+            <span class="sidebar-menu-section-title">Reservations</span>
             <a href="{{ route('admin.enquiries.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.enquiries.*') ? 'active' : '' }}">
-                <i class="fas fa-envelope"></i> Enquiries
+                <i class="fas fa-concierge-bell"></i> Room Bookings
+            </a>
+            <a href="{{ route('admin.banquets.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.banquets.*') ? 'active' : '' }}">
+                <i class="fas fa-champagne-glasses"></i> Banquet Bookings
+            </a>
+
+            <span class="sidebar-menu-section-title">Hotel Inventory</span>
+            <a href="{{ route('admin.rooms.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.rooms.*') ? 'active' : '' }}">
+                <i class="fas fa-bed"></i> Rooms & Housekeeping
             </a>
             <a href="{{ route('admin.room-types.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.room-types.*') ? 'active' : '' }}">
                 <i class="fas fa-layer-group"></i> Room Types
-            </a>
-            <a href="{{ route('admin.rooms.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.rooms.*') ? 'active' : '' }}">
-                <i class="fas fa-bed"></i> Rooms
             </a>
             <a href="{{ route('admin.gallery.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
                 <i class="fas fa-images"></i> Gallery

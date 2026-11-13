@@ -49,6 +49,7 @@ class RoomController extends Controller
             'current_price' => 'nullable|numeric|min:0',
             'is_available' => 'boolean',
             'status' => 'required|in:available,occupied,maintenance,reserved',
+            'housekeeping_status' => 'nullable|in:clean,dirty,maintenance',
         ]);
 
         // If current_price not set, use room type base price
@@ -95,6 +96,7 @@ class RoomController extends Controller
             'current_price' => 'required|numeric|min:0',
             'is_available' => 'boolean',
             'status' => 'required|in:available,occupied,maintenance,reserved',
+            'housekeeping_status' => 'nullable|in:clean,dirty,maintenance',
         ]);
 
         $room->update($validated);
@@ -208,5 +210,27 @@ class RoomController extends Controller
         $status = $room->is_available ? 'available' : 'unavailable';
 
         return back()->with('success', "Room marked as {$status}!");
+    }
+
+    /**
+     * Update room housekeeping status (clean, dirty, maintenance)
+     */
+    public function updateHousekeeping(Request $request, Room $room)
+    {
+        $validated = $request->validate([
+            'housekeeping_status' => 'required|in:clean,dirty,maintenance',
+        ]);
+
+        $room->update($validated);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'housekeeping_status' => $room->housekeeping_status,
+                'message' => "Room {$room->room_number} housekeeping updated to {$room->housekeeping_status}."
+            ]);
+        }
+
+        return back()->with('success', "Room {$room->room_number} housekeeping set to " . ucfirst($validated['housekeeping_status']) . "!");
     }
 }

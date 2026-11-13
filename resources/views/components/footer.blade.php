@@ -100,7 +100,7 @@
                 </div>
 
                 {{-- WhatsApp CTA Button --}}
-                <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '919042424242')) }}" target="_blank" rel="noopener noreferrer" class="hrp-footer-wa-btn" style="display: inline-flex; gap: 8px;">
+                <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '918799129929')) }}?text={{ urlencode('Hello Hotel Rose Palace! I would like to inquire about reservations.') }}" target="_blank" rel="noopener noreferrer" class="hrp-footer-wa-btn" style="display: inline-flex; gap: 8px;">
                     <i class="fab fa-whatsapp"></i> Chat with us on WhatsApp
                 </a>
             </div>

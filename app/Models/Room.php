@@ -17,7 +17,16 @@ class Room extends Model
         'current_price',
         'is_available',
         'status',
+        'housekeeping_status',
     ];
+
+    /**
+     * Get the enquiries/bookings for this room
+     */
+    public function enquiries()
+    {
+        return $this->hasMany(Enquiry::class);
+    }
 
     protected function casts(): array
     {

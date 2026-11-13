@@ -7,28 +7,66 @@ use App\Models\Enquiry;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\GalleryImage;
+use App\Models\BanquetBooking;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     /**
-     * Display the admin dashboard with statistics
+     * Display the admin dashboard with PMS statistics
      */
     public function index()
     {
-        // Get key statistics
+        $today = today();
+
+        // PMS & Hotel KPI statistics
         $stats = [
             'total_enquiries' => Enquiry::count(),
             'new_enquiries' => Enquiry::where('status', 'new')->count(),
             'total_rooms' => Room::count(),
             'available_rooms' => Room::where('is_available', true)->count(),
+            'clean_available_rooms' => Room::where('is_available', true)->where('housekeeping_status', 'clean')->count(),
+            'dirty_rooms' => Room::where('housekeeping_status', 'dirty')->count(),
+            'maintenance_rooms' => Room::where('housekeeping_status', 'maintenance')->count(),
+            'today_checkins' => Enquiry::whereDate('check_in_date', $today)->whereIn('status', ['booking_confirmed', 'checked_in'])->count(),
+            'today_checkouts' => Enquiry::whereDate('check_out_date', $today)->whereIn('status', ['checked_in', 'checked_out'])->count(),
+            'active_inhouse_guests' => Enquiry::where('status', 'checked_in')->count(),
+            'monthly_revenue' => Enquiry::whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('paid_amount') + BanquetBooking::whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('advance_paid'),
             'total_room_types' => RoomType::count(),
             'gallery_images' => GalleryImage::count(),
+            'upcoming_banquets_count' => BanquetBooking::where('event_date', '>=', $today)->where('status', 'confirmed')->count(),
         ];
 
-        // Recent enquiries (last 5)
-        $recentEnquiries = Enquiry::with('roomType')
+        // Today's arrivals for front desk quick action
+        $todayArrivals = Enquiry::with(['roomType', 'room'])
+            ->whereDate('check_in_date', $today)
+            ->whereIn('status', ['booking_confirmed', 'contacted', 'availability_confirmed', 'checked_in'])
+            ->orderBy('check_in_date')
+            ->take(8)
+            ->get();
+
+        // Today's departures for front desk quick checkout
+        $todayDepartures = Enquiry::with(['roomType', 'room'])
+            ->whereDate('check_out_date', $today)
+            ->whereIn('status', ['checked_in', 'checked_out'])
+            ->orderBy('check_out_date')
+            ->take(8)
+            ->get();
+
+        // Recent enquiries (last 6)
+        $recentEnquiries = Enquiry::with(['roomType', 'room'])
             ->latest()
+            ->take(6)
+            ->get();
+
+        // Available rooms for walk-in modal dropdown
+        $allRooms = Room::with('roomType')->orderBy('room_number')->get();
+        $roomTypes = RoomType::where('is_active', true)->orderBy('name')->get();
+
+        // Upcoming banquets
+        $upcomingBanquets = BanquetBooking::where('event_date', '>=', $today)
+            ->where('status', 'confirmed')
+            ->orderBy('event_date', 'asc')
             ->take(5)
             ->get();
 
@@ -62,7 +100,12 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', compact(
             'stats',
+            'todayArrivals',
+            'todayDepartures',
             'recentEnquiries',
+            'allRooms',
+            'roomTypes',
+            'upcomingBanquets',
             'enquiriesByStatus',
             'enquiriesByRoomType',
             'enquiriesTrend'

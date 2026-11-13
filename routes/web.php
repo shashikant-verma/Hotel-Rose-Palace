@@ -67,16 +67,33 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile.show');
         Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
 
-        // Enquiries Management - Full System
+        // Enquiries Management - Full System & Reception PMS
         Route::prefix('enquiries')->name('enquiries.')->controller(\App\Http\Controllers\Admin\EnquiryController::class)->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::post('/walk-in', 'storeWalkIn')->name('walk-in');
             Route::get('/{enquiry}', 'show')->name('show');
+            Route::post('/{enquiry}/check-in', 'checkIn')->name('check-in');
+            Route::post('/{enquiry}/check-out', 'checkOut')->name('check-out');
+            Route::get('/{enquiry}/invoice', 'printInvoice')->name('invoice');
             Route::patch('/{enquiry}/status', 'updateStatus')->name('update-status');
             Route::patch('/{enquiry}/notes', 'updateNotes')->name('update-notes');
             Route::delete('/{enquiry}', 'destroy')->name('destroy');
             Route::post('/bulk-status', 'bulkUpdateStatus')->name('bulk-status');
             Route::post('/bulk-delete', 'bulkDelete')->name('bulk-delete');
             Route::get('/export/csv', 'export')->name('export');
+        });
+
+        // Visual Room Occupancy Calendar
+        Route::get('/calendar', [\App\Http\Controllers\Admin\CalendarController::class, 'index'])->name('calendar');
+
+        // Banquet & Event Bookings
+        Route::prefix('banquets')->name('banquets.')->controller(\App\Http\Controllers\Admin\BanquetController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{banquet}', 'show')->name('show');
+            Route::put('/{banquet}', 'update')->name('update');
+            Route::patch('/{banquet}/status', 'updateStatus')->name('update-status');
+            Route::delete('/{banquet}', 'destroy')->name('destroy');
         });
 
         // Room Types Management - Full CRUD
@@ -90,7 +107,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::patch('/{roomType}/toggle-status', 'toggleStatus')->name('toggle-status');
         });
 
-        // Rooms Management - Full CRUD with Image Upload
+        // Rooms Management - Full CRUD with Image Upload & Housekeeping
         Route::prefix('rooms')->name('rooms.')->controller(\App\Http\Controllers\Admin\RoomController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
@@ -98,6 +115,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/{room}/edit', 'edit')->name('edit');
             Route::put('/{room}', 'update')->name('update');
             Route::delete('/{room}', 'destroy')->name('destroy');
+            Route::patch('/{room}/housekeeping', 'updateHousekeeping')->name('update-housekeeping');
             Route::patch('/{room}/toggle-availability', 'toggleAvailability')->name('toggle-availability');
             Route::post('/{room}/upload-images', 'uploadImages')->name('upload-images');
             Route::delete('/images/{image}', 'deleteImage')->name('delete-image');
