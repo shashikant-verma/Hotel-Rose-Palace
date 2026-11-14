@@ -12,11 +12,15 @@ class RoomFactory extends Factory
 
     public function definition(): array
     {
+        $roomType = RoomType::factory();
+        
         return [
-            'room_type_id' => RoomType::factory(),
+            'room_type_id' => $roomType,
             'room_number' => $this->faker->unique()->numerify('R###'),
             'floor' => $this->faker->numberBetween(1, 10),
-            'status' => $this->faker->randomElement(['available', 'occupied', 'maintenance']),
+            'current_price' => $this->faker->numberBetween(3000, 10000),
+            'is_available' => true,
+            'status' => $this->faker->randomElement(['available', 'booked', 'maintenance']),
         ];
     }
 }

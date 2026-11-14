@@ -12,10 +12,14 @@ class RoomTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word() . ' Room',
+            'name' => $this->faker->unique()->word() . ' Room',
+            'slug' => $this->faker->unique()->slug(),
             'description' => $this->faker->paragraph(),
             'base_price' => $this->faker->numberBetween(2000, 10000),
-            'max_guests' => $this->faker->numberBetween(1, 6),
+            'max_occupancy' => $this->faker->numberBetween(1, 6),
+            'max_adults' => $this->faker->numberBetween(1, 4),
+            'max_children' => $this->faker->numberBetween(0, 2),
+            'is_active' => true,
         ];
     }
 }

@@ -8,10 +8,12 @@ use App\Models\Room;
 use App\Models\RoomImage;
 use App\Models\RoomType;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ModelRelationshipsTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * Test user can have multiple enquiries
      */
@@ -105,12 +107,12 @@ class ModelRelationshipsTest extends TestCase
     {
         $enquiry = Enquiry::factory()->create();
 
-        $this->assertNotNull($enquiry->guest_name);
-        $this->assertNotNull($enquiry->guest_email);
-        $this->assertNotNull($enquiry->guest_phone);
+        $this->assertNotNull($enquiry->customer_name);
+        $this->assertNotNull($enquiry->customer_email);
+        $this->assertNotNull($enquiry->customer_phone);
         $this->assertNotNull($enquiry->check_in_date);
         $this->assertNotNull($enquiry->check_out_date);
-        $this->assertNotNull($enquiry->reference_number);
+        $this->assertNotNull($enquiry->reference_id);
         $this->assertNotNull($enquiry->status);
     }
 }

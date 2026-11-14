@@ -46,6 +46,9 @@ class CustomerBookingManagementTest extends TestCase
      */
     protected function createBooking(array $overrides = []): Booking
     {
+        static $counter = 0;
+        $counter++;
+        
         return Booking::create(array_merge([
             'booking_reference' => 'BK' . now()->format('YmdHis') . rand(100, 999),
             'customer_name' => 'Ananya Iyer',
@@ -60,7 +63,7 @@ class CustomerBookingManagementTest extends TestCase
             'base_amount' => 10000.00,
             'tax_amount' => 1200.00,
             'total_amount' => 11200.00,
-            'razorpay_order_id' => 'order_test_' . rand(1000, 9999),
+            'razorpay_order_id' => 'order_test_' . time() . '_' . $counter,
             'booking_status' => 'confirmed',
             'payment_status' => 'pending',
         ], $overrides));
