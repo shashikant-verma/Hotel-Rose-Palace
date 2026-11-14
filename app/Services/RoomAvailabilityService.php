@@ -28,6 +28,9 @@ class RoomAvailabilityService
      */
     public function getAvailableRooms($roomTypeId, Carbon $checkInDate, Carbon $checkOutDate): array
     {
+        // Release expired unpaid room allocations first to ensure accurate inventory
+        $this->releaseExpiredHolds();
+
         // Validate dates
         if ($checkOutDate <= $checkInDate) {
             throw new \InvalidArgumentException('Check-out date must be after check-in date');
@@ -98,6 +101,9 @@ class RoomAvailabilityService
      */
     public function getAvailablePhysicalRooms($roomTypeId, Carbon $checkInDate, Carbon $checkOutDate): Collection
     {
+        // Release expired unpaid room allocations first to ensure accurate inventory
+        $this->releaseExpiredHolds();
+
         $roomType = RoomType::findOrFail($roomTypeId);
 
         // Get all rooms of this type
@@ -209,5 +215,28 @@ class RoomAvailabilityService
     {
         $nights = $checkInDate->diffInDays($checkOutDate); // checkIn diff to checkOut (positive)
         return $nights > 0 ? $nights : 1;
+    }
+
+    /**
+     * Release any expired temporary room allocations past the hold duration
+     */
+    protected function releaseExpiredHolds(): void
+    {
+        $holdMinutes = (int) config('razorpay.reservation_duration_minutes', 30);
+        $cutoff = now()->subMinutes($holdMinutes);
+
+        RoomAllocation::query()
+            ->where('allocation_status', 'temporary')
+            ->where(function ($q) use ($cutoff) {
+                $q->where('allocated_at', '<', $cutoff)
+                  ->orWhere(function ($sub) use ($cutoff) {
+                      $sub->whereNull('allocated_at')
+                          ->where('created_at', '<', $cutoff);
+                  });
+            })
+            ->update([
+                'allocation_status' => 'released',
+                'released_at' => now(),
+            ]);
     }
 }

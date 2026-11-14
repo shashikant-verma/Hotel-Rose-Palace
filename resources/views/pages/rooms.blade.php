@@ -49,9 +49,9 @@
                     <option value="low-to-high">Price: Low to High</option>
                     <option value="high-to-low">Price: High to Low</option>
                 </select>
-                <button type="button" onclick="window.openBookingModal()" class="btn btn-primary btn-sm d-none d-md-inline-flex" style="padding: 7px 16px;">
-                    <i class="fas fa-calculator"></i> Price Calculator
-                </button>
+                <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm d-none d-md-inline-flex" style="padding: 7px 16px; text-decoration: none;">
+                    <i class="fas fa-calculator"></i> Check Rates
+                </a>
             </div>
 
         </div>
@@ -204,9 +204,9 @@
 
                         {{-- Action Buttons --}}
                         <div class="d-flex gap-2 flex-wrap pt-3" style="border-top: 1px solid var(--hrp-border);">
-                            <button type="button" onclick="window.openBookingModal('{{ $room['slug'] }}')" class="btn btn-primary flex-grow-1">
+                            <a href="{{ route('booking.search.form') }}" class="btn btn-primary flex-grow-1" style="text-decoration: none;">
                                 <i class="fas fa-calendar-check"></i> Book Now
-                            </button>
+                            </a>
                             <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '918799129929')) }}?text={{ urlencode('Hello Hotel Rose Palace! I would like to inquire about booking the ' . $room['name']) }}" target="_blank" class="btn btn-whatsapp" aria-label="Ask on WhatsApp" title="Ask on WhatsApp">
                                 <i class="fab fa-whatsapp"></i>
                                 <span class="d-none d-sm-inline">WhatsApp</span>

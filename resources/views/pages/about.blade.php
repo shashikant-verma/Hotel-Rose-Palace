@@ -161,9 +161,9 @@
                             <strong style="color: var(--hrp-plum); font-size: 17px; display: block;">Management & Hospitality Team</strong>
                             <span style="font-size: 13px; color: var(--hrp-mauve);">Hotel Rose Palace • VIP Road, Vesu, Surat</span>
                         </div>
-                        <button type="button" onclick="window.openBookingModal()" class="btn btn-primary">
+                        <a href="{{ route('booking.search.form') }}" class="btn btn-primary" style="text-decoration: none;">
                             <i class="fas fa-calendar-check"></i> Book Your Stay Today
-                        </button>
+                        </a>
                     </div>
 
                 </div>

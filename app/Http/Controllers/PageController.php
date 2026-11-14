@@ -7,8 +7,11 @@ use App\Models\RoomType;
 use App\Models\Amenity;
 use App\Models\GalleryImage;
 use App\Models\ContactMessage;
+use App\Mail\GeneralInquiryReceived;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -127,23 +130,46 @@ class PageController extends Controller
     {
         $validated = $request->validate([
             'name'    => 'required|string|max:255',
-            'email'   => 'required|email|max:255',
+            'email'   => 'required|email:filter|max:255',
             'phone'   => 'nullable|string|max:20',
-            'subject' => 'required|string|max:255',
+            'subject' => ['required', 'string', 'max:255', 'in:Room Reservation,Banquet & Event Inquiry,General Question'],
             'message' => 'required|string|max:2000',
+        ], [
+            'name.required'    => 'Please provide your full name.',
+            'email.required'   => 'Please provide your email address.',
+            'email.email'      => 'Please provide a valid email address.',
+            'subject.required' => 'Please select the purpose of your inquiry.',
+            'subject.in'       => 'Please select a valid inquiry subject from the list.',
+            'message.required' => 'Please enter your message or special requirements.',
         ]);
 
-        // Try to save to database if model exists
         try {
-            if (class_exists(ContactMessage::class)) {
-                ContactMessage::create($validated);
+            $validated['status'] = 'new';
+            $inquiry = ContactMessage::create($validated);
+        } catch (\Throwable $e) {
+            Log::error('Failed to save contact inquiry to database: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'We encountered an issue saving your inquiry. Please try again or reach out to us directly via WhatsApp.');
+        }
+
+        // Send email notification to hotel manager
+        try {
+            $managerEmail = config('hotel.contact.manager_email', env('MANAGER_EMAIL', env('HOTEL_EMAIL', 'Hotelrosepalacesurat@gmail.com')));
+            if (!empty($managerEmail)) {
+                Mail::to($managerEmail)->send(new GeneralInquiryReceived($inquiry));
             }
-        } catch (\Exception $e) {
-            // Silently fail — will still redirect to WhatsApp
+        } catch (\Throwable $mailException) {
+            // Log failure gracefully without exposing sensitive credentials
+            Log::warning('Failed to dispatch general inquiry notification email: ' . $mailException->getMessage(), [
+                'inquiry_id' => $inquiry->id,
+            ]);
+            // Do not fail the submission or delete the inquiry!
         }
 
         return redirect()->route('contact')
-            ->with('success', 'Thank you for your message! Our team will get back to you within 24 hours.');
+            ->with('success', 'Thank you for your inquiry! Our concierge team has received your message and will respond within 2 hours.');
     }
 
     /**

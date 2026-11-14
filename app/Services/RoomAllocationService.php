@@ -282,6 +282,32 @@ class RoomAllocationService
     }
 
     /**
+     * Release expired temporary allocations that exceeded the hold duration
+     *
+     * @param int|null $holdMinutes
+     * @return int count of released allocations
+     */
+    public function releaseExpiredTemporaryAllocations(?int $holdMinutes = null): int
+    {
+        $minutes = $holdMinutes ?? (int) config('razorpay.reservation_duration_minutes', 30);
+        $cutoff = now()->subMinutes($minutes);
+
+        return RoomAllocation::query()
+            ->where('allocation_status', 'temporary')
+            ->where(function ($q) use ($cutoff) {
+                $q->where('allocated_at', '<', $cutoff)
+                  ->orWhere(function ($sub) use ($cutoff) {
+                      $sub->whereNull('allocated_at')
+                          ->where('created_at', '<', $cutoff);
+                  });
+            })
+            ->update([
+                'allocation_status' => 'released',
+                'released_at' => now(),
+            ]);
+    }
+
+    /**
      * Clean up expired temporary allocations (orphaned allocations with released status)
      * 
      * This is useful for maintenance - cleans up allocations from expired temporary reservations

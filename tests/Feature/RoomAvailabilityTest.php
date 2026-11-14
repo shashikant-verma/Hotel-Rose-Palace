@@ -465,7 +465,7 @@ class RoomAvailabilityTest extends TestCase
             'check_in_date' => $checkIn,
             'check_out_date' => $checkOut,
             'total_amount' => 5000,
-            'expires_at' => now()->addMinutes(15),
+            'expires_at' => now()->addMinutes(30),
             'status' => 'active',
         ]);
 

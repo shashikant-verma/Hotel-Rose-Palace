@@ -55,11 +55,26 @@ class RoomAllocation extends Model
     }
 
     /**
-     * Scope: Only active/confirmed allocations
+     * Scope: Only active/confirmed allocations (excluding released and expired temporary)
      */
     public function scopeActive($query)
     {
-        return $query->where('allocation_status', '!=', 'released');
+        $holdMinutes = (int) config('razorpay.reservation_duration_minutes', 30);
+        $cutoff = now()->subMinutes($holdMinutes);
+
+        return $query->where(function ($q) use ($cutoff) {
+            $q->where('allocation_status', 'confirmed')
+              ->orWhere(function ($sub) use ($cutoff) {
+                  $sub->where('allocation_status', 'temporary')
+                      ->where(function ($dateQ) use ($cutoff) {
+                          $dateQ->where('allocated_at', '>=', $cutoff)
+                                ->orWhere(function ($dateQ2) use ($cutoff) {
+                                    $dateQ2->whereNull('allocated_at')
+                                           ->where('created_at', '>=', $cutoff);
+                                });
+                      });
+              });
+        });
     }
 
     /**

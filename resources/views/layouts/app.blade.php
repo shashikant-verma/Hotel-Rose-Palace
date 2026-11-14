@@ -67,10 +67,10 @@
             <i class="fas fa-location-arrow"></i>
             <span>Directions</span>
         </a>
-        <button type="button" class="hrp-mdock-book" onclick="if(window.openBookingModal) window.openBookingModal();">
+        <a href="{{ route('booking.search.form') }}" class="hrp-mdock-book" style="text-decoration: none;">
             <i class="fas fa-calendar-check"></i>
             <span>Book Now</span>
-        </button>
+        </a>
     </div>
 
     {{-- Floating WhatsApp Button (Desktop & Tablet) --}}

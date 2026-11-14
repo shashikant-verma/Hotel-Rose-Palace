@@ -60,10 +60,10 @@
                         </a>
                     </li>
                     <li class="nav-item ms-lg-2">
-                        <button type="button" onclick="if(window.openBookingModal) window.openBookingModal();" class="btn btn-primary" style="padding: 10px 20px; border-radius: 50px; font-size: 13.5px; line-height: 1; white-space: nowrap;">
+                        <a href="{{ route('booking.search.form') }}" class="btn btn-primary" style="padding: 10px 20px; border-radius: 50px; font-size: 13.5px; line-height: 1; white-space: nowrap; text-decoration: none;">
                             <i class="fas fa-calendar-check"></i>
                             <span>Book Stay</span>
-                        </button>
+                        </a>
                     </li>
                 </ul>
             </div>

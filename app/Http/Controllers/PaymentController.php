@@ -46,7 +46,7 @@ class PaymentController extends Controller
             // 4. Initiate or reuse Razorpay Order
             $checkoutData = $this->paymentService->initiateOrder($booking);
 
-            $reservationDurationMinutes = (int) config('razorpay.reservation_duration_minutes', 15);
+            $reservationDurationMinutes = (int) config('razorpay.reservation_duration_minutes', 30);
 
             return view('booking.payment', [
                 'booking' => $booking->load('roomType', 'allocations'),

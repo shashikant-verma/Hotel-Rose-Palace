@@ -31,7 +31,7 @@
                         </span>
                     </div>
                     <h4 class="modal-title m-0" id="hrpBookingModalLabel" style="font-family: 'Playfair Display', serif; color: #2E1F22; font-weight: 700;">
-                        Direct Luxury Reservation
+                        Room Reservation Enquiry
                     </h4>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: sepia(1) saturate(2);"></button>
@@ -175,7 +175,7 @@
                             Close
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-check-circle"></i> Confirm Direct Reservation
+                            <i class="fas fa-paper-plane"></i> Submit Booking Enquiry
                         </button>
                     </div>
 

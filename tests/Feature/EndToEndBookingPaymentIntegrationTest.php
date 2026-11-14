@@ -35,7 +35,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
         Config::set('razorpay.key_secret', $this->keySecret);
         Config::set('razorpay.webhook_secret', $this->webhookSecret);
         Config::set('razorpay.currency', 'INR');
-        Config::set('razorpay.reservation_duration_minutes', 15);
+        Config::set('razorpay.reservation_duration_minutes', 30);
 
         // Setup Room Types and 2 Physical Rooms
         $this->roomType = RoomType::create([

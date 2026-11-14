@@ -51,7 +51,7 @@ class PaymentProcessingService
 
         // 3. Prevent duplicate active orders for the same booking
         // Check for an existing 'created' payment for this booking created within reservation duration
-        $reservationMinutes = (int) config('razorpay.reservation_duration_minutes', 15);
+        $reservationMinutes = (int) config('razorpay.reservation_duration_minutes', 30);
         $activePayment = Payment::where('booking_id', $booking->id)
             ->where('status', 'created')
             ->where('created_at', '>=', now()->subMinutes($reservationMinutes))
@@ -91,6 +91,13 @@ class PaymentProcessingService
             $booking->update([
                 'razorpay_order_id' => $orderId,
             ]);
+
+            // Start the room hold timer at the approved payment-link/order generation point
+            RoomAllocation::where('booking_id', $booking->id)
+                ->where('allocation_status', 'temporary')
+                ->update([
+                    'allocated_at' => now(),
+                ]);
 
             PaymentLog::record(
                 $booking->id,
@@ -229,7 +236,23 @@ class PaymentProcessingService
 
             // Check if room allocations already exist for this booking
             $existingAllocations = RoomAllocation::where('booking_id', $freshBooking->id)->get();
-            $hasActiveAllocations = $existingAllocations->where('allocation_status', '!=', 'released')->count() >= $freshBooking->room_quantity;
+
+            $holdMinutes = (int) config('razorpay.reservation_duration_minutes', 30);
+            $cutoff = now()->subMinutes($holdMinutes);
+
+            // Active allocations must be confirmed, or temporary allocations within the 30-minute hold window
+            $validAllocations = $existingAllocations->filter(function ($alloc) use ($cutoff) {
+                if ($alloc->allocation_status === 'confirmed') {
+                    return true;
+                }
+                if ($alloc->allocation_status === 'temporary') {
+                    $allocTime = $alloc->allocated_at ?? $alloc->created_at;
+                    return $allocTime && $allocTime >= $cutoff;
+                }
+                return false;
+            });
+
+            $hasActiveAllocations = $validAllocations->count() >= $freshBooking->room_quantity;
 
             $canConfirm = false;
 
@@ -245,6 +268,14 @@ class PaymentProcessingService
                 }
                 $canConfirm = true;
             } else {
+                // Release stale/expired temporary allocations for this booking
+                RoomAllocation::where('booking_id', $freshBooking->id)
+                    ->where('allocation_status', 'temporary')
+                    ->update([
+                        'allocation_status' => 'released',
+                        'released_at' => now(),
+                    ]);
+
                 // Check if rooms are still available right now
                 $availability = $this->availabilityService->getAvailableRooms(
                     $freshBooking->room_type_id,
@@ -492,27 +523,129 @@ class PaymentProcessingService
                 ]);
             }
 
-            // Confirm allocations
+            // Check if hold is still valid
+            $holdMinutes = (int) config('razorpay.reservation_duration_minutes', 30);
+            $cutoff = now()->subMinutes($holdMinutes);
             $allocations = RoomAllocation::where('booking_id', $booking->id)->get();
-            foreach ($allocations as $alloc) {
-                if ($alloc->allocation_status !== 'confirmed') {
-                    $alloc->update(['allocation_status' => 'confirmed', 'allocated_at' => now()]);
+            $validAllocations = $allocations->filter(function ($alloc) use ($cutoff) {
+                if ($alloc->allocation_status === 'confirmed') {
+                    return true;
+                }
+                if ($alloc->allocation_status === 'temporary') {
+                    $allocTime = $alloc->allocated_at ?? $alloc->created_at;
+                    return $allocTime && $allocTime >= $cutoff;
+                }
+                return false;
+            });
+
+            if ($validAllocations->count() >= $booking->room_quantity) {
+                // Confirm allocations
+                foreach ($allocations as $alloc) {
+                    if ($alloc->allocation_status !== 'confirmed') {
+                        $alloc->update(['allocation_status' => 'confirmed', 'allocated_at' => now()]);
+                    }
+                }
+
+                $booking->update([
+                    'booking_status' => 'confirmed',
+                    'payment_status' => 'paid',
+                    'razorpay_payment_id' => $paymentId,
+                ]);
+
+                PaymentLog::record(
+                    $booking->id,
+                    $payment?->id,
+                    'webhook.payment.captured',
+                    'webhook',
+                    ['payment_id' => $paymentId, 'order_id' => $orderId]
+                );
+            } else {
+                // Hold expired: release stale allocations and check if fresh rooms are available
+                RoomAllocation::where('booking_id', $booking->id)
+                    ->where('allocation_status', 'temporary')
+                    ->update(['allocation_status' => 'released', 'released_at' => now()]);
+
+                $availability = $this->availabilityService->getAvailableRooms(
+                    $booking->room_type_id,
+                    $booking->check_in_date,
+                    $booking->check_out_date
+                );
+
+                if ($availability['available_quantity'] >= $booking->room_quantity) {
+                    $physicalRooms = $this->availabilityService->getAvailablePhysicalRooms(
+                        $booking->room_type_id,
+                        $booking->check_in_date,
+                        $booking->check_out_date
+                    )->take($booking->room_quantity);
+
+                    foreach ($physicalRooms as $room) {
+                        RoomAllocation::create([
+                            'booking_id' => $booking->id,
+                            'room_id' => $room->id,
+                            'check_in_date' => $booking->check_in_date,
+                            'check_out_date' => $booking->check_out_date,
+                            'allocation_status' => 'confirmed',
+                            'allocated_at' => now(),
+                        ]);
+                    }
+
+                    $booking->update([
+                        'booking_status' => 'confirmed',
+                        'payment_status' => 'paid',
+                        'razorpay_payment_id' => $paymentId,
+                    ]);
+
+                    PaymentLog::record(
+                        $booking->id,
+                        $payment?->id,
+                        'webhook.payment.captured_reallocated',
+                        'webhook',
+                        ['payment_id' => $paymentId, 'order_id' => $orderId]
+                    );
+                } else {
+                    // Overbooking prevention: room no longer available, trigger safe auto-refund
+                    $actualPaise = (int) ($paymentEntity['amount'] ?? round(((float) $booking->total_amount) * 100));
+                    $refundResult = null;
+                    try {
+                        $refundResult = $this->razorpayService->refundPayment(
+                            $paymentId,
+                            $actualPaise,
+                            'Reservation hold expired; room no longer available. Auto-refund initiated.'
+                        );
+                    } catch (Exception $re) {
+                        Log::critical('Webhook auto-refund API call failed: ' . $re->getMessage(), ['payment_id' => $paymentId]);
+                    }
+
+                    $isProcessed = ($refundResult && ($refundResult['status'] ?? '') === 'processed');
+                    $refundStatus = $refundResult['status'] ?? ($refundResult ? 'pending' : 'failed');
+
+                    if ($payment) {
+                        $payment->update([
+                            'status' => $isProcessed ? 'refunded' : 'refund_pending',
+                            'refund_id' => $refundResult['id'] ?? null,
+                            'refund_status' => $refundStatus,
+                            'refund_amount' => $booking->total_amount,
+                            'refund_reason' => 'Room hold expired prior to webhook payment. Overbooking prevented.',
+                            'refunded_at' => $isProcessed ? now() : null,
+                        ]);
+                    }
+
+                    $booking->update([
+                        'booking_status' => 'cancelled',
+                        'payment_status' => $isProcessed ? 'refunded' : 'pending',
+                        'razorpay_payment_id' => $paymentId,
+                        'special_requests' => trim(($booking->special_requests ?? '') . ' [System: Room hold expired prior to webhook payment; ' . ($isProcessed ? '100% refund processed' : 'refund pending gateway confirmation') . ']'),
+                    ]);
+
+                    PaymentLog::record(
+                        $booking->id,
+                        $payment?->id,
+                        'webhook.payment.expired_refunded',
+                        'webhook',
+                        ['payment_id' => $paymentId, 'order_id' => $orderId, 'refund_id' => $refundResult['id'] ?? null]
+                    );
                 }
             }
-
-            $booking->update([
-                'booking_status' => 'confirmed',
-                'payment_status' => 'paid',
-                'razorpay_payment_id' => $paymentId,
-            ]);
-
-            PaymentLog::record(
-                $booking->id,
-                $payment?->id,
-                'webhook.payment.captured',
-                'webhook',
-                ['payment_id' => $paymentId, 'order_id' => $orderId]
-            );
         }
     }
 

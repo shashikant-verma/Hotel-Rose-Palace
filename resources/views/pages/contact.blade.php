@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Contact Hotel Rose Palace — Reservations & Concierge | Surat, Gujarat')
-@section('meta_description', 'Contact Hotel Rose Palace in Vesu, Surat. Direct phone reservations, instant WhatsApp chat, airport shuttle booking, and directions to Atlanta Business Hub.')
+@section('meta_description', 'Contact Hotel Rose Palace in Vesu, Surat. Direct phone reservations, instant WhatsApp chat, and directions to Atlanta Business Hub.')
 
 @section('content')
 
@@ -15,7 +15,7 @@
         </span>
         <h1 style="color: var(--hrp-surface); font-size: 46px; margin-bottom: 16px;">Contact Our Concierge</h1>
         <p style="color: var(--hrp-tint); font-size: 18px; max-width: 680px; margin: 0 auto 24px; line-height: 1.6;">
-            Have an inquiry about room bookings, airport shuttles, banquet celebrations, or corporate corporate stays? We are here to assist around the clock.
+            Have an inquiry about room bookings, banquet celebrations, or corporate stays? We are here to assist around the clock.
         </p>
         <div class="d-inline-flex align-items-center gap-2" style="background: rgba(247,241,232,0.15); backdrop-filter: blur(10px); padding: 6px 16px; border-radius: 30px; border: 1px solid rgba(247,241,232,0.3); font-size: 13px; color: var(--hrp-surface);">
             <a href="{{ route('home') }}" style="color: var(--hrp-surface);">Home</a>
@@ -96,6 +96,23 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="alert mb-4" style="background: rgba(231,76,60,0.15); border: 1px solid #e74c3c; color: #c0392b; border-radius: 8px; padding: 16px 20px;">
+                <i class="fas fa-exclamation-triangle me-2"></i> {{ session('error') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert mb-4" style="background: rgba(231,76,60,0.12); border: 1px solid #e74c3c; color: #962d22; border-radius: 8px; padding: 16px 20px;">
+                <strong class="d-block mb-1"><i class="fas fa-exclamation-circle me-2"></i> Please correct the highlighted errors below:</strong>
+                <ul class="mb-0 ps-3">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="row g-5">
             
             {{-- Contact Information & Location Details --}}
@@ -155,54 +172,61 @@
                     <h3 style="color: var(--hrp-plum); font-size: 26px; margin-bottom: 6px;">Send Us an Inquiry</h3>
                     <p style="color: var(--hrp-mauve); font-size: 14px; margin-bottom: 24px;">Fill out the form below and our reservations desk will respond within 2 hours.</p>
 
-                    <form method="POST" action="{{ route('contact.submit') }}">
+                    <form method="POST" action="{{ route('contact.submit') }}" id="generalInquiryForm">
                         @csrf
 
                         <div class="row g-3">
                             
                             <div class="col-md-6">
                                 <label class="hrp-field-label">Your Full Name *</label>
-                                <input type="text" name="name" class="hrp-field-input" placeholder="e.g. Rajesh Shah" required value="{{ old('name') }}">
+                                <input type="text" name="name" class="hrp-field-input @error('name') is-invalid @enderror" placeholder="e.g. Rajesh Shah" required value="{{ old('name') }}">
+                                @error('name')
+                                    <div class="text-danger small mt-1"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label class="hrp-field-label">Email Address *</label>
-                                <input type="email" name="email" class="hrp-field-input" placeholder="e.g. rajesh@example.com" required value="{{ old('email') }}">
+                                <input type="email" name="email" class="hrp-field-input @error('email') is-invalid @enderror" placeholder="e.g. rajesh@example.com" required value="{{ old('email') }}">
+                                @error('email')
+                                    <div class="text-danger small mt-1"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label class="hrp-field-label">Phone / WhatsApp Number</label>
-                                <input type="tel" name="phone" class="hrp-field-input" placeholder="e.g. +91 98765 43210" value="{{ old('phone') }}">
+                                <input type="tel" name="phone" class="hrp-field-input @error('phone') is-invalid @enderror" placeholder="e.g. +91 98765 43210" value="{{ old('phone') }}">
+                                @error('phone')
+                                    <div class="text-danger small mt-1"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label class="hrp-field-label">Subject / Purpose *</label>
-                                <select name="subject" class="hrp-field-input" style="cursor: pointer;">
-                                    <option value="Room Reservation">Room & Suite Reservation</option>
-                                    <option value="Banquet & Event Inquiry">Banquet / Conference Venue Inquiry</option>
-                                    <option value="Airport Shuttle Request">Airport Taxi / Shuttle Request</option>
-                                    <option value="General Question">General Hotel Question</option>
+                                <select name="subject" class="hrp-field-input @error('subject') is-invalid @enderror" style="cursor: pointer;" required>
+                                    <option value="Room Reservation" {{ old('subject', 'Room Reservation') === 'Room Reservation' ? 'selected' : '' }}>Room & Suite Reservation</option>
+                                    <option value="Banquet & Event Inquiry" {{ old('subject') === 'Banquet & Event Inquiry' ? 'selected' : '' }}>Banquet / Conference Venue Inquiry</option>
+                                    <option value="General Question" {{ old('subject') === 'General Question' ? 'selected' : '' }}>General Hotel Question</option>
                                 </select>
+                                @error('subject')
+                                    <div class="text-danger small mt-1"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-12">
                                 <label class="hrp-field-label">Message / Special Requirements *</label>
-                                <textarea name="message" class="hrp-field-input" rows="4" placeholder="Please detail your travel dates, guest count, or specific requests..." required>{{ old('message') }}</textarea>
-                            </div>
-
-                            <div class="col-12">
-                                <label class="d-flex align-items-center gap-2" style="font-size: 13.5px; color: var(--hrp-plum); cursor: pointer;">
-                                    <input type="checkbox" id="shuttleToggle" name="airport_shuttle" value="1" style="accent-color: var(--hrp-burgundy);">
-                                    <span>I would like to request airport pickup/drop-off service (+₹600)</span>
-                                </label>
+                                <textarea name="message" class="hrp-field-input @error('message') is-invalid @enderror" rows="4" placeholder="Please detail your travel dates, guest count, or specific requests..." required>{{ old('message') }}</textarea>
+                                @error('message')
+                                    <div class="text-danger small mt-1"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2">
                                 <span style="font-size: 12px; color: var(--hrp-mauve);">
                                     <i class="fas fa-lock text-gold me-1"></i> Your details are strictly confidential.
                                 </span>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-paper-plane"></i> Send Inquiry Message
+                                <button type="submit" id="submitInquiryBtn" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane me-1"></i> <span>Send Inquiry Message</span>
                                 </button>
                             </div>
 
@@ -222,4 +246,32 @@
     </div>
 </section>
 
+@endsection
+
+@section('extra_css')
+<style>
+    .hrp-field-input.is-invalid {
+        border-color: #e74c3c !important;
+        background-color: #FFF9F9 !important;
+        box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.12) !important;
+    }
+</style>
+@endsection
+
+@section('extra_js')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('generalInquiryForm');
+        var btn = document.getElementById('submitInquiryBtn');
+        if (form && btn) {
+            form.addEventListener('submit', function() {
+                // If form is valid according to HTML5, show loading state
+                if (form.checkValidity()) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending Inquiry...';
+                }
+            });
+        }
+    });
+</script>
 @endsection

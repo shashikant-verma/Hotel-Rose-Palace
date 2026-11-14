@@ -111,9 +111,9 @@
             Book direct via our website to receive our guaranteed best rate, complimentary early check-in, and personalized concierge care.
         </p>
         <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <button type="button" onclick="window.openBookingModal()" class="btn btn-primary btn-lg">
+            <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-lg" style="text-decoration: none;">
                 <i class="fas fa-calendar-check"></i> Book Your Stay
-            </button>
+            </a>
             <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '918799129929')) }}?text={{ urlencode('Hello! I viewed your gallery and would like to inquire about booking.') }}" target="_blank" class="btn btn-whatsapp btn-lg">
                 <i class="fab fa-whatsapp"></i> Chat on WhatsApp
             </a>

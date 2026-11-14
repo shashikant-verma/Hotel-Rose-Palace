@@ -55,17 +55,44 @@ return new class extends Migration
         });
 
         Schema::table('payments', function (Blueprint $table) {
+            if (!Schema::hasColumn('payments', 'fee')) {
+                $table->decimal('fee', 10, 2)->nullable();
+            }
+            if (!Schema::hasColumn('payments', 'tax')) {
+                $table->decimal('tax', 10, 2)->nullable();
+            }
+            if (!Schema::hasColumn('payments', 'refund_id')) {
+                $table->string('refund_id', 100)->nullable();
+            }
+            if (!Schema::hasColumn('payments', 'refund_status')) {
+                $table->string('refund_status', 50)->nullable();
+            }
+            if (!Schema::hasColumn('payments', 'refund_amount')) {
+                $table->decimal('refund_amount', 12, 2)->nullable();
+            }
+            if (!Schema::hasColumn('payments', 'refund_reason')) {
+                $table->string('refund_reason', 255)->nullable();
+            }
+            if (!Schema::hasColumn('payments', 'refunded_at')) {
+                $table->timestamp('refunded_at')->nullable();
+            }
+            if (!Schema::hasColumn('payments', 'captured_at')) {
+                $table->timestamp('captured_at')->nullable();
+            }
+            if (!Schema::hasColumn('payments', 'payload')) {
+                $table->json('payload')->nullable();
+            }
             if (!Schema::hasColumn('payments', 'refund_attempts')) {
-                $table->integer('refund_attempts')->default(0)->after('refunded_at');
+                $table->integer('refund_attempts')->default(0);
             }
             if (!Schema::hasColumn('payments', 'refund_initiated_at')) {
-                $table->timestamp('refund_initiated_at')->nullable()->after('refund_attempts');
+                $table->timestamp('refund_initiated_at')->nullable();
             }
             if (!Schema::hasColumn('payments', 'refund_error')) {
-                $table->text('refund_error')->nullable()->after('refund_initiated_at');
+                $table->text('refund_error')->nullable();
             }
             if (!Schema::hasColumn('payments', 'idempotency_key')) {
-                $table->string('idempotency_key', 255)->nullable()->unique()->after('refund_error');
+                $table->string('idempotency_key', 255)->nullable()->unique();
             }
         });
     }

@@ -143,6 +143,11 @@ Route::get('/enquiry/success/{reference}', [EnquiryController::class, 'success']
 
 // Admin Authentication Routes (accessible without login)
 Route::prefix('admin')->name('admin.')->group(function () {
+    // Admin index redirect to dashboard (or login if unauthenticated)
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');
+    });
+
     // Login routes (guest only)
     Route::middleware('guest')->group(function () {
         Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -175,6 +180,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/bulk-status', 'bulkUpdateStatus')->name('bulk-status');
             Route::post('/bulk-delete', 'bulkDelete')->name('bulk-delete');
             Route::get('/export/csv', 'export')->name('export');
+        });
+
+        // General Customer Contact Inquiries
+        Route::prefix('contact-messages')->name('contact-messages.')->controller(\App\Http\Controllers\Admin\ContactMessageController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{id}', 'show')->name('show');
+            Route::patch('/{id}/status', 'updateStatus')->name('update-status');
+            Route::delete('/{id}', 'destroy')->name('destroy');
         });
 
         // Visual Room Occupancy Calendar

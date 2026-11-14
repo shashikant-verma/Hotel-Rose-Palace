@@ -25,7 +25,7 @@ return [
     | Client-configurable via environment or admin settings.
     |
     */
-    'reservation_duration_minutes' => (int) env('BOOKING_RESERVATION_DURATION_MINUTES', 15),
+    'reservation_duration_minutes' => (int) env('BOOKING_RESERVATION_DURATION_MINUTES', 30),
 
     /*
     |--------------------------------------------------------------------------

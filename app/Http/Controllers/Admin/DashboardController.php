@@ -8,6 +8,7 @@ use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\GalleryImage;
 use App\Models\BanquetBooking;
+use App\Models\ContactMessage;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -35,6 +36,8 @@ class DashboardController extends Controller
             'total_room_types' => RoomType::count(),
             'gallery_images' => GalleryImage::count(),
             'upcoming_banquets_count' => BanquetBooking::where('event_date', '>=', $today)->whereIn('status', ['confirmed', 'tentative'])->count(),
+            'total_contact_messages' => ContactMessage::count(),
+            'new_contact_messages' => ContactMessage::where('status', 'new')->orWhere(function($q) { $q->whereNull('status')->where('is_read', false); })->count(),
         ];
 
         // Today's arrivals for front desk quick action

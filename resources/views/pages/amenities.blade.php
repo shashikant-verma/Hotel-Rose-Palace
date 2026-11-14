@@ -114,9 +114,12 @@
                 'title' => 'Daily Housekeeping & Sanitization',
                 'desc' => 'Meticulous linen sanitization, room turnaround, touchpoint disinfection, and premium eco-friendly toiletries.',
                 'timing' => 'Daily 9:00 AM – 5:00 PM'
-            ]
-        ];
-        @endphp
+            ],
+            [
+                'icon' => 'fas fa-concierge-bell',
+                'cat' => 'Hospitality',
+                'title' => 'Daily Room Turndown Service',
+                'desc' => 'Evening pillow service, personalized greeting card placement, and premium evening refreshment delivery.',
                 'timing' => 'Daily Morning & Evening Turn-down'
             ],
             [
@@ -183,9 +186,9 @@
             From airport pickups and floral room surprises to customized Jain feasts, our guest relations team is ready to assist.
         </p>
         <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <button type="button" onclick="window.openBookingModal()" class="btn btn-primary btn-lg">
+            <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-lg" style="text-decoration: none;">
                 <i class="fas fa-calendar-check"></i> Book Your Stay
-            </button>
+            </a>
             <a href="https://wa.me/{{ preg_replace('/\D/', '', config('hotel.contact.whatsapp_number', '918799129929')) }}?text={{ urlencode('Hello! I have a special request for my stay at Hotel Rose Palace.') }}" target="_blank" class="btn btn-whatsapp btn-lg">
                 <i class="fab fa-whatsapp"></i> Chat with Concierge
             </a>

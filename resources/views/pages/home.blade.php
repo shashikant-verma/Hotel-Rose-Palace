@@ -30,9 +30,9 @@
                     <h1 class="hrp-hero-title">Where Elegance Meets <em>Timeless Comfort</em></h1>
                     <p class="hrp-hero-sub">Immerse yourself in world-class hospitality on VIP Road, Vesu — crafted for discerning business travelers and memorable celebrations.</p>
                     <div class="hrp-hero-ctas">
-                        <button type="button" onclick="window.openBookingModal()" class="btn btn-gold btn-lg">
+                        <a href="{{ route('booking.search.form') }}" class="btn btn-gold btn-lg">
                             <i class="fas fa-calendar-check"></i> Book Direct & Save 10%
-                        </button>
+                        </a>
                         <a href="#featured-rooms" class="btn btn-secondary btn-lg">
                             Explore Rooms & Suites
                         </a>
@@ -49,9 +49,9 @@
                     <h1 class="hrp-hero-title">Suites Designed for <em>Pure Indulgence</em></h1>
                     <p class="hrp-hero-sub">Plush king bedding, ambient designer lighting, high-speed Wi-Fi, and panoramic skyline views across Surat.</p>
                     <div class="hrp-hero-ctas">
-                        <button type="button" onclick="window.openBookingModal()" class="btn btn-gold btn-lg">
+                        <a href="{{ route('booking.search.form') }}" class="btn btn-gold btn-lg">
                             <i class="fas fa-bed"></i> Reserve a Suite
-                        </button>
+                        </a>
                         <a href="{{ route('rooms') }}" class="btn btn-secondary btn-lg">
                             Compare All Rooms
                         </a>
@@ -68,9 +68,9 @@
                     <h1 class="hrp-hero-title">Surat's Premier <em>Boutique Stay</em></h1>
                     <p class="hrp-hero-sub">Strategically situated at Atlanta Business Hub on VIP Road, minutes from Surat Airport and Diamond Bourse.</p>
                     <div class="hrp-hero-ctas">
-                        <button type="button" onclick="window.openBookingModal()" class="btn btn-gold btn-lg">
+                        <a href="{{ route('booking.search.form') }}" class="btn btn-gold btn-lg">
                             <i class="fas fa-calendar-check"></i> Book Your Stay
-                        </button>
+                        </a>
                         <a href="{{ route('rooms') }}" class="btn btn-secondary btn-lg">
                             View All 15 Rooms
                         </a>
@@ -145,9 +145,9 @@
             {{-- Action Button --}}
             <div class="hrp-field-group">
                 <label class="hrp-field-label d-none d-md-block" style="visibility: hidden;">Action</label>
-                <button type="button" onclick="triggerHeroBookingModal()" class="btn btn-primary w-100" style="padding: 11px 20px; font-weight: 700;">
+                <a href="{{ route('booking.search.form') }}" class="btn btn-primary w-100" style="padding: 11px 20px; font-weight: 700; text-decoration: none; display: inline-block; text-align: center;">
                     <i class="fas fa-search"></i> Check Rates
-                </button>
+                </a>
             </div>
 
         </div>
@@ -264,9 +264,9 @@
                                 <span style="font-size: 11px; text-transform: uppercase; color: var(--hrp-mauve); display: block;">From</span>
                                 <span style="font-size: 22px; font-weight: 700; color: var(--hrp-burgundy);">₹3,999</span><span style="font-size: 12px; color: var(--hrp-mauve);">/night</span>
                             </div>
-                            <button type="button" onclick="window.openBookingModal('deluxe-double-room')" class="btn btn-primary btn-sm">
+                            <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm" style="text-decoration: none;">
                                 Book Now
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -296,9 +296,9 @@
                                 <span style="font-size: 11px; text-transform: uppercase; color: var(--hrp-mauve); display: block;">From</span>
                                 <span style="font-size: 22px; font-weight: 700; color: var(--hrp-burgundy);">₹4,499</span><span style="font-size: 12px; color: var(--hrp-mauve);">/night</span>
                             </div>
-                            <button type="button" onclick="window.openBookingModal('superior-twin-room')" class="btn btn-primary btn-sm">
+                            <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm" style="text-decoration: none;">
                                 Book Now
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -328,9 +328,9 @@
                                 <span style="font-size: 11px; text-transform: uppercase; color: var(--hrp-mauve); display: block;">From</span>
                                 <span style="font-size: 22px; font-weight: 700; color: var(--hrp-burgundy);">₹6,499</span><span style="font-size: 12px; color: var(--hrp-mauve);">/night</span>
                             </div>
-                            <button type="button" onclick="window.openBookingModal('executive-suite')" class="btn btn-primary btn-sm">
+                            <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm" style="text-decoration: none;">
                                 Book Now
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -414,10 +414,10 @@
                             </tr>
                             <tr>
                                 <td><strong>Reserve</strong></td>
-                                <td><button type="button" onclick="window.openBookingModal('deluxe-double-room')" class="btn btn-secondary btn-sm w-100">Book</button></td>
-                                <td><button type="button" onclick="window.openBookingModal('superior-twin-room')" class="btn btn-secondary btn-sm w-100">Book</button></td>
-                                <td class="highlight-col"><button type="button" onclick="window.openBookingModal('executive-suite')" class="btn btn-primary btn-sm w-100">Book Suite</button></td>
-                                <td><button type="button" onclick="window.openBookingModal('royal-palace-suite')" class="btn btn-secondary btn-sm w-100">Book</button></td>
+                                <td><a href="{{ route('booking.search.form') }}" class="btn btn-secondary btn-sm w-100" style="text-decoration: none;">Book</a></td>
+                                <td><a href="{{ route('booking.search.form') }}" class="btn btn-secondary btn-sm w-100" style="text-decoration: none;">Book</a></td>
+                                <td class="highlight-col"><a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm w-100" style="text-decoration: none;">Book Suite</a></td>
+                                <td><a href="{{ route('booking.search.form') }}" class="btn btn-secondary btn-sm w-100" style="text-decoration: none;">Book</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -806,17 +806,11 @@
 <script>
 // Hero date synchronization
 function syncHeroDates() {
-    const dIn = document.getElementById('heroCheckIn')?.value;
-    const dOut = document.getElementById('heroCheckOut')?.value;
-    if (dIn && document.getElementById('modalCheckIn')) document.getElementById('modalCheckIn').value = dIn;
-    if (dOut && document.getElementById('modalCheckOut')) document.getElementById('modalCheckOut').value = dOut;
+    // Sync dates for booking search
 }
 
 function triggerHeroBookingModal() {
-    const dIn = document.getElementById('heroCheckIn')?.value;
-    const dOut = document.getElementById('heroCheckOut')?.value;
-    const guests = document.getElementById('heroGuestsSelect')?.value || '2';
-    window.openBookingModal(null, dIn, dOut, guests);
+    window.location.href = "{{ route('booking.search.form') }}";
 }
 
 

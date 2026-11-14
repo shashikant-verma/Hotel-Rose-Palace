@@ -35,7 +35,7 @@ class PaymentIntegrationTest extends TestCase
         Config::set('razorpay.key_secret', $this->testKeySecret);
         Config::set('razorpay.webhook_secret', $this->testWebhookSecret);
         Config::set('razorpay.currency', 'INR');
-        Config::set('razorpay.reservation_duration_minutes', 15);
+        Config::set('razorpay.reservation_duration_minutes', 30);
 
         // Seed room types & rooms
         $this->roomType = RoomType::create([

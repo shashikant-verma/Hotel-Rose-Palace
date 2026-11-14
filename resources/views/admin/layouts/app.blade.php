@@ -644,6 +644,17 @@
             <a href="{{ route('admin.enquiries.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.enquiries.*') ? 'active' : '' }}">
                 <i class="fas fa-concierge-bell"></i> Room Bookings
             </a>
+            <a href="{{ route('admin.contact-messages.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}">
+                <i class="fas fa-envelope-open-text"></i> General Inquiries
+                @php
+                    $unreadInquiriesCount = \App\Models\ContactMessage::where('status', 'new')->orWhere(function($q) {
+                        $q->whereNull('status')->where('is_read', false);
+                    })->count();
+                @endphp
+                @if($unreadInquiriesCount > 0)
+                    <span class="badge ms-auto text-white rounded-pill" style="background-color: var(--color-burgundy-rose); font-size: 11px; padding: 3px 8px;">{{ $unreadInquiriesCount }}</span>
+                @endif
+            </a>
             <a href="{{ route('admin.cancellations.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.cancellations.*') ? 'active' : '' }}">
                 <i class="fas fa-undo-alt"></i> Cancellations &amp; Refunds
             </a>

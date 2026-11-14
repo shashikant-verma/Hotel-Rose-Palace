@@ -14,7 +14,9 @@ class ContactMessage extends Model
         'name',
         'email',
         'phone',
+        'subject',
         'message',
+        'status',
         'is_read',
         'is_replied',
     ];
@@ -25,5 +27,52 @@ class ContactMessage extends Model
             'is_read' => 'boolean',
             'is_replied' => 'boolean',
         ];
+    }
+
+    /**
+     * Mark inquiry as read
+     */
+    public function markAsRead(): bool
+    {
+        return $this->update([
+            'status' => 'read',
+            'is_read' => true,
+        ]);
+    }
+
+    /**
+     * Mark inquiry as replied
+     */
+    public function markAsReplied(): bool
+    {
+        return $this->update([
+            'status' => 'replied',
+            'is_read' => true,
+            'is_replied' => true,
+        ]);
+    }
+
+    /**
+     * Mark inquiry as new / unread
+     */
+    public function markAsNew(): bool
+    {
+        return $this->update([
+            'status' => 'new',
+            'is_read' => false,
+            'is_replied' => false,
+        ]);
+    }
+
+    /**
+     * Scope query by status
+     */
+    public function scopeWithStatus($query, ?string $status)
+    {
+        if (empty($status) || $status === 'all') {
+            return $query;
+        }
+
+        return $query->where('status', $status);
     }
 }
