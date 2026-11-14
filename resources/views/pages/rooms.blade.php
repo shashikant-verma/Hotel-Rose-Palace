@@ -148,7 +148,7 @@
                 'occupancy' => '4 Guests',
                 'floor' => 'Floor 1 (Royal Wing)',
                 'desc' => 'The crown jewel of Hotel Rose Palace. Warm ambient glow, luxury headboard, flat-screen entertainment, and royal hospitality.',
-                'features' => ['Embroidered Royal Runners', 'Dedicated Butler Call', 'Seating Salon', 'VIP Airport Transfer', 'Welcome Refreshments', 'Black Marble Bath'],
+                'features' => ['Embroidered Royal Runners', 'Dedicated Butler Call', 'Seating Salon', 'Welcome Refreshments', 'Black Marble Bath'],
             ],
         ];
         @endphp

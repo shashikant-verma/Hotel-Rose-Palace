@@ -364,7 +364,6 @@
                 ['icon'=>'fas fa-spa','name'=>'Spa & Wellness','desc'=>'Rejuvenate with our signature treatments'],
                 ['icon'=>'fas fa-dumbbell','name'=>'Fitness Centre','desc'=>'State-of-the-art gym & yoga studio'],
                 ['icon'=>'fas fa-tshirt','name'=>'Laundry Service','desc'=>'Premium dry cleaning & laundry'],
-                ['icon'=>'fas fa-car','name'=>'Airport Transfer','desc'=>'Comfortable door-to-door transfers'],
                 ['icon'=>'fas fa-shield-alt','name'=>'24/7 Security','desc'=>'Full CCTV & security personnel coverage'],
             ];
             @endphp

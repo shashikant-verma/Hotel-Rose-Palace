@@ -781,7 +781,7 @@
                     <i class="fas fa-chevron-down hrp-faq-icon"></i>
                 </div>
                 <div class="hrp-faq-answer">
-                    Our hotel is located on VIP Road, Vesu — just 12 minutes (8.5 km) from Surat International Airport and 15 minutes (11 km) from the Surat Diamond Bourse in Khajod. We also provide direct airport pickup and drop-off taxi services upon request.
+                    Our hotel is located on VIP Road, Vesu — just 12 minutes (8.5 km) from Surat International Airport and 15 minutes (11 km) from the Surat Diamond Bourse in Khajod. We also provide complimentary early check-in and late check-out subject to room availability.
                 </div>
             </div>
 

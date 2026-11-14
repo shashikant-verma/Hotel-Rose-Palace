@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'World-Class Amenities — Hotel Rose Palace | Premium Facilities Surat')
-@section('meta_description', 'Discover Hotel Rose Palace amenities: high-speed Wi-Fi, 24/7 front desk, airport shuttle, and free valet parking on VIP Road, Vesu, Surat.')
+@section('meta_description', 'Discover Hotel Rose Palace amenities: high-speed Wi-Fi, 24/7 front desk, free valet parking, and luxury facilities on VIP Road, Vesu, Surat.')
 
 @section('content')
 
@@ -50,11 +50,6 @@
                 <i class="fas fa-mug-hot text-gold fs-5"></i>
                 <span style="font-size: 13.5px; font-weight: 700; color: var(--hrp-plum);">24/7 Room Assistance</span>
             </div>
-            <span class="d-none d-md-inline" style="color: var(--hrp-border);">|</span>
-            <div class="d-flex align-items-center gap-2">
-                <i class="fas fa-plane-arrival text-gold fs-5"></i>
-                <span style="font-size: 13.5px; font-weight: 700; color: var(--hrp-plum);">Airport Shuttle Service</span>
-            </div>
         </div>
     </div>
 </div>
@@ -101,13 +96,7 @@
                 'desc' => 'Electric kettle with assorted tea and coffee amenities in every room, plus warm assistance around the clock.',
                 'timing' => '24/7 Available in All Rooms'
             ],
-            [
-                'icon' => 'fas fa-car',
-                'cat' => 'Transport',
-                'title' => 'Surat Airport & Bourse Transit',
-                'desc' => 'Private chauffered airport transfers to Surat International Airport (12 mins) and Surat Diamond Bourse in Khajod.',
-                'timing' => 'On Request (+₹600)'
-            ],
+
             [
                 'icon' => 'fas fa-shield-virus',
                 'cat' => 'Safety',
@@ -183,7 +172,7 @@
         <span style="color: var(--hrp-gold); font-family: var(--font-ui); font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">✦ Dedicated Concierge ✦</span>
         <h2 style="font-size: 38px; color: var(--hrp-plum); margin: 8px 0 16px;">Have Special Requirements?</h2>
         <p style="color: var(--hrp-mauve); max-width: 600px; margin: 0 auto 28px;">
-            From airport pickups and floral room surprises to customized Jain feasts, our guest relations team is ready to assist.
+            From floral room surprises to customized Jain feasts, our guest relations team is ready to assist with your special requests.
         </p>
         <div class="d-flex justify-content-center gap-3 flex-wrap">
             <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-lg" style="text-decoration: none;">
