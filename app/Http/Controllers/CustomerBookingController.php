@@ -15,16 +15,15 @@ class CustomerBookingController extends Controller
      */
     public function index(Request $request): View
     {
-        $verifiedMobile = session('verified_mobile');
-        if (!$verifiedMobile) {
-            abort(403, 'Unauthorized. Please verify your mobile number.');
+        $verifiedEmail = session('verified_email');
+        if (!$verifiedEmail) {
+            abort(403, 'Unauthorized. Please verify your email address.');
         }
 
         $tab = $request->query('tab', 'all');
         $today = Carbon::today();
 
-        // Base query strictly scoped to authenticated mobile
-        $baseQuery = Booking::where('customer_mobile', $verifiedMobile);
+        $baseQuery = Booking::where('customer_email', $verifiedEmail);
 
         // Precompute counts for tab badges
         $counts = [
@@ -109,7 +108,7 @@ class CustomerBookingController extends Controller
             'bookings' => $bookings,
             'currentTab' => $tab,
             'counts' => $counts,
-            'customerMobile' => $verifiedMobile,
+            'customerEmail' => $verifiedEmail,
         ]);
     }
 
@@ -118,8 +117,8 @@ class CustomerBookingController extends Controller
      */
     public function show(Booking $booking): View
     {
-        $verifiedMobile = session('verified_mobile');
-        if (!$verifiedMobile || $booking->customer_mobile !== $verifiedMobile) {
+        $verifiedEmail = session('verified_email');
+        if (!$verifiedEmail || $booking->customer_email !== $verifiedEmail) {
             abort(403, 'Unauthorized access to booking.');
         }
 
@@ -144,8 +143,8 @@ class CustomerBookingController extends Controller
      */
     public function confirmation(Booking $booking)
     {
-        $verifiedMobile = session('verified_mobile');
-        if (!$verifiedMobile || $booking->customer_mobile !== $verifiedMobile) {
+        $verifiedEmail = session('verified_email');
+        if (!$verifiedEmail || $booking->customer_email !== $verifiedEmail) {
             abort(403, 'Unauthorized access to booking.');
         }
 
@@ -174,8 +173,8 @@ class CustomerBookingController extends Controller
      */
     public function showCancelForm(Booking $booking, \App\Services\CancellationPolicyService $policyService)
     {
-        $verifiedMobile = session('verified_mobile');
-        if (!$verifiedMobile || $booking->customer_mobile !== $verifiedMobile) {
+        $verifiedEmail = session('verified_email');
+        if (!$verifiedEmail || $booking->customer_email !== $verifiedEmail) {
             abort(403, 'Unauthorized access to booking.');
         }
 
@@ -208,8 +207,8 @@ class CustomerBookingController extends Controller
         Booking $booking,
         \App\Services\CancellationService $cancellationService
     ) {
-        $verifiedMobile = session('verified_mobile');
-        if (!$verifiedMobile || $booking->customer_mobile !== $verifiedMobile) {
+        $verifiedEmail = session('verified_email');
+        if (!$verifiedEmail || $booking->customer_email !== $verifiedEmail) {
             abort(403, 'Unauthorized access to booking.');
         }
 
@@ -223,7 +222,7 @@ class CustomerBookingController extends Controller
         try {
             $result = $cancellationService->requestCancellation(
                 $booking,
-                $verifiedMobile,
+                $verifiedEmail,
                 $request->input('reason')
             );
 

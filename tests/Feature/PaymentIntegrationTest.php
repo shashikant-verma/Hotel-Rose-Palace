@@ -123,7 +123,7 @@ class PaymentIntegrationTest extends TestCase
         ]);
 
         $response = $this->withSession([
-            'verified_mobile' => $booking->customer_mobile,
+            'verified_email' => $booking->customer_email,
             'otp_verified' => true,
         ])->get(route('booking.payment', ['booking' => $booking->id]));
 
@@ -170,7 +170,7 @@ class PaymentIntegrationTest extends TestCase
         Http::fake(); // No HTTP calls should be made since order is reused
 
         $response = $this->withSession([
-            'verified_mobile' => $booking->customer_mobile,
+            'verified_email' => $booking->customer_email,
             'otp_verified' => true,
         ])->get(route('booking.payment', ['booking' => $booking->id]));
 
@@ -189,9 +189,9 @@ class PaymentIntegrationTest extends TestCase
     {
         $booking = $this->createBooking(['customer_mobile' => '9876543210']);
 
-        // Authenticated with a different mobile number
+        // Authenticated with a different email
         $response = $this->withSession([
-            'verified_mobile' => '9111111111',
+            'verified_email' => 'other@example.com',
             'otp_verified' => true,
         ])->get(route('booking.payment', ['booking' => $booking->id]));
 
@@ -216,7 +216,7 @@ class PaymentIntegrationTest extends TestCase
         $invalidSignature = 'tampered_fake_signature_hash';
 
         $response = $this->withSession([
-            'verified_mobile' => $booking->customer_mobile,
+            'verified_email' => $booking->customer_email,
             'otp_verified' => true,
         ])->post(route('booking.payment.verify', ['booking' => $booking->id]), [
             'razorpay_payment_id' => 'pay_test_001',
@@ -270,7 +270,7 @@ class PaymentIntegrationTest extends TestCase
         ]);
 
         $response = $this->withSession([
-            'verified_mobile' => $booking->customer_mobile,
+            'verified_email' => $booking->customer_email,
             'otp_verified' => true,
         ])->post(route('booking.payment.verify', ['booking' => $booking->id]), [
             'razorpay_payment_id' => $paymentId,
@@ -329,7 +329,7 @@ class PaymentIntegrationTest extends TestCase
 
         // Calling verify again on already paid booking
         $response = $this->withSession([
-            'verified_mobile' => $booking->customer_mobile,
+            'verified_email' => $booking->customer_email,
             'otp_verified' => true,
         ])->post(route('booking.payment.verify', ['booking' => $booking->id]), [
             'razorpay_payment_id' => 'pay_idem_222',
@@ -419,7 +419,7 @@ class PaymentIntegrationTest extends TestCase
         ]);
 
         $response = $this->withSession([
-            'verified_mobile' => $booking->customer_mobile,
+            'verified_email' => $booking->customer_email,
             'otp_verified' => true,
         ])->post(route('booking.payment.verify', ['booking' => $booking->id]), [
             'razorpay_payment_id' => $paymentId,

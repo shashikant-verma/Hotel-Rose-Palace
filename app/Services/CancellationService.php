@@ -31,16 +31,16 @@ class CancellationService
      * Enforces customer ownership, eligibility, and holds room allocation until manager approval.
      *
      * @param Booking $booking
-     * @param string $customerMobile
+     * @param string $customerEmail
      * @param string|null $reason
      * @return array
      * @throws Exception
      */
-    public function requestCancellation(Booking $booking, string $customerMobile, ?string $reason = null): array
+    public function requestCancellation(Booking $booking, string $customerEmail, ?string $reason = null): array
     {
         // 1. Enforce IDOR protection: Customer can only cancel their own booking
-        if ($booking->customer_mobile !== $customerMobile) {
-            throw new Exception('Unauthorized: Booking does not belong to the verified customer mobile number.');
+        if ($booking->customer_email !== $customerEmail) {
+            throw new Exception('Unauthorized: Booking does not belong to the verified customer email address.');
         }
 
         // 2. Validate eligibility

@@ -69,8 +69,8 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
     {
         $checkIn = Carbon::tomorrow()->startOfDay();
         $checkOut = Carbon::tomorrow()->addDays(2)->startOfDay(); // 2 nights
-        $customerMobile = '9876543210';
         $customerEmail = 'priya.sharma@example.com';
+        $customerMobile = '9876543210';
         $customerName = 'Priya Sharma';
 
         // Step 1: Customer searches for available rooms
@@ -90,7 +90,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
         // Step 2 & 3: Customer with verified OTP submits booking details
         $storeResponse = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $customerMobile,
+            'verified_email' => $customerEmail,
             'verified_at' => now()->timestamp,
         ])->post(route('booking.store'), [
             'check_in' => $checkIn->format('Y-m-d'),
@@ -98,7 +98,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
             'room_type_id' => $this->roomType->id,
             'quantity' => 1,
             'customer_name' => $customerName,
-            'customer_email' => $customerEmail,
+            'customer_mobile' => $customerMobile,
             'total_guests' => 2,
             'special_requests' => 'Quiet room on upper floor',
         ]);
@@ -132,7 +132,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
 
         $checkoutResponse = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $customerMobile,
+            'verified_email' => $customerEmail,
         ])->get(route('booking.payment', ['booking' => $booking->id]));
 
         $checkoutResponse->assertStatus(200);
@@ -163,7 +163,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
 
         $verifyResponse = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $customerMobile,
+            'verified_email' => $customerEmail,
         ])->post(route('booking.payment.verify', ['booking' => $booking->id]), [
             'razorpay_payment_id' => $mockPaymentId,
             'razorpay_order_id' => $mockOrderId,
@@ -201,6 +201,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
             'booking_reference' => 'BK_UNPAID_123',
             'customer_name' => 'Rahul Verma',
             'customer_mobile' => '9876543210',
+            'customer_email' => 'guest@example.com',
             'room_type_id' => $this->roomType->id,
             'room_quantity' => 1,
             'check_in_date' => Carbon::tomorrow(),
@@ -228,7 +229,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
         // Status view displays Awaiting Payment
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
         ])->get(route('booking.status', ['booking' => $booking->id]));
 
         $response->assertStatus(200);
@@ -245,6 +246,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
             'booking_reference' => 'BK_PAID_ALREADY',
             'customer_name' => 'Amit Shah',
             'customer_mobile' => '9876543210',
+            'customer_email' => 'guest@example.com',
             'room_type_id' => $this->roomType->id,
             'room_quantity' => 1,
             'check_in_date' => Carbon::tomorrow(),
@@ -261,7 +263,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
         // Attempting to access payment page for an already paid booking redirects to status
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
         ])->get(route('booking.payment', ['booking' => $booking->id]));
 
         $response->assertRedirect(route('booking.status', ['booking' => $booking->id]));
@@ -277,6 +279,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
             'booking_reference' => 'BK_FAIL_TEST',
             'customer_name' => 'Sunil Gupta',
             'customer_mobile' => '9876543210',
+            'customer_email' => 'guest@example.com',
             'room_type_id' => $this->roomType->id,
             'room_quantity' => 1,
             'check_in_date' => Carbon::tomorrow(),
@@ -291,7 +294,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
         ])->post(route('booking.payment.failed', ['booking' => $booking->id]), [
             'error_code' => 'PAYMENT_CANCELLED_BY_USER',
             'error_description' => 'Customer dismissed checkout',
@@ -320,6 +323,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
             'booking_reference' => 'BK_HOLD_EXPIRED',
             'customer_name' => 'Meera Patel',
             'customer_mobile' => '9876543210',
+            'customer_email' => 'guest@example.com',
             'room_type_id' => $this->roomType->id,
             'room_quantity' => 1,
             'check_in_date' => $checkIn,
@@ -381,7 +385,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
         ])->post(route('booking.payment.verify', ['booking' => $booking->id]), [
             'razorpay_payment_id' => $paymentId,
             'razorpay_order_id' => $orderId,
@@ -416,6 +420,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
             'booking_reference' => 'BK_REFUND_FAIL_SAFE',
             'customer_name' => 'Karan Malhotra',
             'customer_mobile' => '9876543210',
+            'customer_email' => 'guest@example.com',
             'room_type_id' => $this->roomType->id,
             'room_quantity' => 1,
             'check_in_date' => $checkIn,
@@ -476,7 +481,7 @@ class EndToEndBookingPaymentIntegrationTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
         ])->post(route('booking.payment.verify', ['booking' => $booking->id]), [
             'razorpay_payment_id' => $paymentId,
             'razorpay_order_id' => $orderId,

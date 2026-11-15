@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
+use App\Mail\OtpMail;
 use App\Models\OtpVerification;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class OtpService
 {
-    // Configuration (should be in .env)
     protected int $otpLength = 6;
     protected int $otpExpiryMinutes = 5;
     protected int $maxVerificationAttempts = 5;
@@ -16,25 +18,19 @@ class OtpService
     protected int $otpRequestWindowMinutes = 15;
 
     /**
-     * Generate and send OTP to mobile number
-     * 
-     * @param string $mobile Customer mobile number
-     * @param string $purpose 'booking' or 'manage_bookings'
-     * @return array ['success' => bool, 'message' => string, 'otp_id' => int|null]
+     * @return array{success: bool, message: string, otp_id: int|null}
      */
-    public function generateAndSendOtp(string $mobile, string $purpose = 'booking'): array
+    public function generateAndSendOtp(string $email, string $purpose = 'booking'): array
     {
-        // Validate mobile number
-        if (!$this->isValidMobileNumber($mobile)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return [
                 'success' => false,
-                'message' => 'Invalid mobile number format',
+                'message' => 'Invalid email address format.',
                 'otp_id' => null,
             ];
         }
 
-        // Rate limiting: Check OTP request count in time window
-        $cacheKey = "otp_requests:{$mobile}:{$purpose}";
+        $cacheKey = "otp_requests:{$email}:{$purpose}";
         $requestCount = Cache::get($cacheKey, 0);
 
         if ($requestCount >= $this->maxOtpsPerWindow) {
@@ -45,24 +41,20 @@ class OtpService
             ];
         }
 
-        // Generate OTP
         $otp = $this->generateOtp();
 
-        // Create OTP record
         $otpRecord = OtpVerification::create([
-            'mobile_number' => $mobile,
+            'email' => $email,
             'otp_hash' => Hash::make($otp),
             'purpose' => $purpose,
             'expires_at' => now()->addMinutes($this->otpExpiryMinutes),
         ]);
 
-        // Try to send SMS
-        $sendResult = $this->sendOtpSms($mobile, $otp);
+        $sendResult = $this->sendOtpEmail($email, $otp, $purpose);
 
         if (!$sendResult['success']) {
-            // Delete the OTP record if SMS failed
             $otpRecord->delete();
-            
+
             return [
                 'success' => false,
                 'message' => $sendResult['message'] ?? 'Failed to send OTP. Please try again.',
@@ -70,38 +62,30 @@ class OtpService
             ];
         }
 
-        // Update rate limit cache
         Cache::put($cacheKey, $requestCount + 1, now()->addMinutes($this->otpRequestWindowMinutes));
 
         return [
             'success' => true,
-            'message' => "OTP sent to {$mobile}. Valid for {$this->otpExpiryMinutes} minutes.",
+            'message' => "OTP sent to {$this->maskEmail($email)}. Valid for {$this->otpExpiryMinutes} minutes.",
             'otp_id' => $otpRecord->id,
         ];
     }
 
     /**
-     * Verify OTP
-     * 
-     * @param string $mobile Customer mobile number
-     * @param string $otp The OTP code entered by user
-     * @param string $purpose 'booking' or 'manage_bookings'
-     * @return array ['success' => bool, 'message' => string, 'otp_record' => OtpVerification|null]
+     * @return array{success: bool, message: string, otp_record: OtpVerification|null}
      */
-    public function verifyOtp(string $mobile, string $otp, string $purpose = 'booking'): array
+    public function verifyOtp(string $email, string $otp, string $purpose = 'booking'): array
     {
-        // Get latest OTP for this mobile and purpose
-        $otpRecord = OtpVerification::latestForMobile($mobile, $purpose)->first();
+        $otpRecord = OtpVerification::latestForEmail($email, $purpose)->first();
 
         if (!$otpRecord) {
             return [
                 'success' => false,
-                'message' => 'No OTP request found for this mobile number.',
+                'message' => 'No OTP request found for this email address.',
                 'otp_record' => null,
             ];
         }
 
-        // Check if expired
         if ($otpRecord->hasExpired()) {
             return [
                 'success' => false,
@@ -110,7 +94,6 @@ class OtpService
             ];
         }
 
-        // Check if already verified
         if ($otpRecord->verified) {
             return [
                 'success' => false,
@@ -119,23 +102,21 @@ class OtpService
             ];
         }
 
-        // Check attempt count
         if ($otpRecord->attemptsExceeded($this->maxVerificationAttempts)) {
             return [
                 'success' => false,
-                'message' => "Maximum verification attempts exceeded. Request a new OTP.",
+                'message' => 'Maximum verification attempts exceeded. Request a new OTP.',
                 'otp_record' => null,
             ];
         }
 
-        // Verify OTP hash
         if (!Hash::check($otp, $otpRecord->otp_hash)) {
             $otpRecord->incrementAttempt();
-            
+
             $remainingAttempts = $this->maxVerificationAttempts - $otpRecord->attempt_count;
-            $message = $remainingAttempts > 0 
+            $message = $remainingAttempts > 0
                 ? "Invalid OTP. {$remainingAttempts} attempts remaining."
-                : "Maximum attempts exceeded. Request a new OTP.";
+                : 'Maximum attempts exceeded. Request a new OTP.';
 
             return [
                 'success' => false,
@@ -144,11 +125,9 @@ class OtpService
             ];
         }
 
-        // OTP is valid - mark as verified
         $otpRecord->markVerified();
 
-        // Clear rate limit for successful verification
-        Cache::forget("otp_requests:{$mobile}:{$purpose}");
+        Cache::forget("otp_requests:{$email}:{$purpose}");
 
         return [
             'success' => true,
@@ -157,92 +136,55 @@ class OtpService
         ];
     }
 
-    /**
-     * Generate a 6-digit OTP
-     */
     private function generateOtp(): string
     {
         return str_pad(random_int(0, 999999), $this->otpLength, '0', STR_PAD_LEFT);
     }
 
     /**
-     * Validate mobile number format
+     * @return array{success: bool, message: string}
      */
-    private function isValidMobileNumber(string $mobile): bool
+    private function sendOtpEmail(string $email, string $otp, string $purpose): array
     {
-        // Remove spaces, dashes, parentheses
-        $cleaned = preg_replace('/[^0-9+]/', '', $mobile);
-
-        // Check length (10-15 digits for international format)
-        if (!preg_match('/^\+?[0-9]{10,15}$/', $cleaned)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Send OTP via SMS
-     * This is a stub - actual implementation depends on SMS provider
-     * 
-     * @param string $mobile
-     * @param string $otp
-     * @return array ['success' => bool, 'message' => string]
-     */
-    private function sendOtpSms(string $mobile, string $otp): array
-    {
-        // Check if SMS provider is configured
-        $smsProvider = config('services.sms.provider', null);
-
-        if (!$smsProvider) {
-            // If not configured, return success but log warning
-            \Log::warning('SMS provider not configured. OTP not actually sent.', [
-                'mobile' => $mobile,
-                'otp_placeholder' => $this->maskOtp($otp),
-            ]);
-
-            return [
-                'success' => true,
-                'message' => 'OTP prepared (SMS provider not configured for development)',
-            ];
-        }
-
         try {
-            // Dispatch job to send SMS asynchronously
-            // For now, we'll return success as implementation depends on chosen provider
-            // In production, this would call: SendOtpSmsJob::dispatch($mobile, $otp);
-            
+            Mail::to($email)->send(new OtpMail($otp, $purpose, $this->otpExpiryMinutes));
+
             return [
                 'success' => true,
-                'message' => "OTP sent to {$mobile}",
+                'message' => "OTP sent to {$email}",
             ];
         } catch (\Exception $e) {
-            \Log::error('Failed to send OTP SMS', [
-                'mobile' => $mobile,
+            Log::error('Failed to send OTP email', [
+                'email' => $email,
                 'error' => $e->getMessage(),
             ]);
 
             return [
                 'success' => false,
-                'message' => 'Failed to send OTP. Please try again.',
+                'message' => 'Failed to send verification email. Please try again.',
             ];
         }
     }
 
-    /**
-     * Mask OTP for logging (show only last 2 digits)
-     */
-    private function maskOtp(string $otp): string
+    private function maskEmail(string $email): string
     {
-        $length = strlen($otp);
-        return str_repeat('*', $length - 2) . substr($otp, -2);
+        $parts = explode('@', $email);
+        if (count($parts) !== 2) {
+            return '***';
+        }
+
+        $local = $parts[0];
+        $domain = $parts[1];
+
+        if (strlen($local) <= 2) {
+            $masked = $local[0] . '***';
+        } else {
+            $masked = $local[0] . str_repeat('*', strlen($local) - 2) . substr($local, -1);
+        }
+
+        return $masked . '@' . $domain;
     }
 
-    /**
-     * Clean up expired OTPs (database maintenance)
-     * 
-     * @return int Count of deleted records
-     */
     public function cleanupExpiredOtps(): int
     {
         return OtpVerification::where('expires_at', '<', now())
@@ -250,9 +192,6 @@ class OtpService
             ->delete();
     }
 
-    /**
-     * Get remaining valid time for an OTP in seconds
-     */
     public function getRemainingTime(OtpVerification $otp): int
     {
         $remaining = $otp->expires_at->diffInSeconds(now(), false);

@@ -10,6 +10,7 @@ class OtpVerification extends Model
     use HasFactory;
 
     protected $fillable = [
+        'email',
         'mobile_number',
         'otp_hash',
         'purpose',
@@ -84,33 +85,40 @@ class OtpVerification extends Model
             ->where('expires_at', '>', now());
     }
 
-    /**
-     * Scope: By mobile number
-     */
+    public function scopeByEmail($query, $email)
+    {
+        return $query->where('email', $email);
+    }
+
     public function scopeByMobile($query, $mobile)
     {
         return $query->where('mobile_number', $mobile);
     }
 
-    /**
-     * Scope: By purpose
-     */
     public function scopeByPurpose($query, $purpose)
     {
         return $query->where('purpose', $purpose);
     }
 
-    /**
-     * Scope: Most recent for mobile
-     */
-    public function scopeLatestForMobile($query, $mobile, $purpose = null)
+    public function scopeLatestForEmail($query, $email, $purpose = null)
     {
-        $query->byMobile($mobile);
-        
+        $query->byEmail($email);
+
         if ($purpose) {
             $query->byPurpose($purpose);
         }
-        
+
+        return $query->latest('created_at');
+    }
+
+    public function scopeLatestForMobile($query, $mobile, $purpose = null)
+    {
+        $query->byMobile($mobile);
+
+        if ($purpose) {
+            $query->byPurpose($purpose);
+        }
+
         return $query->latest('created_at');
     }
 }

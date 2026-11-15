@@ -149,7 +149,7 @@ class DirectBookingTest extends TestCase
         // Set OTP verification in session
         session([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
             'verified_at' => now()->timestamp,
         ]);
 
@@ -186,7 +186,7 @@ class DirectBookingTest extends TestCase
             'room_type_id' => 1,
             'quantity' => 1,
             'customer_name' => 'John Doe',
-            'customer_email' => 'john@example.com',
+            'customer_mobile' => '9876543210',
             'total_guests' => 1,
         ]);
 
@@ -205,7 +205,7 @@ class DirectBookingTest extends TestCase
         // Set OTP verification
         session([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
             'verified_at' => now()->timestamp,
         ]);
 
@@ -218,16 +218,16 @@ class DirectBookingTest extends TestCase
             'room_type_id' => 1,
             'quantity' => 1,
             'customer_name' => 'John Doe',
-            'customer_email' => 'john@example.com',
+            'customer_mobile' => '9876543210',
             'total_guests' => 1,
         ]);
 
         $response->assertStatus(302);
-        
+
         // Verify booking created with correct fields
         $this->assertDatabaseHas('bookings', [
             'customer_name' => 'John Doe',
-            'customer_email' => 'john@example.com',
+            'customer_email' => 'guest@example.com',
             'customer_mobile' => '9876543210',
             'booking_status' => 'confirmed',
             'payment_status' => 'pending',
@@ -245,7 +245,7 @@ class DirectBookingTest extends TestCase
     {
         session([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
             'verified_at' => now()->timestamp,
         ]);
 
@@ -259,7 +259,7 @@ class DirectBookingTest extends TestCase
             'room_type_id' => 1,
             'quantity' => 1,
             'customer_name' => '',  // Missing
-            'customer_email' => 'invalid-email',  // Invalid
+            'customer_mobile' => 'abc',  // Invalid
             'total_guests' => 0,  // Invalid
         ]);
 
@@ -274,7 +274,7 @@ class DirectBookingTest extends TestCase
     {
         session([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
             'verified_at' => now()->timestamp,
         ]);
 
@@ -288,7 +288,7 @@ class DirectBookingTest extends TestCase
             'room_type_id' => $roomType->id,
             'quantity' => 1,
             'customer_name' => 'John Doe',
-            'customer_email' => 'john@example.com',
+            'customer_mobile' => '9876543210',
             'total_guests' => 5,  // Exceeds max 2
         ]);
 
@@ -303,7 +303,7 @@ class DirectBookingTest extends TestCase
     {
         session([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
             'verified_at' => now()->timestamp,
         ]);
 
@@ -317,12 +317,12 @@ class DirectBookingTest extends TestCase
             'room_type_id' => $roomType->id,
             'quantity' => 1,
             'customer_name' => 'John Doe',
-            'customer_email' => 'john@example.com',
+            'customer_mobile' => '9876543210',
             'total_guests' => 1,
         ]);
 
         $booking = Booking::latest()->first();
-        
+
         // 3 nights × 5000 = 15000
         $this->assertEquals(15000, $booking->base_amount);
         
@@ -340,15 +340,15 @@ class DirectBookingTest extends TestCase
     {
         session([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
             'verified_at' => now()->timestamp,
         ]);
 
-        // Create booking
+        // Create booking with customer_email matching session verified_email
         $booking = Booking::create([
             'booking_reference' => 'BK' . now()->format('YmdHis') . '1234',
             'customer_name' => 'John Doe',
-            'customer_email' => 'john@example.com',
+            'customer_email' => 'guest@example.com',
             'customer_mobile' => '9876543210',
             'check_in_date' => now()->addDay(),
             'check_out_date' => now()->addDays(3),
@@ -378,7 +378,7 @@ class DirectBookingTest extends TestCase
     {
         session([
             'otp_verified' => true,
-            'verified_mobile' => '1111111111',  // Different mobile
+            'verified_email' => 'other@example.com',  // Different email
             'verified_at' => now()->timestamp,
         ]);
 
@@ -413,7 +413,7 @@ class DirectBookingTest extends TestCase
     {
         session([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
             'verified_at' => now()->timestamp,
         ]);
 
@@ -449,7 +449,7 @@ class DirectBookingTest extends TestCase
             'room_type_id' => 1,
             'quantity' => 1,
             'customer_name' => 'John Doe',
-            'customer_email' => 'john@example.com',
+            'customer_mobile' => '9876543210',
             'total_guests' => 1,
         ]);
 
@@ -464,7 +464,7 @@ class DirectBookingTest extends TestCase
     {
         session([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
             'verified_at' => now()->timestamp,
         ]);
 
@@ -477,7 +477,7 @@ class DirectBookingTest extends TestCase
             'room_type_id' => 1,
             'quantity' => 3,  // Book 3 rooms
             'customer_name' => 'John Doe',
-            'customer_email' => 'john@example.com',
+            'customer_mobile' => '9876543210',
             'total_guests' => 6,  // 3 rooms × 2 guests
         ]);
 
@@ -495,14 +495,14 @@ class DirectBookingTest extends TestCase
     {
         session([
             'otp_verified' => true,
-            'verified_mobile' => '9876543210',
+            'verified_email' => 'guest@example.com',
             'verified_at' => now()->timestamp,
         ]);
 
         $booking = Booking::create([
             'booking_reference' => 'BK' . now()->format('YmdHis') . '9999',
             'customer_name' => 'John Doe',
-            'customer_email' => 'john@example.com',
+            'customer_email' => 'guest@example.com',
             'customer_mobile' => '9876543210',
             'check_in_date' => now()->addDay(),
             'check_out_date' => now()->addDays(3),

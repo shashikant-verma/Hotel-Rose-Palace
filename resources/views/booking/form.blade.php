@@ -96,32 +96,32 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="customer_email" class="form-label fw-semibold">Email Address *</label>
-                            <input 
-                                type="email" 
-                                class="form-control form-control-lg @error('customer_email') is-invalid @enderror"
-                                id="customer_email"
-                                name="customer_email"
-                                value="{{ old('customer_email') }}"
-                                placeholder="your@email.com"
-                                required
+                            <label for="customer_email_display" class="form-label fw-semibold">Email Address</label>
+                            <input
+                                type="email"
+                                class="form-control form-control-lg"
+                                id="customer_email_display"
+                                value="{{ $customerEmail ?? 'Not verified' }}"
+                                disabled
                             >
-                            @error('customer_email')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
-                            <small class="form-text text-muted">Confirmation will be sent here</small>
+                            <small class="form-text text-muted">Verified for this booking — confirmation will be sent here</small>
                         </div>
 
                         <div class="mb-4">
-                            <label for="mobile" class="form-label fw-semibold">Mobile Number</label>
-                            <input 
-                                type="tel" 
-                                class="form-control form-control-lg"
-                                id="mobile"
-                                value="{{ $customerMobile ? '****' . substr($customerMobile, -4) : 'Not verified' }}"
-                                disabled
+                            <label for="customer_mobile" class="form-label fw-semibold">Mobile Number *</label>
+                            <input
+                                type="tel"
+                                class="form-control form-control-lg @error('customer_mobile') is-invalid @enderror"
+                                id="customer_mobile"
+                                name="customer_mobile"
+                                value="{{ old('customer_mobile') }}"
+                                placeholder="+91 9876543210"
+                                required
                             >
-                            <small class="form-text text-muted">Verified for this booking</small>
+                            @error('customer_mobile')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">Contact number for hotel communication</small>
                         </div>
 
                         <div class="mb-4">

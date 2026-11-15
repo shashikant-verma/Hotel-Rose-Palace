@@ -19,6 +19,8 @@ class CustomerBookingManagementTest extends TestCase
     protected Room $room101;
     protected string $mobileA = '9876543210';
     protected string $mobileB = '9999999999';
+    protected string $emailA = 'ananya@example.com';
+    protected string $emailB = 'stranger@example.com';
 
     protected function setUp(): void
     {
@@ -76,7 +78,7 @@ class CustomerBookingManagementTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.index'));
 
@@ -84,7 +86,7 @@ class CustomerBookingManagementTest extends TestCase
         $response->assertViewIs('customer.bookings.index');
         $response->assertSee('BK_HIST_001');
         $response->assertSee('BK_HIST_002');
-        $response->assertSee($this->mobileA);
+        $response->assertSee($this->emailA);
     }
 
     /**
@@ -107,7 +109,7 @@ class CustomerBookingManagementTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.show', ['booking' => $booking->id]));
 
@@ -126,6 +128,7 @@ class CustomerBookingManagementTest extends TestCase
         // Booking belongs to Customer B
         $bookingOther = $this->createBooking([
             'customer_mobile' => $this->mobileB,
+            'customer_email' => $this->emailB,
             'customer_name' => 'Stranger Customer',
             'booking_reference' => 'BK_STRANGER_001',
         ]);
@@ -133,7 +136,7 @@ class CustomerBookingManagementTest extends TestCase
         // Customer A tries to access Customer B's booking
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.show', ['booking' => $bookingOther->id]));
 
@@ -159,7 +162,7 @@ class CustomerBookingManagementTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.index'));
 
@@ -181,7 +184,7 @@ class CustomerBookingManagementTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.confirmation', ['booking' => $unpaidBooking->id]));
 
@@ -192,7 +195,7 @@ class CustomerBookingManagementTest extends TestCase
         // On details page, unpaid status is displayed as Awaiting Payment with Pay button
         $detailsResponse = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.show', ['booking' => $unpaidBooking->id]));
 
@@ -228,7 +231,7 @@ class CustomerBookingManagementTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.confirmation', ['booking' => $paidBooking->id]));
 
@@ -263,7 +266,7 @@ class CustomerBookingManagementTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.index', ['tab' => 'failed']));
 
@@ -286,7 +289,7 @@ class CustomerBookingManagementTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.index', ['tab' => 'cancelled']));
 
@@ -311,7 +314,7 @@ class CustomerBookingManagementTest extends TestCase
         // Page 1: contains 10 items
         $page1Response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.index', ['page' => 1]));
 
@@ -321,7 +324,7 @@ class CustomerBookingManagementTest extends TestCase
         // Page 2: contains remaining 5 items
         $page2Response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.index', ['page' => 2]));
 
@@ -334,10 +337,10 @@ class CustomerBookingManagementTest extends TestCase
      */
     public function test_empty_booking_history_displays_correctly()
     {
-        // Authenticated with a mobile number that has zero bookings
+        // Authenticated with an email that has zero bookings
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => '9123456789',
+            'verified_email' => 'nobody@example.com',
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.index'));
 
@@ -377,7 +380,7 @@ class CustomerBookingManagementTest extends TestCase
 
         $response = $this->withSession([
             'otp_verified' => true,
-            'verified_mobile' => $this->mobileA,
+            'verified_email' => $this->emailA,
             'verified_at' => now()->timestamp,
         ])->get(route('customer.bookings.show', ['booking' => $booking->id]));
 

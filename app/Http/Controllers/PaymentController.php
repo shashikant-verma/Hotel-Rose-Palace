@@ -24,9 +24,8 @@ class PaymentController extends Controller
      */
     public function checkout(Booking $booking)
     {
-        // 1. Ownership / Session Check (Anti-IDOR)
-        $verifiedMobile = session('verified_mobile');
-        if (!$verifiedMobile || $booking->customer_mobile !== $verifiedMobile) {
+        $verifiedEmail = session('verified_email');
+        if (!$verifiedEmail || $booking->customer_email !== $verifiedEmail) {
             abort(403, 'Unauthorized access to booking.');
         }
 
@@ -69,9 +68,8 @@ class PaymentController extends Controller
      */
     public function verify(Request $request, Booking $booking)
     {
-        // 1. Ownership / Session Check (Anti-IDOR)
-        $verifiedMobile = session('verified_mobile');
-        if (!$verifiedMobile || $booking->customer_mobile !== $verifiedMobile) {
+        $verifiedEmail = session('verified_email');
+        if (!$verifiedEmail || $booking->customer_email !== $verifiedEmail) {
             abort(403, 'Unauthorized access to booking.');
         }
 
@@ -112,8 +110,8 @@ class PaymentController extends Controller
      */
     public function failed(Request $request, Booking $booking)
     {
-        $verifiedMobile = session('verified_mobile');
-        if (!$verifiedMobile || $booking->customer_mobile !== $verifiedMobile) {
+        $verifiedEmail = session('verified_email');
+        if (!$verifiedEmail || $booking->customer_email !== $verifiedEmail) {
             abort(403, 'Unauthorized access to booking.');
         }
 

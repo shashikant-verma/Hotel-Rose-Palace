@@ -11,7 +11,7 @@
                     <i class="fas fa-arrow-left me-1"></i> Back to Booking Details
                 </a>
                 <span class="text-muted small">
-                    Verified session: <strong class="text-dark">{{ session('verified_mobile') }}</strong>
+                    Verified session: <strong class="text-dark">{{ session('verified_email') }}</strong>
                 </span>
             </div>
 

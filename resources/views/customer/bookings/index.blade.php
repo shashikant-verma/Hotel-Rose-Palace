@@ -11,9 +11,9 @@
                 <i class="fas fa-suitcase me-2" style="color: #800020;"></i> My Bookings
             </h1>
             <p class="text-muted mb-0">
-                Manage your reservations for mobile: 
+                Manage your reservations for:
                 <span class="badge bg-light text-dark border px-2 py-1 fw-semibold">
-                    <i class="fas fa-mobile-alt text-success me-1"></i> {{ $customerMobile }}
+                    <i class="fas fa-envelope text-success me-1"></i> {{ $customerEmail }}
                 </span>
             </p>
         </div>

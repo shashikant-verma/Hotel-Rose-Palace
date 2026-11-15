@@ -151,8 +151,7 @@ class BookingController extends Controller
         $tax = round($subtotal * $taxRate, 2);
         $grandTotal = $subtotal + $tax;
 
-        // Get verified customer mobile from session
-        $customerMobile = session('verified_mobile');
+        $customerEmail = session('verified_email');
 
         return view('booking.form', [
             'roomType' => $roomType,
@@ -164,7 +163,7 @@ class BookingController extends Controller
             'subtotal' => $subtotal,
             'tax' => $tax,
             'grandTotal' => $grandTotal,
-            'customerMobile' => $customerMobile,
+            'customerEmail' => $customerEmail,
         ]);
     }
 
@@ -180,7 +179,7 @@ class BookingController extends Controller
                 'room_type_id' => 'required|exists:room_types,id',
                 'quantity' => 'required|integer|min:1|max:10',
                 'customer_name' => 'required|string|max:255',
-                'customer_email' => 'required|email|max:255',
+                'customer_mobile' => 'required|regex:/^\+?[0-9]{10,15}$/',
                 'total_guests' => 'required|integer|min:1',
                 'special_requests' => 'nullable|string|max:1000',
             ]);
@@ -190,9 +189,8 @@ class BookingController extends Controller
             $roomTypeId = $validated['room_type_id'];
             $quantity = $validated['quantity'];
 
-            // Get verified mobile from session
-            $customerMobile = session('verified_mobile');
-            if (!$customerMobile) {
+            $customerEmail = session('verified_email');
+            if (!$customerEmail) {
                 return back()->withErrors([
                     'auth' => 'Your OTP verification has expired. Please verify again.',
                 ])->withInput();
@@ -237,7 +235,7 @@ class BookingController extends Controller
                 $checkOut,
                 $roomTypeId,
                 $quantity,
-                $customerMobile,
+                $customerEmail,
                 $validated,
                 $totalAmount,
                 $baseAmount,
@@ -263,8 +261,8 @@ class BookingController extends Controller
                 $booking = Booking::create([
                     'booking_reference' => $bookingReference,
                     'customer_name' => $validated['customer_name'],
-                    'customer_mobile' => $customerMobile,
-                    'customer_email' => $validated['customer_email'],
+                    'customer_mobile' => $validated['customer_mobile'],
+                    'customer_email' => $customerEmail,
                     'room_type_id' => $roomTypeId,
                     'check_in_date' => $checkIn,
                     'check_out_date' => $checkOut,
@@ -291,11 +289,10 @@ class BookingController extends Controller
                     ]);
                 }
 
-                // Store booking session for payment flow
                 session([
                     'booking_id' => $booking->id,
                     'booking_amount' => $totalAmount,
-                    'booking_customer_mobile' => $customerMobile,
+                    'booking_customer_email' => $customerEmail,
                 ]);
 
                 return redirect()->route('booking.review', ['booking' => $booking->id])
@@ -304,7 +301,7 @@ class BookingController extends Controller
         } catch (\Exception $e) {
             Log::error('Booking creation failed', [
                 'error' => $e->getMessage(),
-                'mobile' => session('verified_mobile'),
+                'email' => session('verified_email'),
             ]);
 
             return back()->withErrors([
@@ -321,8 +318,7 @@ class BookingController extends Controller
         $booking = Booking::with('roomType')
             ->findOrFail($booking);
 
-        // Verify booking belongs to current session (security check)
-        if ($booking->customer_mobile !== session('verified_mobile')) {
+        if ($booking->customer_email !== session('verified_email')) {
             abort(403, 'Unauthorized access to booking.');
         }
 
@@ -345,8 +341,7 @@ class BookingController extends Controller
         $booking = Booking::with('roomType', 'allocations')
             ->findOrFail($booking);
 
-        // Verify booking belongs to current customer
-        if ($booking->customer_mobile !== session('verified_mobile')) {
+        if ($booking->customer_email !== session('verified_email')) {
             abort(403, 'Unauthorized access to booking.');
         }
 

@@ -27,7 +27,7 @@ class StoreBookingRequest extends FormRequest
             'room_type_id' => 'required|exists:room_types,id',
             'quantity' => 'required|integer|min:1|max:10',
             'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
+            'customer_mobile' => 'required|regex:/^\+?[0-9]{10,15}$/',
             'total_guests' => 'required|integer|min:1|max:100',
             'special_requests' => 'nullable|string|max:1000',
         ];
@@ -49,7 +49,8 @@ class StoreBookingRequest extends FormRequest
             'quantity.min' => 'At least 1 room must be selected.',
             'quantity.max' => 'Maximum 10 rooms can be booked.',
             'customer_name.required' => 'Guest name is required.',
-            'customer_email.required' => 'Email address is required.',
+            'customer_mobile.required' => 'Mobile number is required.',
+            'customer_mobile.regex' => 'Please enter a valid mobile number (10-15 digits).',
             'total_guests.required' => 'Total number of guests is required.',
             'total_guests.min' => 'At least 1 guest is required.',
         ];

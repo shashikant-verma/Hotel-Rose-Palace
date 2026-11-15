@@ -6,9 +6,9 @@
         <div class="col-md-6 col-lg-5">
             <div class="card shadow-sm">
                 <div class="card-body p-5">
-                    <h1 class="h3 mb-4 text-center">Verify Your Mobile</h1>
+                    <h1 class="h3 mb-4 text-center">Verify Your Email</h1>
                     <p class="text-muted text-center mb-4">
-                        We'll send you a verification code to confirm your mobile number
+                        We'll send you a verification code to confirm your email address
                     </p>
 
                     @if ($errors->any())
@@ -31,24 +31,22 @@
                         @csrf
 
                         <div class="mb-4">
-                            <label for="mobile" class="form-label fw-semibold">Mobile Number</label>
-                            <input 
-                                type="tel" 
-                                name="mobile" 
-                                id="mobile"
-                                class="form-control form-control-lg @error('mobile') is-invalid @enderror"
-                                placeholder="+91 9XXXXXXXXX"
-                                value="{{ old('mobile') }}"
+                            <label for="email" class="form-label fw-semibold">Email Address</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                placeholder="your.email@example.com"
+                                value="{{ old('email') }}"
                                 required
-                                pattern="^\+?[0-9]{10,15}$"
-                                title="Enter a valid mobile number (10-15 digits)"
-                                autocomplete="tel"
+                                autocomplete="email"
                             >
-                            @error('mobile')
+                            @error('email')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                             <small class="form-text text-muted d-block mt-2">
-                                Include country code (e.g., +91 for India)
+                                Enter the email address you'll use for booking
                             </small>
                         </div>
 
@@ -85,7 +83,7 @@
 
             <div class="mt-3 text-center">
                 <small class="text-muted">
-                    Already verified? 
+                    Already have a code?
                     <a href="{{ route('otp.verify.form') }}" class="text-decoration-none">Enter code</a>
                 </small>
             </div>
@@ -97,24 +95,24 @@
     body {
         background-color: #f8f9fa;
     }
-    
+
     .card {
         border: none;
         border-radius: 12px;
     }
-    
+
     .form-control-lg, .form-select-lg {
         border-radius: 8px;
         padding: 12px 16px;
         font-size: 16px;
         border: 1px solid #dee2e6;
     }
-    
+
     .form-control-lg:focus, .form-select-lg:focus {
         border-color: #0d6efd;
         box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
     }
-    
+
     .btn-lg {
         border-radius: 8px;
         padding: 12px 24px;
