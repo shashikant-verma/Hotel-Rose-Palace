@@ -146,8 +146,6 @@ class SecurityServiceTest extends TestCase
     public function test_log_security_event(): void
     {
         // This test verifies the method doesn't throw an exception
-        $this->doesntExpectException();
-
         SecurityService::logSecurityEvent('test_event', [
             'test' => 'data',
         ]);

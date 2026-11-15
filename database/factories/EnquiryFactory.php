@@ -17,17 +17,18 @@ class EnquiryFactory extends Factory
         $checkOutDate = (clone $checkInDate)->modify('+3 days');
 
         return [
+            'reference_id' => SecurityService::generateReference(),
             'room_type_id' => RoomType::factory(),
-            'guest_name' => $this->faker->name(),
-            'guest_email' => $this->faker->unique()->safeEmail(),
-            'guest_phone' => $this->faker->phoneNumber(),
+            'customer_name' => $this->faker->name(),
+            'customer_email' => $this->faker->unique()->safeEmail(),
+            'customer_phone' => $this->faker->phoneNumber(),
             'check_in_date' => $checkInDate->format('Y-m-d'),
             'check_out_date' => $checkOutDate->format('Y-m-d'),
-            'number_of_guests' => $this->faker->numberBetween(1, 4),
-            'message' => $this->faker->optional()->sentence(),
-            'reference_number' => SecurityService::generateReference(),
-            'status' => $this->faker->randomElement(['new', 'contacted', 'confirmed', 'booked', 'cancelled']),
-            'admin_notes' => $this->faker->optional()->paragraph(),
+            'num_adults' => $this->faker->numberBetween(1, 4),
+            'num_children' => $this->faker->numberBetween(0, 2),
+            'special_requests' => $this->faker->optional()->sentence(),
+            'status' => $this->faker->randomElement(['new', 'contacted', 'availability_confirmed', 'booking_confirmed', 'cancelled', 'closed']),
+            'internal_notes' => $this->faker->optional()->paragraph(),
         ];
     }
 }

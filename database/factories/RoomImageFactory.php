@@ -15,7 +15,9 @@ class RoomImageFactory extends Factory
         return [
             'room_id' => Room::factory(),
             'image_path' => 'rooms/' . $this->faker->uuid() . '.jpg',
-            'is_primary' => false,
+            'image_url' => 'https://example.com/rooms/' . $this->faker->uuid() . '.jpg',
+            'display_order' => 0,
+            'is_featured' => false,
         ];
     }
 }
