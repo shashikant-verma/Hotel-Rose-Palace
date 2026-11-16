@@ -113,9 +113,51 @@ class AdminAuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user)->post(route('admin.logout'));
+        $response = $this->actingAs($user)->post(route('admin.logout'));
 
         $this->assertGuest();
+        $response->assertRedirect(route('admin.login'));
+    }
+
+    /**
+     * Test admin logout works via GET request (e.g. direct address bar entry or link)
+     */
+    public function test_admin_logout_works_via_get_request(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('admin.logout'));
+
+        $this->assertGuest();
+        $response->assertRedirect(route('admin.login'));
+    }
+
+    /**
+     * Test admin logout does not throw 419 Page Expired even when CSRF token is omitted/expired
+     */
+    public function test_admin_logout_succeeds_without_csrf_token(): void
+    {
+        $user = User::factory()->create();
+
+        // Send POST without CSRF token
+        $response = $this->actingAs($user)->post('/admin/logout', []);
+
+        $this->assertGuest();
+        $response->assertRedirect(route('admin.login'));
+    }
+
+    /**
+     * Test TokenMismatchException on admin requests redirects to admin login
+     */
+    public function test_token_mismatch_exception_redirects_to_admin_login(): void
+    {
+        $request = \Illuminate\Http\Request::create('/admin/dashboard', 'POST');
+        $exception = new \Illuminate\Session\TokenMismatchException('CSRF token mismatch.');
+
+        $response = app()->make(\Illuminate\Contracts\Debug\ExceptionHandler::class)->render($request, $exception);
+
+        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals(route('admin.login'), $response->headers->get('Location'));
     }
 
     /**

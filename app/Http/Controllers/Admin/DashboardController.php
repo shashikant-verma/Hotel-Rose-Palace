@@ -37,7 +37,7 @@ class DashboardController extends Controller
             'gallery_images' => GalleryImage::count(),
             'upcoming_banquets_count' => BanquetBooking::where('event_date', '>=', $today)->whereIn('status', ['confirmed', 'tentative'])->count(),
             'total_contact_messages' => ContactMessage::count(),
-            'new_contact_messages' => ContactMessage::where('status', 'new')->orWhere(function($q) { $q->whereNull('status')->where('is_read', false); })->count(),
+            'new_contact_messages' => $this->getNewContactMessagesCount(),
         ];
 
         // Today's arrivals for front desk quick action
@@ -113,5 +113,24 @@ class DashboardController extends Controller
             'enquiriesByRoomType',
             'enquiriesTrend'
         ));
+    }
+
+    /**
+     * Get new contact messages count
+     * Handles both old and new schema (with and without status column)
+     */
+    private function getNewContactMessagesCount()
+    {
+        try {
+            // Try with status column (new schema)
+            return ContactMessage::where('status', 'new')
+                ->orWhere(function($q) {
+                    $q->whereNull('status')->where('is_read', false);
+                })
+                ->count();
+        } catch (\Throwable $e) {
+            // Fallback to old schema (without status column)
+            return ContactMessage::where('is_read', false)->count();
+        }
     }
 }

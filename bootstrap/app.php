@@ -17,10 +17,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'otp.verified' => \App\Http\Middleware\RequireOtpVerification::class,
         ]);
 
-        // Exempt webhook endpoints from CSRF verification
+        // Exempt webhook and logout endpoints from CSRF verification
         $middleware->validateCsrfTokens(except: [
             'api/webhooks/razorpay',
             'webhooks/razorpay',
+            'admin/logout',
+            'otp/logout',
         ]);
 
         // Add security headers to all web requests
@@ -29,5 +31,18 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Gracefully handle expired sessions / CSRF token mismatches (prevent raw 419 error screens)
+        $exceptions->respond(function ($response, Throwable $e, \Illuminate\Http\Request $request) {
+            if ($response->getStatusCode() === 419) {
+                if ($request->is('admin/*') || $request->is('admin')) {
+                    return redirect()->route('admin.login')
+                        ->with('error', 'Your session has expired. Please login again.');
+                }
+
+                return redirect()->route('home')
+                    ->with('error', 'Your session has expired. Please try again.');
+            }
+
+            return $response;
+        });
     })->create();

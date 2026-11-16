@@ -154,8 +154,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login')->name('login.post');
     });
 
-    // Logout (must be authenticated)
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('admin');
+    // Logout (accessible via GET or POST, handles clean session invalidation even after session expiration)
+    Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Protected admin routes (require authentication)
     Route::middleware(['admin'])->group(function () {
