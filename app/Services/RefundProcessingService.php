@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Mail\RefundProcessedMail;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\PaymentLog;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Exception;
 
 class RefundProcessingService
@@ -229,6 +231,21 @@ class RefundProcessingService
                     ]
                 );
 
+                if (is_null($payment->refund_email_sent_at) && !empty($booking->customer_email)) {
+                    try {
+                        $payment->update(['refund_email_sent_at' => now()]);
+                        Mail::to($booking->customer_email)->send(new RefundProcessedMail(
+                            $booking,
+                            $payment,
+                            'processed',
+                            $refundAmountRupees,
+                            $refundId
+                        ));
+                    } catch (\Throwable $me) {
+                        Log::warning('Failed to dispatch RefundProcessedMail in processRefund: ' . $me->getMessage());
+                    }
+                }
+
                 return [
                     'success' => true,
                     'status' => 'processed',
@@ -262,6 +279,21 @@ class RefundProcessingService
                 ]
             );
 
+            if (is_null($payment->refund_email_sent_at) && !empty($booking->customer_email)) {
+                try {
+                    $payment->update(['refund_email_sent_at' => now()]);
+                    Mail::to($booking->customer_email)->send(new RefundProcessedMail(
+                        $booking,
+                        $payment,
+                        'pending',
+                        $refundAmountRupees,
+                        $refundId
+                    ));
+                } catch (\Throwable $me) {
+                    Log::warning('Failed to dispatch RefundProcessedMail (pending) in processRefund: ' . $me->getMessage());
+                }
+            }
+
             return [
                 'success' => true,
                 'status' => 'pending',
@@ -294,6 +326,20 @@ class RefundProcessingService
                     'error' => $e->getMessage(),
                 ]
             );
+
+            if (!empty($booking->customer_email)) {
+                try {
+                    Mail::to($booking->customer_email)->send(new RefundProcessedMail(
+                        $booking,
+                        $payment,
+                        'failed',
+                        $refundAmountRupees,
+                        null
+                    ));
+                } catch (\Throwable $me) {
+                    Log::warning('Failed to dispatch RefundProcessedMail (failed) in processRefund: ' . $me->getMessage());
+                }
+            }
 
             return [
                 'success' => false,

@@ -2,12 +2,15 @@
 
 namespace App\Services;
 
+use App\Mail\BookingCancelledMail;
+use App\Mail\RefundProcessedMail;
 use App\Models\Booking;
 use App\Models\PaymentLog;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Exception;
 
 class CancellationService
@@ -182,6 +185,8 @@ class CancellationService
                         ]
                     );
 
+                    $this->dispatchCancellationEmails($freshBooking, 'processed', (float) $freshBooking->eligible_refund_amount, $refundResult['refund_id'] ?? null);
+
                     return [
                         'success' => true,
                         'status' => 'processed',
@@ -216,6 +221,8 @@ class CancellationService
                             'refund_status' => 'pending',
                         ]
                     );
+
+                    $this->dispatchCancellationEmails($freshBooking, 'pending', (float) $freshBooking->eligible_refund_amount, $refundResult['refund_id'] ?? null);
 
                     return [
                         'success' => true,
@@ -265,6 +272,8 @@ class CancellationService
                 ]
             );
 
+            $this->dispatchCancellationEmails($freshBooking, 'not_applicable');
+
             return [
                 'success' => true,
                 'status' => 'not_applicable',
@@ -273,6 +282,48 @@ class CancellationService
                 'message' => 'Cancellation approved without refund (0% non-refundable tier). Room released to inventory.',
             ];
         });
+    }
+
+    /**
+     * Dispatch cancellation and refund emails safely.
+     * Idempotent: checks cancellation_email_sent_at and refund_email_sent_at.
+     */
+    public function dispatchCancellationEmails(Booking $booking, string $refundStatus = 'not_applicable', float $refundAmount = 0.0, ?string $refundId = null): void
+    {
+        // 1. Booking Cancellation Confirmation Email
+        if (is_null($booking->cancellation_email_sent_at) && !empty($booking->customer_email)) {
+            try {
+                $booking->update(['cancellation_email_sent_at' => now()]);
+                Mail::to($booking->customer_email)->send(new BookingCancelledMail($booking));
+            } catch (\Throwable $e) {
+                Log::warning('Failed to dispatch BookingCancelledMail: ' . $e->getMessage(), [
+                    'booking_id' => $booking->id,
+                    'email' => $booking->customer_email,
+                ]);
+            }
+        }
+
+        // 2. Refund Notification Email (for refundable cancellations)
+        if (in_array($refundStatus, ['processed', 'pending']) && $refundAmount > 0) {
+            $payment = $booking->successfulPayment ?? $booking->payments()->latest()->first();
+            if ($payment && is_null($payment->refund_email_sent_at) && !empty($booking->customer_email)) {
+                try {
+                    $payment->update(['refund_email_sent_at' => now()]);
+                    Mail::to($booking->customer_email)->send(new RefundProcessedMail(
+                        $booking,
+                        $payment,
+                        $refundStatus,
+                        $refundAmount,
+                        $refundId
+                    ));
+                } catch (\Throwable $e) {
+                    Log::warning('Failed to dispatch RefundProcessedMail in cancellation: ' . $e->getMessage(), [
+                        'booking_id' => $booking->id,
+                        'email' => $booking->customer_email,
+                    ]);
+                }
+            }
+        }
     }
 
     /**

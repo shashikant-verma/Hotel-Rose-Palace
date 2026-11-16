@@ -193,7 +193,7 @@ class ContactInquiryTest extends TestCase
 
         $this->post(route('contact.submit'), $payload);
 
-        Mail::assertSent(GeneralInquiryReceived::class, function ($mail) use ($payload) {
+        Mail::assertQueued(GeneralInquiryReceived::class, function ($mail) use ($payload) {
             return $mail->hasTo(config('hotel.contact.manager_email', 'Hotelrosepalacesurat@gmail.com')) &&
                    $mail->inquiry->name === $payload['name'] &&
                    $mail->inquiry->email === $payload['email'] &&

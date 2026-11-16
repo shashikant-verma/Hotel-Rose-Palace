@@ -41,6 +41,8 @@ class Booking extends Model
         'eligible_refund_amount',
         'refund_status',
         'refund_retry_token',
+        'confirmation_email_sent_at',
+        'cancellation_email_sent_at',
     ];
 
     protected function casts(): array
@@ -56,6 +58,8 @@ class Booking extends Model
             'cancelled_at' => 'datetime',
             'cancellation_requested_at' => 'datetime',
             'cancellation_reviewed_at' => 'datetime',
+            'confirmation_email_sent_at' => 'datetime',
+            'cancellation_email_sent_at' => 'datetime',
             'num_adults' => 'integer',
             'num_children' => 'integer',
             'room_quantity' => 'integer',

@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Mail\BookingConfirmedMail;
+use App\Mail\PaymentReceiptMail;
+use App\Mail\RefundProcessedMail;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\PaymentLog;
@@ -10,6 +13,7 @@ use App\Models\WebhookEvent;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Exception;
 
 class PaymentProcessingService
@@ -347,6 +351,21 @@ class PaymentProcessingService
                     'special_requests' => trim(($freshBooking->special_requests ?? '') . ' [System: Room hold expired prior to payment; ' . ($isProcessed ? '100% refund processed' : 'refund pending gateway confirmation') . ']'),
                 ]);
 
+                if (is_null($payment->refund_email_sent_at) && !empty($freshBooking->customer_email)) {
+                    try {
+                        $payment->update(['refund_email_sent_at' => now()]);
+                        Mail::to($freshBooking->customer_email)->send(new RefundProcessedMail(
+                            $freshBooking,
+                            $payment,
+                            $refundStatus,
+                            (float) $freshBooking->total_amount,
+                            $refundResult['id'] ?? null
+                        ));
+                    } catch (\Throwable $e) {
+                        Log::warning('Failed to dispatch auto-refund email in verifyAndConfirm: ' . $e->getMessage());
+                    }
+                }
+
                 return [
                     'success' => false,
                     'overbooked' => true,
@@ -375,6 +394,9 @@ class PaymentProcessingService
                 'checkout',
                 ['payment_id' => $paymentId, 'order_id' => $orderId, 'amount' => $freshBooking->total_amount]
             );
+
+            // Dispatch customer confirmation and receipt emails idempotently
+            $this->dispatchPaymentSuccessEmails($freshBooking, $payment);
 
             return [
                 'success' => true,
@@ -559,6 +581,10 @@ class PaymentProcessingService
                     'webhook',
                     ['payment_id' => $paymentId, 'order_id' => $orderId]
                 );
+
+                if ($payment) {
+                    $this->dispatchPaymentSuccessEmails($booking, $payment);
+                }
             } else {
                 // Hold expired: release stale allocations and check if fresh rooms are available
                 RoomAllocation::where('booking_id', $booking->id)
@@ -602,6 +628,10 @@ class PaymentProcessingService
                         'webhook',
                         ['payment_id' => $paymentId, 'order_id' => $orderId]
                     );
+
+                    if ($payment) {
+                        $this->dispatchPaymentSuccessEmails($booking, $payment);
+                    }
                 } else {
                     // Overbooking prevention: room no longer available, trigger safe auto-refund
                     $actualPaise = (int) ($paymentEntity['amount'] ?? round(((float) $booking->total_amount) * 100));
@@ -644,6 +674,21 @@ class PaymentProcessingService
                         'webhook',
                         ['payment_id' => $paymentId, 'order_id' => $orderId, 'refund_id' => $refundResult['id'] ?? null]
                     );
+
+                    if ($payment && is_null($payment->refund_email_sent_at) && !empty($booking->customer_email)) {
+                        try {
+                            $payment->update(['refund_email_sent_at' => now()]);
+                            Mail::to($booking->customer_email)->send(new RefundProcessedMail(
+                                $booking,
+                                $payment,
+                                $refundStatus,
+                                (float) $booking->total_amount,
+                                $refundResult['id'] ?? null
+                            ));
+                        } catch (\Throwable $e) {
+                            Log::warning('Failed to dispatch auto-refund email in webhook: ' . $e->getMessage());
+                        }
+                    }
                 }
             }
         }
@@ -747,6 +792,22 @@ class PaymentProcessingService
             $payment->booking->update([
                 'refund_status' => 'processed',
             ]);
+
+            // Dispatch customer refund processed notification idempotently
+            if (!empty($payment->booking->customer_email) && is_null($payment->refund_email_sent_at)) {
+                try {
+                    $payment->update(['refund_email_sent_at' => now()]);
+                    Mail::to($payment->booking->customer_email)->send(new RefundProcessedMail(
+                        $payment->booking,
+                        $payment,
+                        'processed',
+                        (float) ($payment->refund_amount ?? $payment->booking->eligible_refund_amount ?? $payment->amount),
+                        $refundId
+                    ));
+                } catch (\Throwable $e) {
+                    Log::warning('Failed to dispatch RefundProcessedMail in webhook: ' . $e->getMessage());
+                }
+            }
         }
 
         PaymentLog::record(
@@ -786,6 +847,20 @@ class PaymentProcessingService
                 $payment->booking->update([
                     'refund_status' => 'failed',
                 ]);
+
+                if (!empty($payment->booking->customer_email)) {
+                    try {
+                        Mail::to($payment->booking->customer_email)->send(new RefundProcessedMail(
+                            $payment->booking,
+                            $payment,
+                            'failed',
+                            (float) ($payment->refund_amount ?? $payment->booking->eligible_refund_amount ?? $payment->amount),
+                            $refundId
+                        ));
+                    } catch (\Throwable $e) {
+                        Log::warning('Failed to dispatch RefundProcessedMail (failed) in webhook: ' . $e->getMessage());
+                    }
+                }
             }
         }
 
@@ -818,5 +893,39 @@ class PaymentProcessingService
             'webhook',
             ['refund_id' => $refundId, 'payment_id' => $paymentId]
         );
+    }
+
+    /**
+     * Dispatch booking confirmation and payment receipt emails safely after commit.
+     * Idempotent: checks confirmation_email_sent_at and receipt_email_sent_at to prevent duplicate sends.
+     */
+    public function dispatchPaymentSuccessEmails(Booking $booking, Payment $payment): void
+    {
+        // 1. Booking Confirmation Email
+        if (is_null($booking->confirmation_email_sent_at) && !empty($booking->customer_email)) {
+            try {
+                $booking->update(['confirmation_email_sent_at' => now()]);
+                Mail::to($booking->customer_email)->send(new BookingConfirmedMail($booking));
+            } catch (\Throwable $e) {
+                Log::warning('Failed to dispatch BookingConfirmedMail: ' . $e->getMessage(), [
+                    'booking_id' => $booking->id,
+                    'email' => $booking->customer_email,
+                ]);
+            }
+        }
+
+        // 2. Payment Receipt Email
+        if (is_null($payment->receipt_email_sent_at) && !empty($booking->customer_email)) {
+            try {
+                $payment->update(['receipt_email_sent_at' => now()]);
+                Mail::to($booking->customer_email)->send(new PaymentReceiptMail($booking, $payment));
+            } catch (\Throwable $e) {
+                Log::warning('Failed to dispatch PaymentReceiptMail: ' . $e->getMessage(), [
+                    'payment_id' => $payment->id,
+                    'booking_id' => $booking->id,
+                    'email' => $booking->customer_email,
+                ]);
+            }
+        }
     }
 }

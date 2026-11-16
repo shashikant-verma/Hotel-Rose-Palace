@@ -162,6 +162,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+        // Analytics & Business Performance Tracking (Phase 10)
+        Route::prefix('analytics')->name('analytics.')->controller(\App\Http\Controllers\Admin\AnalyticsController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/export/{type}', 'export')->name('export');
+        });
+
         // Admin profile (placeholder routes for now)
         Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile.show');
         Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');

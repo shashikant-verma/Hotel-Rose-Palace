@@ -36,6 +36,8 @@ class Payment extends Model
         'refund_initiated_at',
         'refund_error',
         'captured_at',
+        'receipt_email_sent_at',
+        'refund_email_sent_at',
         'idempotency_key',
         'payload',
         'raw_response',
@@ -50,6 +52,8 @@ class Payment extends Model
             'refund_amount' => 'decimal:2',
             'refunded_at' => 'datetime',
             'captured_at' => 'datetime',
+            'receipt_email_sent_at' => 'datetime',
+            'refund_email_sent_at' => 'datetime',
             'payload' => 'array',
             'raw_response' => 'array',
         ];

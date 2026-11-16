@@ -636,6 +636,9 @@
             <a href="{{ route('admin.dashboard') }}" class="sidebar-menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-chart-line"></i> Dashboard
             </a>
+            <a href="{{ route('admin.analytics.index') }}" class="sidebar-menu-item {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}">
+                <i class="fas fa-chart-pie"></i> Analytics &amp; Reports
+            </a>
             <a href="{{ route('admin.calendar') }}" class="sidebar-menu-item {{ request()->routeIs('admin.calendar') ? 'active' : '' }}">
                 <i class="fas fa-calendar-alt"></i> Occupancy Calendar
             </a>
