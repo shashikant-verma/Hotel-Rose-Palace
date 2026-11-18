@@ -15,10 +15,16 @@ class RoomType extends Model
         'slug',
         'description',
         'base_price',
+        'original_price',
         'max_occupancy',
         'max_adults',
         'max_children',
         'size_sqft',
+        'bed_type',
+        'view_type',
+        'bedroom_count',
+        'living_room_count',
+        'bathroom_count',
         'is_active',
         'sort_order',
     ];
@@ -28,6 +34,15 @@ class RoomType extends Model
         return [
             'is_active' => 'boolean',
             'base_price' => 'decimal:2',
+            'original_price' => 'decimal:2',
+            'size_sqft' => 'integer',
+            'bedroom_count' => 'integer',
+            'living_room_count' => 'integer',
+            'bathroom_count' => 'integer',
+            'max_occupancy' => 'integer',
+            'max_adults' => 'integer',
+            'max_children' => 'integer',
+            'sort_order' => 'integer',
         ];
     }
 
@@ -53,5 +68,21 @@ class RoomType extends Model
     public function enquiries()
     {
         return $this->hasMany(Enquiry::class);
+    }
+
+    /**
+     * Get the seasonal pricing for this room type
+     */
+    public function seasonalPricing()
+    {
+        return $this->hasMany(SeasonalPricing::class);
+    }
+
+    /**
+     * Get the promotional offers for this room type
+     */
+    public function promotionalOffers()
+    {
+        return $this->hasMany(PromotionalOffer::class);
     }
 }

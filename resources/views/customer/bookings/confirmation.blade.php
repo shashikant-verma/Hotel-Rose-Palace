@@ -101,6 +101,9 @@
                     <span class="text-muted small text-uppercase fw-bold d-block">Check-In</span>
                     <div class="fs-5 fw-bold text-dark">{{ $checkIn->format('D, d M Y') }}</div>
                     <small class="text-muted">Standard Time: from 12:00 PM</small>
+                    @if ($booking->expected_arrival_time)
+                        <div class="mt-1 small text-dark"><i class="fas fa-clock text-primary me-1"></i> Expected: {{ $booking->expected_arrival_time }}</div>
+                    @endif
                 </div>
                 <div class="col-sm-2 my-auto text-center">
                     <span class="badge bg-light text-primary border px-3 py-2 fw-bold">

@@ -52,6 +52,7 @@
                     <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
                     <li><a href="{{ route('terms') }}">Terms & Conditions</a></li>
                     <li><a href="{{ route('cancellation') }}">Cancellation Policy</a></li>
+                    <li><a href="{{ route('house-rules') }}">House Rules &amp; Info</a></li>
                 </ul>
                 <div class="hrp-checkin-info mt-4">
                     <div class="hrp-ci-row">

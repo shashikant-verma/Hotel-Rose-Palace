@@ -195,4 +195,12 @@ class PageController extends Controller
     {
         return view('pages.cancellation');
     }
+
+    /**
+     * Show house rules and information
+     */
+    public function houseRules(): View
+    {
+        return view('pages.house-rules');
+    }
 }

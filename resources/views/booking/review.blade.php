@@ -74,12 +74,12 @@
                         <div class="col-md-6">
                             <h6 class="text-uppercase text-muted small fw-bold">Check-in</h6>
                             <p class="mb-0"><strong>{{ $booking->check_in_date->format('D, M d, Y') }}</strong></p>
-                            <small class="text-muted">From 2:00 PM</small>
+                            <small class="text-muted">From 12:00 PM</small>
                         </div>
                         <div class="col-md-6">
                             <h6 class="text-uppercase text-muted small fw-bold">Check-out</h6>
                             <p class="mb-0"><strong>{{ $booking->check_out_date->format('D, M d, Y') }}</strong></p>
-                            <small class="text-muted">Until 12:00 PM</small>
+                            <small class="text-muted">Until 11:00 AM</small>
                         </div>
                     </div>
 
@@ -95,6 +95,13 @@
                         </div>
                     </div>
 
+                    @if ($booking->expected_arrival_time)
+                        <div class="mb-4">
+                            <h6 class="text-uppercase text-muted small fw-bold">Expected Arrival Time</h6>
+                            <p class="mb-0 text-muted"><i class="fas fa-clock me-1 text-secondary"></i> {{ $booking->expected_arrival_time }}</p>
+                        </div>
+                    @endif
+
                     @if ($booking->special_requests)
                         <div class="mb-4">
                             <h6 class="text-uppercase text-muted small fw-bold">Special Requests</h6>
@@ -109,7 +116,7 @@
                         <h6 class="mb-3">Payment Summary</h6>
                         <div class="row text-sm mb-2">
                             <div class="col-6">Subtotal</div>
-                            <div class="col-6 text-end">₹{{ number_format($booking->subtotal_amount, 2) }}</div>
+                            <div class="col-6 text-end">₹{{ number_format($booking->base_amount, 2) }}</div>
                         </div>
                         <div class="row text-sm mb-2">
                             <div class="col-6">GST (12%)</div>
@@ -117,7 +124,7 @@
                         </div>
                         <div class="row fw-bold text-lg border-top pt-2">
                             <div class="col-6">Total Amount Due</div>
-                            <div class="col-6 text-end">₹{{ number_format($booking->total_amount, 2) }}</div>
+                            <div class="col-6 text-end text-success">₹{{ number_format($booking->total_amount, 2) }}</div>
                         </div>
                     </div>
 
@@ -145,9 +152,10 @@
                     </h6>
                     <ul class="mb-0 small">
                         <li><strong>Cancellation:</strong> Free cancellation until 24 hours before check-in. 50% refund for cancellations within 24 hours.</li>
-                        <li><strong>Check-in Time:</strong> 2:00 PM. Early check-in available upon request (subject to availability).</li>
-                        <li><strong>Check-out Time:</strong> 12:00 PM. Late checkout available for an additional fee.</li>
+                        <li><strong>Check-in Time:</strong> 12:00 PM. Early check-in is subject to room availability upon arrival.</li>
+                        <li><strong>Check-out Time:</strong> 11:00 AM. Late check-out is subject to availability.</li>
                         <li><strong>Payment:</strong> A confirmation email will be sent with payment details.</li>
+                        <li><strong>House Rules:</strong> Please review our <a href="{{ route('house-rules') }}" target="_blank" class="fw-semibold text-decoration-underline" style="color: #6E2C3A;">House Rules & Stay Policies</a> regarding guest eligibility, valid ID proofs, and check-in conditions.</li>
                     </ul>
                 </div>
             </div>

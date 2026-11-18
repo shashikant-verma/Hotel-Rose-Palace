@@ -55,7 +55,7 @@ class Room extends Model
      */
     public function images()
     {
-        return $this->hasMany(RoomImage::class);
+        return $this->hasMany(RoomImage::class)->orderBy('display_order');
     }
 
     /**

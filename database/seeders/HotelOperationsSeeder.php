@@ -17,63 +17,44 @@ class HotelOperationsSeeder extends Seeder
      */
     public function run(): void
     {
-        // Disable foreign key checks for clean re-seeding
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        GalleryImage::truncate();
-        BanquetBooking::truncate();
-        Enquiry::truncate();
-        Room::truncate();
-        RoomType::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        // 1. Safely retrieve or create verified room types without destructive truncate or price overwrites
+        $deluxeType = RoomType::where('slug', 'deluxe-family-room')->first()
+            ?? RoomType::where('name', 'Deluxe Family Room')->first()
+            ?? RoomType::firstOrCreate(
+                ['slug' => 'deluxe-family-room'],
+                [
+                    'name' => 'Deluxe Family Room',
+                    'description' => 'Comfortable elegance with modern sandstone accents, plush bedding, and city views of VIP Road Surat.',
+                    'base_price' => 1725.00,
+                    'max_occupancy' => 3,
+                    'max_adults' => 2,
+                    'max_children' => 1,
+                    'size_sqft' => 154,
+                    'is_active' => true,
+                    'sort_order' => 1,
+                ]
+            );
 
-        // 1. Seed 4 Room Categories (Room Types)
-        $deluxeType = RoomType::create([
-            'name' => 'Deluxe Room',
-            'slug' => 'deluxe-room',
-            'description' => 'Comfortable elegance with modern sandstone accents, plush bedding, and city views of VIP Road Surat.',
-            'base_price' => 1725.00,
-            'max_occupancy' => 3,
-            'max_adults' => 2,
-            'max_children' => 1,
-            'is_active' => true,
-            'sort_order' => 1,
-        ]);
+        $executiveType = RoomType::where('slug', 'executive-room')->first()
+            ?? RoomType::where('name', 'Executive Room')->first()
+            ?? RoomType::firstOrCreate(
+                ['slug' => 'executive-room'],
+                [
+                    'name' => 'Executive Room',
+                    'description' => 'Tailored for corporate travelers and textile connoisseurs with high-speed Wi-Fi, ergonomic desk, and mini lounge.',
+                    'base_price' => 2399.00,
+                    'max_occupancy' => 3,
+                    'max_adults' => 2,
+                    'max_children' => 1,
+                    'size_sqft' => 0,
+                    'is_active' => true,
+                    'sort_order' => 2,
+                ]
+            );
 
-        $executiveType = RoomType::create([
-            'name' => 'Executive Room',
-            'slug' => 'executive-room',
-            'description' => 'Tailored for corporate travelers and textile connoisseurs with high-speed Wi-Fi, ergonomic desk, and mini lounge.',
-            'base_price' => 2399.00,
-            'max_occupancy' => 3,
-            'max_adults' => 2,
-            'max_children' => 1,
-            'is_active' => true,
-            'sort_order' => 2,
-        ]);
-
-        $suiteType = RoomType::create([
-            'name' => 'Suite',
-            'slug' => 'luxury-suite',
-            'description' => 'Spacious heritage living with separate living quarters, luxury bath amenities, and personalized hospitality.',
-            'base_price' => 3499.00,
-            'max_occupancy' => 4,
-            'max_adults' => 4,
-            'max_children' => 2,
-            'is_active' => true,
-            'sort_order' => 3,
-        ]);
-
-        $presidentialType = RoomType::create([
-            'name' => 'Presidential Sky Suite',
-            'slug' => 'presidential-sky-suite',
-            'description' => 'The pinnacle of luxury in Vesu Surat with panoramic skyline vistas, expansive living lounge, and personalized concierge care.',
-            'base_price' => 5499.00,
-            'max_occupancy' => 6,
-            'max_adults' => 4,
-            'max_children' => 2,
-            'is_active' => true,
-            'sort_order' => 4,
-        ]);
+        // Fallbacks for legacy suite/presidential references to preserve schema consistency without creating unverified types
+        $suiteType = $executiveType;
+        $presidentialType = $executiveType;
 
         // 2. Seed 15 Physical Rooms (101 to 115)
         $roomsData = [
@@ -276,7 +257,7 @@ class HotelOperationsSeeder extends Seeder
 
         $rooms = [];
         foreach ($roomsData as $r) {
-            $createdRoom = Room::create($r);
+            $createdRoom = Room::firstOrCreate(['room_number' => $r['room_number']], $r);
             $rooms[$r['room_number']] = $createdRoom;
         }
 
@@ -603,7 +584,7 @@ class HotelOperationsSeeder extends Seeder
         ];
 
         foreach ($reservations as $res) {
-            Enquiry::create($res);
+            Enquiry::firstOrCreate(['reference_id' => $res['reference_id']], $res);
         }
 
         // 5. Seed 3 Banquet & Event Bookings
@@ -677,7 +658,7 @@ class HotelOperationsSeeder extends Seeder
         ];
 
         foreach ($banquetsData as $bq) {
-            BanquetBooking::create($bq);
+            BanquetBooking::firstOrCreate(['reference_id' => $bq['reference_id']], $bq);
         }
 
         // 6. Seed 14 Real HD Hotel Photos to Gallery
@@ -793,7 +774,7 @@ class HotelOperationsSeeder extends Seeder
         ];
 
         foreach ($galleryPhotos as $gp) {
-            GalleryImage::create($gp);
+            GalleryImage::firstOrCreate(['image_path' => $gp['image_path']], $gp);
         }
     }
 }

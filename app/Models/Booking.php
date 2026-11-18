@@ -23,12 +23,14 @@ class Booking extends Model
         'room_quantity',
         'base_amount',
         'tax_amount',
+        'discount_amount',
         'total_amount',
         'razorpay_order_id',
         'razorpay_payment_id',
         'booking_status',
         'payment_status',
         'special_requests',
+        'expected_arrival_time',
         'cancelled_at',
         'cancellation_reason',
         'cancellation_status',
@@ -43,6 +45,8 @@ class Booking extends Model
         'refund_retry_token',
         'confirmation_email_sent_at',
         'cancellation_email_sent_at',
+        'pricing_source',
+        'pricing_snapshot',
     ];
 
     protected function casts(): array
@@ -52,6 +56,7 @@ class Booking extends Model
             'check_out_date' => 'date',
             'base_amount' => 'decimal:2',
             'tax_amount' => 'decimal:2',
+            'discount_amount' => 'decimal:2',
             'total_amount' => 'decimal:2',
             'eligible_refund_amount' => 'decimal:2',
             'eligible_refund_percentage' => 'integer',
@@ -63,6 +68,7 @@ class Booking extends Model
             'num_adults' => 'integer',
             'num_children' => 'integer',
             'room_quantity' => 'integer',
+            'pricing_snapshot' => 'array',
         ];
     }
 

@@ -53,9 +53,17 @@
                                 <tr>
                                     <td style="padding: 12px 16px; border-bottom: 1px solid #E2D5C3; width: 140px; font-size: 13px; color: #5E4B4E; font-weight: 600;">Check-in:</td>
                                     <td style="padding: 12px 16px; border-bottom: 1px solid #E2D5C3; font-size: 14px; font-weight: 700; color: #2E1F22;">
-                                        {{ $booking->check_in_date ? $booking->check_in_date->format('l, d M Y') : 'N/A' }} <span style="font-size: 12px; font-weight: normal; color: #8C787B;">(from 2:00 PM)</span>
+                                        {{ $booking->check_in_date ? $booking->check_in_date->format('l, d M Y') : 'N/A' }} <span style="font-size: 12px; font-weight: normal; color: #8C787B;">(from 12:00 PM)</span>
                                     </td>
                                 </tr>
+                                @if(!empty($booking->expected_arrival_time))
+                                <tr>
+                                    <td style="padding: 12px 16px; border-bottom: 1px solid #E2D5C3; font-size: 13px; color: #5E4B4E; font-weight: 600;">Expected Arrival:</td>
+                                    <td style="padding: 12px 16px; border-bottom: 1px solid #E2D5C3; font-size: 14px; font-weight: 700; color: #6E2C3A;">
+                                        {{ $booking->expected_arrival_time }}
+                                    </td>
+                                </tr>
+                                @endif
                                 <tr>
                                     <td style="padding: 12px 16px; border-bottom: 1px solid #E2D5C3; font-size: 13px; color: #5E4B4E; font-weight: 600;">Check-out:</td>
                                     <td style="padding: 12px 16px; border-bottom: 1px solid #E2D5C3; font-size: 14px; font-weight: 700; color: #2E1F22;">
@@ -111,7 +119,7 @@
                                 <h4 style="margin: 0 0 10px; font-size: 14px; color: #6E2C3A; text-transform: uppercase; letter-spacing: 0.5px;">Important Check-In Information</h4>
                                 <ul style="margin: 0; padding-left: 18px; font-size: 13px; color: #5E4B4E; line-height: 1.6;">
                                     <li>Please present valid government-issued photo ID (Aadhaar, Passport, Voter ID, Driving License) for all adult guests upon arrival.</li>
-                                    <li>Standard check-in starts at 2:00 PM. Early check-in is subject to room availability upon arrival.</li>
+                                    <li>Standard check-in starts at 12:00 PM. Early check-in is subject to room availability upon arrival.</li>
                                     <li>Our reception desk is staffed 24/7 for late arrivals.</li>
                                     <li>Complimentary high-speed Wi-Fi and valet parking are available throughout your stay.</li>
                                 </ul>

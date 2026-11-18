@@ -32,6 +32,7 @@
                                     class="form-control form-control-lg"
                                     id="check_in"
                                     name="check_in"
+                                    value="{{ request('check_in', '') }}"
                                     required
                                     min="{{ now()->format('Y-m-d') }}"
                                 >
@@ -44,6 +45,7 @@
                                     class="form-control form-control-lg"
                                     id="check_out"
                                     name="check_out"
+                                    value="{{ request('check_out', '') }}"
                                     required
                                 >
                                 <small class="form-text text-muted">Select departure date</small>
@@ -56,7 +58,7 @@
                                 <select class="form-select form-select-lg" id="room_type_id" name="room_type_id" required>
                                     <option value="">-- Select Room Type --</option>
                                     @foreach (\App\Models\RoomType::where('is_active', true)->get() as $roomType)
-                                        <option value="{{ $roomType->id }}">
+                                        <option value="{{ $roomType->id }}" {{ request('room_type_id') == $roomType->id ? 'selected' : '' }}>
                                             {{ $roomType->name }} - ₹{{ number_format($roomType->base_price) }}/night
                                         </option>
                                     @endforeach
@@ -70,7 +72,7 @@
                                     class="form-control form-control-lg"
                                     id="quantity"
                                     name="quantity"
-                                    value="1"
+                                    value="{{ request('quantity', 1) }}"
                                     min="1"
                                     max="10"
                                     required

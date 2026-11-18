@@ -29,15 +29,33 @@
                 {{-- Main Gallery Viewer with Thumbnails --}}
                 <div class="card p-0 overflow-hidden mb-4" style="border: 1px solid var(--hrp-border);">
                     @php
-                        $realRoomPhotos = [
-                            asset('images/hotel/room-deluxe.jpg'),
-                            asset('images/hotel/hero-1.jpg'),
-                            asset('images/hotel/hero-2.jpg'),
-                            asset('images/hotel/room-executive.jpg'),
-                            asset('images/hotel/room-suite.jpg'),
-                            asset('images/hotel/gallery-4.jpg'),
-                        ];
-                        $initialPhoto = $realRoomPhotos[0];
+                        $roomPhotos = [];
+                        if (isset($roomType->rooms)) {
+                            foreach ($roomType->rooms as $r) {
+                                if (isset($r->images)) {
+                                    foreach ($r->images as $dbImg) {
+                                        if (Storage::disk('public')->exists($dbImg->image_path)) {
+                                            $roomPhotos[] = Storage::url($dbImg->image_path);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (empty($roomPhotos)) {
+                            if (str_contains(strtolower($roomType->slug), 'executive')) {
+                                $roomPhotos = [
+                                    asset('images/rooms/executive.jpg'),
+                                    asset('images/rooms/attached-luxury-bathroom.jpg'),
+                                ];
+                            } else {
+                                $roomPhotos = [
+                                    asset('images/rooms/deluxe.jpg'),
+                                    asset('images/rooms/attached-luxury-bathroom.jpg'),
+                                ];
+                            }
+                        }
+                        $initialPhoto = $roomPhotos[0];
                     @endphp
                     <div style="position: relative; height: 420px; overflow: hidden; background: var(--hrp-plum);">
                         <img id="mainGalleryViewer" src="{{ $initialPhoto }}" alt="{{ $roomType->name }}" style="width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease;" class="hrp-lightbox-trigger" onclick="openLightbox(this.src)">
@@ -46,12 +64,14 @@
                         </button>
                     </div>
 
-                    {{-- Clickable Thumbnails Row --}}
+                    {{-- Clickable Thumbnails Row (Only when multiple verified photos exist) --}}
+                    @if(count($roomPhotos) > 1)
                     <div class="p-3 d-flex gap-2 overflow-auto" style="background: var(--hrp-surface); border-top: 1px solid var(--hrp-border);">
-                        @foreach($realRoomPhotos as $idx => $photo)
-                        <img src="{{ $photo }}" alt="Thumbnail {{ $idx + 1 }}" style="width: 90px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid {{ $idx === 0 ? 'var(--hrp-gold)' : 'transparent' }}; opacity: {{ $idx === 0 ? '1' : '0.75' }}; transition: all 0.2s ease;" onclick="switchMainPhoto('{{ $photo }}', this)" class="thumb-selector">
+                        @foreach($roomPhotos as $idx => $photo)
+                        <img src="{{ $photo }}" alt="{{ $roomType->name }} Photo {{ $idx + 1 }}" style="width: 90px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid {{ $idx === 0 ? 'var(--hrp-gold)' : 'transparent' }}; opacity: {{ $idx === 0 ? '1' : '0.75' }}; transition: all 0.2s ease;" onclick="switchMainPhoto('{{ $photo }}', this)" class="thumb-selector">
                         @endforeach
                     </div>
+                    @endif
                 </div>
 
                 {{-- Key Room Meta Header --}}
@@ -70,19 +90,33 @@
                         </div>
                     </div>
 
-                    {{-- Room Specs Ribbon --}}
+                    {{-- Room Specs Ribbon (Verified, populated specifications) --}}
                     <div class="row g-2 p-3 rounded mb-4" style="background: var(--hrp-tint); border: 1px solid var(--hrp-border);">
-                        <div class="col-4 text-center">
+                        <div class="col text-center">
                             <span style="font-size: 11px; color: var(--hrp-mauve); text-transform: uppercase; display: block;">Occupancy</span>
-                            <strong style="color: var(--hrp-plum); font-size: 16px;">{{ $roomType->max_occupancy }} Guests</strong>
+                            <strong style="color: var(--hrp-plum); font-size: 15px;">Up to {{ $roomType->max_occupancy }} Guests</strong>
                         </div>
-                        <div class="col-4 text-center" style="border-left: 1px solid var(--hrp-border); border-right: 1px solid var(--hrp-border);">
+                        @if($roomType->size_sqft > 0)
+                        <div class="col text-center" style="border-left: 1px solid var(--hrp-border);">
                             <span style="font-size: 11px; color: var(--hrp-mauve); text-transform: uppercase; display: block;">Dimensions</span>
-                            <strong style="color: var(--hrp-plum); font-size: 16px;">350–550 sq.ft</strong>
+                            <strong style="color: var(--hrp-plum); font-size: 15px;">{{ $roomType->size_sqft }} sq.ft</strong>
                         </div>
-                        <div class="col-4 text-center">
-                            <span style="font-size: 11px; color: var(--hrp-mauve); text-transform: uppercase; display: block;">Available Inventory</span>
-                            <strong style="color: var(--hrp-burgundy); font-size: 16px;">{{ count($rooms) > 0 ? count($rooms) . ' Rooms' : 'Available' }}</strong>
+                        @endif
+                        @if(!empty($roomType->bed_type))
+                        <div class="col text-center" style="border-left: 1px solid var(--hrp-border);">
+                            <span style="font-size: 11px; color: var(--hrp-mauve); text-transform: uppercase; display: block;">Bed Type</span>
+                            <strong style="color: var(--hrp-plum); font-size: 15px;">{{ $roomType->bed_type }}</strong>
+                        </div>
+                        @endif
+                        @if(!empty($roomType->view_type))
+                        <div class="col text-center" style="border-left: 1px solid var(--hrp-border);">
+                            <span style="font-size: 11px; color: var(--hrp-mauve); text-transform: uppercase; display: block;">View</span>
+                            <strong style="color: var(--hrp-plum); font-size: 15px;">{{ $roomType->view_type }}</strong>
+                        </div>
+                        @endif
+                        <div class="col text-center" style="border-left: 1px solid var(--hrp-border);">
+                            <span style="font-size: 11px; color: var(--hrp-mauve); text-transform: uppercase; display: block;">Inventory</span>
+                            <strong style="color: var(--hrp-burgundy); font-size: 15px;">{{ count($rooms) > 0 ? count($rooms) . ' Rooms' : 'Available' }}</strong>
                         </div>
                     </div>
 
@@ -131,6 +165,9 @@
                     </div>
 
                 </div>
+
+                {{-- Hotel Rose Palace House Rules & Information --}}
+                <x-house-rules />
 
             </div>
 
@@ -217,7 +254,7 @@
                         </form>
 
                         <div class="text-center mt-3" style="font-size: 11.5px; color: var(--hrp-mauve);">
-                            <i class="fas fa-lock text-gold me-1"></i> No advance booking fees. Pay on arrival.
+                            <i class="fas fa-lock text-gold me-1"></i> 100% Secure Instant Online Booking via Razorpay.
                         </div>
 
                     </div>

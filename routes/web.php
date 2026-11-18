@@ -30,10 +30,11 @@ Route::get('/amenities', [PageController::class, 'amenities'])->name('amenities'
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit');
 
-// Legal Pages
+// Legal & Policy Pages
 Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
 Route::get('/terms', [PageController::class, 'terms'])->name('terms');
 Route::get('/cancellation', [PageController::class, 'cancellation'])->name('cancellation');
+Route::get('/house-rules', [PageController::class, 'houseRules'])->name('house-rules');
 
 /**
  * OTP Verification Routes
@@ -275,6 +276,30 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('/{amenity}', 'update')->name('update');
             Route::delete('/{amenity}', 'destroy')->name('destroy');
             Route::patch('/{amenity}/toggle-status', 'toggleStatus')->name('toggle-status');
+        });
+
+        // Seasonal Pricing Management
+        Route::prefix('seasonal-pricing')->name('seasonal-pricing.')->controller(\App\Http\Controllers\Admin\SeasonalPricingController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{seasonalPricing}/edit', 'edit')->name('edit');
+            Route::put('/{seasonalPricing}', 'update')->name('update');
+            Route::delete('/{seasonalPricing}', 'destroy')->name('destroy');
+            Route::patch('/{seasonalPricing}/activate', 'activate')->name('activate');
+            Route::patch('/{seasonalPricing}/deactivate', 'deactivate')->name('deactivate');
+        });
+
+        // Promotional Offers Management
+        Route::prefix('promotional-offers')->name('promotional-offers.')->controller(\App\Http\Controllers\Admin\PromotionalOfferController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{promotionalOffer}/edit', 'edit')->name('edit');
+            Route::put('/{promotionalOffer}', 'update')->name('update');
+            Route::delete('/{promotionalOffer}', 'destroy')->name('destroy');
+            Route::patch('/{promotionalOffer}/activate', 'activate')->name('activate');
+            Route::patch('/{promotionalOffer}/deactivate', 'deactivate')->name('deactivate');
         });
     });
 });

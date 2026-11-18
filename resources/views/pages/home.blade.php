@@ -175,47 +175,50 @@
 
             {{-- Narrative & Stats --}}
             <div class="col-lg-7 col-md-12">
-                <span style="color: var(--hrp-gold); font-family: var(--font-ui); font-weight: 700; font-size: 13px; letter-spacing: 2.5px; text-transform: uppercase; display: block; margin-bottom: 12px;">
-                    ✦ Heritage of Hospitality ✦
+                <span style="color: var(--hrp-gold); font-family: var(--font-ui); font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px; background: rgba(184, 138, 68, 0.12); padding: 4px 12px; border-radius: 50px; border: 1px solid rgba(184, 138, 68, 0.25);">
+                    <i class="fas fa-star"></i> 3-Star Property
                 </span>
-                <h2 style="font-size: 38px; margin-bottom: 20px; color: var(--hrp-plum);">
-                    Welcome to <span class="serif-italic" style="color: var(--hrp-burgundy);">Hotel Rose Palace</span>
+                <h2 style="font-size: 38px; margin-bottom: 12px; color: var(--hrp-plum);">
+                    About The Hotel
                 </h2>
-                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 18px; color: var(--hrp-mauve);">
-                    Located at <strong>Atlanta Business Hub, VIP Road, Vesu</strong>, Hotel Rose Palace offers an exceptional sanctuary of luxury, comfort, and personalized care. Situated moments away from Surat International Airport and the world-renowned Surat Diamond Bourse, our hotel is the premier choice for corporate executives, vacationing families, and celebratory events.
-                </p>
-                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 28px; color: var(--hrp-mauve);">
-                    From our dedicated 100% Pure Vegetarian & Jain culinary offerings to acoustically insulated royal suites, every facet of your journey is curated with warmth and discreet efficiency.
+                <h3 style="font-size: 20px; font-weight: 600; color: var(--hrp-burgundy); margin-bottom: 20px; font-family: var(--font-heading); line-height: 1.4;">
+                    Welcome to Hotel Rose Palace – Comfort, Elegance & Warm Hospitality
+                </h3>
+                <p style="font-size: 15.5px; line-height: 1.85; margin-bottom: 28px; color: var(--hrp-mauve);">
+                    Experience a comfortable and memorable stay at Hotel Rose Palace, a 3-star property designed to offer a perfect blend of comfort, convenience, and warm hospitality. Whether you are travelling for business, leisure, or a family vacation, our hotel provides a welcoming atmosphere to make every stay enjoyable. Our property offers well-maintained rooms, a relaxing ambience, and essential amenities to ensure a pleasant experience for every guest. With a focus on cleanliness, comfort, and attentive service, Hotel Rose Palace strives to make guests feel at home throughout their stay. Enjoy a peaceful and relaxing environment, convenient access to nearby attractions and local facilities, and hospitality that puts your comfort first. Whether you are visiting for a short stay or an extended trip, Hotel Rose Palace is committed to providing a satisfying and memorable experience. Hotel Rose Palace – Your Comfort, Our Priority.
                 </p>
 
-                {{-- 3 Key Stats Badges --}}
+                {{-- 3 Key Verified Highlights --}}
                 <div class="row g-3 mb-4">
                     <div class="col-sm-4">
-                        <div class="p-3 text-center rounded" style="background: var(--hrp-surface); border: 1px solid var(--hrp-border);">
-                            <div style="font-family: var(--font-heading); font-size: 26px; font-weight: 700; color: var(--hrp-burgundy);">4.8 ★</div>
-                            <div style="font-size: 12px; font-weight: 600; color: var(--hrp-mauve); text-transform: uppercase;">Google Rating</div>
+                        <div class="p-3 text-center rounded h-100" style="background: var(--hrp-surface); border: 1px solid var(--hrp-border);">
+                            <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--hrp-burgundy);"><i class="fas fa-bed text-gold"></i></div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--hrp-plum); margin-top: 4px;">Clean & Comfortable</div>
+                            <div style="font-size: 11px; color: var(--hrp-mauve);">Well-maintained rooms</div>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="p-3 text-center rounded" style="background: var(--hrp-surface); border: 1px solid var(--hrp-border);">
-                            <div style="font-family: var(--font-heading); font-size: 26px; font-weight: 700; color: var(--hrp-burgundy);">35+</div>
-                            <div style="font-size: 12px; font-weight: 600; color: var(--hrp-mauve); text-transform: uppercase;">Luxury Rooms</div>
+                        <div class="p-3 text-center rounded h-100" style="background: var(--hrp-surface); border: 1px solid var(--hrp-border);">
+                            <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--hrp-burgundy);"><i class="fas fa-map-marker-alt text-gold"></i></div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--hrp-plum); margin-top: 4px;">VIP Road, Vesu</div>
+                            <div style="font-size: 11px; color: var(--hrp-mauve);">Convenient local access</div>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="p-3 text-center rounded" style="background: var(--hrp-surface); border: 1px solid var(--hrp-border);">
-                            <div style="font-family: var(--font-heading); font-size: 26px; font-weight: 700; color: var(--hrp-burgundy);">100%</div>
-                            <div style="font-size: 12px; font-weight: 600; color: var(--hrp-mauve); text-transform: uppercase;">Pure Veg & Jain</div>
+                        <div class="p-3 text-center rounded h-100" style="background: var(--hrp-surface); border: 1px solid var(--hrp-border);">
+                            <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--hrp-burgundy);"><i class="fas fa-concierge-bell text-gold"></i></div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--hrp-plum); margin-top: 4px;">Warm Hospitality</div>
+                            <div style="font-size: 11px; color: var(--hrp-mauve);">Attentive guest service</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="d-flex gap-3 flex-wrap">
                     <a href="{{ route('about') }}" class="btn btn-secondary">
-                        Our Full Story →
+                        Read More →
                     </a>
                     <a href="{{ route('contact') }}" class="btn btn-primary">
-                        Contact Concierge
+                        Contact Us
                     </a>
                 </div>
 

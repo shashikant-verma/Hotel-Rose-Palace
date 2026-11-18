@@ -8,6 +8,7 @@ use App\Models\TemporaryReservation;
 use App\Models\RoomAllocation;
 use App\Services\RoomAvailabilityService;
 use App\Services\RoomAllocationService;
+use App\Services\PricingService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
@@ -19,13 +20,16 @@ class BookingController extends Controller
 {
     protected RoomAvailabilityService $availabilityService;
     protected RoomAllocationService $allocationService;
+    protected PricingService $pricingService;
 
     public function __construct(
         RoomAvailabilityService $availabilityService,
-        RoomAllocationService $allocationService
+        RoomAllocationService $allocationService,
+        PricingService $pricingService
     ) {
         $this->availabilityService = $availabilityService;
         $this->allocationService = $allocationService;
+        $this->pricingService = $pricingService;
     }
 
     /**
@@ -57,7 +61,7 @@ class BookingController extends Controller
             $roomType = RoomType::findOrFail($roomTypeId);
 
             // Calculate number of nights
-            $nights = $this->availabilityService->calculateNights($checkIn, $checkOut);
+            $nights = $this->pricingService->calculateNights($checkIn, $checkOut);
             
             // Get available rooms for this category - returns array with available_quantity
             $availabilityData = $this->availabilityService->getAvailableRooms(
@@ -67,12 +71,14 @@ class BookingController extends Controller
             );
             $availableCount = $availabilityData['available_quantity'];
 
-            // Calculate pricing
-            $pricePerNight = $roomType->base_price;
-            $totalPrice = $pricePerNight * $nights;
-            $taxRate = 0.12; // 12% GST
-            $tax = round($totalPrice * $taxRate, 2);
-            $grandTotal = $totalPrice + $tax;
+            // Calculate pricing using PricingService (includes seasonal pricing and promotions)
+            $pricing = $this->pricingService->calculateBookingPrice(
+                $roomType,
+                $checkIn,
+                $checkOut,
+                quantity: 1,
+                includePromotion: true
+            );
 
             return response()->json([
                 'success' => true,
@@ -89,11 +95,14 @@ class BookingController extends Controller
                     'check_out' => $checkOut->format('Y-m-d'),
                 ],
                 'pricing' => [
-                    'price_per_night' => $pricePerNight,
-                    'subtotal' => $totalPrice,
-                    'tax_rate' => $taxRate * 100,
-                    'tax_amount' => $tax,
-                    'grand_total' => $grandTotal,
+                    'price_per_night' => $pricing['base_subtotal'] / max(1, $pricing['nights']),
+                    'subtotal' => $pricing['base_subtotal'],
+                    'base_subtotal' => $pricing['base_subtotal'],
+                    'discount_total' => $pricing['discount_total'],
+                    'tax_rate' => $pricing['tax_rate'],
+                    'tax_amount' => $pricing['tax_amount'],
+                    'grand_total' => $pricing['grand_total'],
+                    'pricing_source' => $pricing['pricing_source'],
                 ],
             ]);
         } catch (\Exception $e) {
@@ -143,26 +152,32 @@ class BookingController extends Controller
         // Get room type details
         $roomType = RoomType::findOrFail($roomTypeId);
 
-        // Calculate pricing
-        $nights = $this->availabilityService->calculateNights($checkIn, $checkOut);
-        $pricePerNight = $roomType->base_price;
-        $subtotal = $pricePerNight * $nights;
-        $taxRate = 0.12; // 12% GST
-        $tax = round($subtotal * $taxRate, 2);
-        $grandTotal = $subtotal + $tax;
+        // Calculate pricing using PricingService
+        $pricing = $this->pricingService->calculateBookingPrice(
+            $roomType,
+            $checkIn,
+            $checkOut,
+            quantity: $quantity,
+            includePromotion: true
+        );
 
         $customerEmail = session('verified_email');
 
+        // For backward compatibility with the template, also provide individual variables
         return view('booking.form', [
             'roomType' => $roomType,
             'checkIn' => $checkIn,
             'checkOut' => $checkOut,
-            'nights' => $nights,
+            'nights' => $pricing['nights'],
             'quantity' => $quantity,
-            'pricePerNight' => $pricePerNight,
-            'subtotal' => $subtotal,
-            'tax' => $tax,
-            'grandTotal' => $grandTotal,
+            'pricePerNight' => ($pricing['base_subtotal'] - $pricing['discount_total']) / ($pricing['nights'] * $quantity), // Effective rate per night
+            'subtotal' => $pricing['base_subtotal'],
+            'tax' => $pricing['tax_amount'],
+            'grandTotal' => $pricing['grand_total'],
+            'baseSubtotal' => $pricing['base_subtotal'],
+            'discountTotal' => $pricing['discount_total'],
+            'pricingSource' => $pricing['pricing_source'],
+            'nightly Details' => $pricing['nightly_details'],
             'customerEmail' => $customerEmail,
         ]);
     }
@@ -182,6 +197,20 @@ class BookingController extends Controller
                 'customer_mobile' => 'required|regex:/^\+?[0-9]{10,15}$/',
                 'total_guests' => 'required|integer|min:1',
                 'special_requests' => 'nullable|string|max:1000',
+                'expected_arrival_time' => [
+                    'nullable',
+                    'string',
+                    \Illuminate\Validation\Rule::in([
+                        '10 AM – 11 AM', '10 AM - 11 AM',
+                        '11 AM – 12 PM', '11 AM - 12 PM',
+                        '12 PM – 2 PM',  '12 PM - 2 PM',
+                        '2 PM – 4 PM',   '2 PM - 4 PM',
+                        '4 PM – 6 PM',   '4 PM - 6 PM',
+                        '6 PM – 9 PM',   '6 PM - 9 PM',
+                        '9 PM onwards',
+                        'Not sure yet',
+                    ]),
+                ],
             ]);
 
             $checkIn = Carbon::parse($validated['check_in'])->startOfDay();
@@ -213,13 +242,19 @@ class BookingController extends Controller
             // Get room type for pricing verification
             $roomType = RoomType::findOrFail($roomTypeId);
 
-            // Calculate pricing (server-side only - never trust frontend)
-            $nights = $this->availabilityService->calculateNights($checkIn, $checkOut);
-            $pricePerNight = $roomType->base_price;
-            $baseAmount = $pricePerNight * $nights;
-            $taxRate = 0.12; // 12% GST
-            $tax = round($baseAmount * $taxRate, 2);
-            $totalAmount = $baseAmount + $tax;
+            // Calculate pricing using PricingService (server-side only - never trust frontend)
+            $pricing = $this->pricingService->calculateBookingPrice(
+                $roomType,
+                $checkIn,
+                $checkOut,
+                quantity: $quantity,
+                includePromotion: true
+            );
+
+            $baseAmount = $pricing['base_subtotal'];
+            $discountAmount = $pricing['discount_total'];
+            $tax = $pricing['tax_amount'];
+            $totalAmount = $pricing['grand_total'];
 
             // Validate guest count
             $maxGuestsPerRoom = $roomType->max_occupancy;
@@ -239,7 +274,9 @@ class BookingController extends Controller
                 $validated,
                 $totalAmount,
                 $baseAmount,
-                $tax
+                $tax,
+                $discountAmount,
+                $pricing
             ) {
                 // Get available physical rooms (with row-level locking)
                 $availableRooms = $this->availabilityService->getAvailablePhysicalRooms(
@@ -270,12 +307,16 @@ class BookingController extends Controller
                     'num_adults' => $validated['total_guests'],
                     'num_children' => 0,
                     'base_amount' => $baseAmount,
+                    'discount_amount' => $discountAmount,
                     'tax_amount' => $tax,
                     'total_amount' => $totalAmount,
                     'razorpay_order_id' => $tempOrderId,
                     'booking_status' => 'confirmed',
                     'payment_status' => 'pending',
                     'special_requests' => $validated['special_requests'] ?? null,
+                    'expected_arrival_time' => $validated['expected_arrival_time'] ?? null,
+                    'pricing_source' => $pricing['pricing_source'],
+                    'pricing_snapshot' => $pricing['nightly_details'],
                 ]);
 
                 // Allocate temporary rooms to this booking
@@ -298,6 +339,8 @@ class BookingController extends Controller
                 return redirect()->route('booking.review', ['booking' => $booking->id])
                     ->with('success', 'Booking created. Please review and proceed to payment.');
             });
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             Log::error('Booking creation failed', [
                 'error' => $e->getMessage(),

@@ -137,17 +137,19 @@ class RoomController extends Controller
         ]);
 
         $uploadedCount = 0;
+        $maxOrder = (int) RoomImage::where('room_id', $room->id)->max('display_order');
 
         foreach ($request->file('images') as $image) {
             // Store image
             $path = $image->store('rooms/' . $room->id, 'public');
+            $maxOrder++;
 
-            // Create room image record
+            // Create room image record matching actual room_images schema
             RoomImage::create([
                 'room_id' => $room->id,
                 'image_path' => $path,
-                'caption' => null,
-                'sort_order' => RoomImage::where('room_id', $room->id)->max('sort_order') + 1,
+                'image_url' => Storage::url($path),
+                'display_order' => $maxOrder,
                 'is_featured' => RoomImage::where('room_id', $room->id)->count() === 0, // First image is featured
             ]);
 
@@ -171,6 +173,7 @@ class RoomController extends Controller
         if ($image->is_featured) {
             $nextImage = RoomImage::where('room_id', $image->room_id)
                 ->where('id', '!=', $image->id)
+                ->orderBy('display_order')
                 ->first();
 
             if ($nextImage) {

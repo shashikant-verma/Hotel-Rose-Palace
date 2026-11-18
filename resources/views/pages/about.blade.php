@@ -45,32 +45,32 @@
 
             {{-- Narrative Story --}}
             <div class="col-lg-7 col-md-12">
-                <span style="color: var(--hrp-gold); font-family: var(--font-ui); font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px;">
-                    ✦ Rooted in Purity & Elegance ✦
+                <span style="color: var(--hrp-gold); font-family: var(--font-ui); font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px; background: rgba(184, 138, 68, 0.12); padding: 4px 12px; border-radius: 50px; border: 1px solid rgba(184, 138, 68, 0.25);">
+                    <i class="fas fa-star"></i> 3-Star Property
                 </span>
-                <h2 style="font-size: 38px; color: var(--hrp-plum); margin-bottom: 20px;">
-                    Redefining Premium Hospitality in <span class="serif-italic" style="color: var(--hrp-burgundy);">Vesu, Surat</span>
+                <h2 style="font-size: 38px; color: var(--hrp-plum); margin-bottom: 12px;">
+                    About The Hotel
                 </h2>
-                <p style="font-size: 15.5px; line-height: 1.85; color: var(--hrp-mauve); margin-bottom: 16px;">
-                    Hotel Rose Palace was established with a singular devotion: to combine the quiet dignity of royal architecture with the vibrant warmth of Gujarat's finest hospitality. Located on VIP Road in Vesu, our hotel serves as an oasis amidst Surat's dynamic economic boom.
-                </p>
+                <h3 style="font-size: 20px; font-weight: 600; color: var(--hrp-burgundy); margin-bottom: 20px; font-family: var(--font-heading); line-height: 1.4;">
+                    Welcome to Hotel Rose Palace – Comfort, Elegance & Warm Hospitality
+                </h3>
                 <p style="font-size: 15.5px; line-height: 1.85; color: var(--hrp-mauve); margin-bottom: 24px;">
-                    Our commitment is reflected in every detail — from our 100% Pure Vegetarian and Jain culinary standards to our acoustically insulated suites and 24-hour concierge assistance. Whether you arrive for diamond trade conventions, family weddings, or leisure retreats, we guarantee an unforgettable sojourn.
+                    Experience a comfortable and memorable stay at Hotel Rose Palace, a 3-star property designed to offer a perfect blend of comfort, convenience, and warm hospitality. Whether you are travelling for business, leisure, or a family vacation, our hotel provides a welcoming atmosphere to make every stay enjoyable. Our property offers well-maintained rooms, a relaxing ambience, and essential amenities to ensure a pleasant experience for every guest. With a focus on cleanliness, comfort, and attentive service, Hotel Rose Palace strives to make guests feel at home throughout their stay. Enjoy a peaceful and relaxing environment, convenient access to nearby attractions and local facilities, and hospitality that puts your comfort first. Whether you are visiting for a short stay or an extended trip, Hotel Rose Palace is committed to providing a satisfying and memorable experience. Hotel Rose Palace – Your Comfort, Our Priority.
                 </p>
 
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <div class="card p-3 h-100">
                             <i class="fas fa-hand-holding-heart text-gold fs-4 mb-2"></i>
-                            <h5 style="color: var(--hrp-plum); font-size: 16px; margin-bottom: 4px;">Atithi Devo Bhava</h5>
-                            <p style="font-size: 13px; color: var(--hrp-mauve); margin: 0;">We treat every traveler not as a customer, but as an honored guest in our home.</p>
+                            <h5 style="color: var(--hrp-plum); font-size: 16px; margin-bottom: 4px;">Clean & Comfortable</h5>
+                            <p style="font-size: 13px; color: var(--hrp-mauve); margin: 0;">Well-maintained rooms with essential amenities for a pleasant stay.</p>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="card p-3 h-100">
-                            <i class="fas fa-seedling text-gold fs-4 mb-2"></i>
-                            <h5 style="color: var(--hrp-plum); font-size: 16px; margin-bottom: 4px;">Culinary Sanctity</h5>
-                            <p style="font-size: 13px; color: var(--hrp-mauve); margin: 0;">Strictly vegetarian kitchen with fresh farm ingredients and Jain care.</p>
+                            <i class="fas fa-concierge-bell text-gold fs-4 mb-2"></i>
+                            <h5 style="color: var(--hrp-plum); font-size: 16px; margin-bottom: 4px;">Attentive Hospitality</h5>
+                            <p style="font-size: 13px; color: var(--hrp-mauve); margin: 0;">Warm and attentive guest service that puts your comfort first.</p>
                         </div>
                     </div>
                 </div>
@@ -109,11 +109,11 @@
             <div class="col-md-4 col-sm-6">
                 <div class="card p-4 h-100 text-center">
                     <div class="d-inline-block px-3 py-1 rounded mb-3" style="background: var(--hrp-tint); color: var(--hrp-burgundy); font-weight: 700; font-size: 14px;">
-                        Phase II • Expansion & Suites
+                        Phase II • Dedicated Comfort
                     </div>
-                    <h4 style="color: var(--hrp-plum); font-size: 20px; margin-bottom: 12px;">Royal Suites & Banquet Halls</h4>
+                    <h4 style="color: var(--hrp-plum); font-size: 20px; margin-bottom: 12px;">Well-Maintained Rooms</h4>
                     <p style="color: var(--hrp-mauve); font-size: 14px; line-height: 1.7; margin: 0;">
-                        Expanded our inventory to 35+ executive rooms and inaugurated our celebratory multi-purpose banquet venue for Surat gatherings.
+                        Carefully appointed deluxe and executive accommodations designed to offer a relaxing ambience and essential amenities for every traveler.
                     </p>
                 </div>
             </div>

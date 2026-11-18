@@ -159,22 +159,49 @@
                             @enderror
                         </div>
 
+                        <div class="mb-4">
+                            <label for="expected_arrival_time" class="form-label fw-semibold">Expected Arrival Time (Optional)</label>
+                            <select 
+                                class="form-select form-control-lg @error('expected_arrival_time') is-invalid @enderror"
+                                id="expected_arrival_time"
+                                name="expected_arrival_time"
+                            >
+                                <option value="">-- Select arrival window (Optional) --</option>
+                                <option value="10 AM – 11 AM" {{ old('expected_arrival_time') === '10 AM – 11 AM' ? 'selected' : '' }}>10 AM – 11 AM (Early arrival - subject to availability)</option>
+                                <option value="11 AM – 12 PM" {{ old('expected_arrival_time') === '11 AM – 12 PM' ? 'selected' : '' }}>11 AM – 12 PM</option>
+                                <option value="12 PM – 2 PM" {{ old('expected_arrival_time') === '12 PM – 2 PM' ? 'selected' : '' }}>12 PM – 2 PM (Standard check-in starts at 12 PM)</option>
+                                <option value="2 PM – 4 PM" {{ old('expected_arrival_time') === '2 PM – 4 PM' ? 'selected' : '' }}>2 PM – 4 PM</option>
+                                <option value="4 PM – 6 PM" {{ old('expected_arrival_time') === '4 PM – 6 PM' ? 'selected' : '' }}>4 PM – 6 PM</option>
+                                <option value="6 PM – 9 PM" {{ old('expected_arrival_time') === '6 PM – 9 PM' ? 'selected' : '' }}>6 PM – 9 PM</option>
+                                <option value="9 PM onwards" {{ old('expected_arrival_time') === '9 PM onwards' ? 'selected' : '' }}>9 PM onwards (Late arrival)</option>
+                                <option value="Not sure yet" {{ old('expected_arrival_time') === 'Not sure yet' ? 'selected' : '' }}>Not sure yet</option>
+                            </select>
+                            @error('expected_arrival_time')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">
+                                Standard check-in is 12:00 PM. Informing your expected arrival time helps our front desk prepare your room. Note: Selecting an arrival time does not guarantee early check-in.
+                            </small>
+                        </div>
+
                         <hr class="my-4">
 
                         <!-- Price Summary -->
                         <div class="bg-light p-3 rounded mb-4">
                             <h6 class="mb-2">Price Breakdown</h6>
                             <div class="row text-sm mb-2">
-                                <div class="col-6">₹{{ number_format($pricePerNight, 0) }} × {{ $nights }} nights × {{ $quantity }} room(s)</div>
+                                <div class="col-6">
+                                    ₹{{ number_format($pricePerNight, 0) }}/night × {{ $nights }} night{{ $nights > 1 ? 's' : '' }} × {{ $quantity }} room{{ $quantity > 1 ? 's' : '' }}
+                                </div>
                                 <div class="col-6 text-end">₹{{ number_format($subtotal, 2) }}</div>
                             </div>
                             <div class="row text-sm mb-2">
                                 <div class="col-6">GST (12%)</div>
                                 <div class="col-6 text-end">₹{{ number_format($tax, 2) }}</div>
                             </div>
-                            <div class="row fw-bold text-lg">
+                            <div class="row fw-bold text-lg pt-2 border-top">
                                 <div class="col-6">Total Amount</div>
-                                <div class="col-6 text-end">₹{{ number_format($grandTotal, 2) }}</div>
+                                <div class="col-6 text-end text-primary">₹{{ number_format($grandTotal, 2) }}</div>
                             </div>
                         </div>
 

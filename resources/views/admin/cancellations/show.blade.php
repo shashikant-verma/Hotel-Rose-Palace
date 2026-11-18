@@ -144,6 +144,12 @@
                         <span class="text-muted small d-block">Customer Stated Reason:</span>
                         <span class="text-dark">{{ $booking->cancellation_reason ?: 'None provided' }}</span>
                     </div>
+                    @if ($booking->expected_arrival_time)
+                    <div class="col-sm-6">
+                        <span class="text-muted small d-block">Expected Arrival Time:</span>
+                        <span class="text-dark fw-semibold"><i class="fas fa-clock text-primary me-1"></i> {{ $booking->expected_arrival_time }}</span>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

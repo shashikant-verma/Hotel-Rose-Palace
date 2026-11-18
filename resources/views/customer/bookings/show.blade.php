@@ -223,6 +223,12 @@
                                     <td class="text-muted ps-0">Duration:</td>
                                     <td class="fw-semibold text-primary"><i class="fas fa-moon me-1"></i> {{ $nights }} Night(s) Stay</td>
                                 </tr>
+                                @if ($booking->expected_arrival_time)
+                                <tr>
+                                    <td class="text-muted ps-0">Expected Arrival:</td>
+                                    <td class="fw-semibold text-dark"><i class="fas fa-clock text-primary me-1"></i> {{ $booking->expected_arrival_time }}</td>
+                                </tr>
+                                @endif
                                 <tr>
                                     <td class="text-muted ps-0">Booking Created:</td>
                                     <td class="text-muted">{{ $booking->created_at?->format('d M Y, h:i A') }}</td>

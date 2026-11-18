@@ -45,8 +45,9 @@
                 </div>
 
                 <!-- Pricing -->
+                <!-- Pricing & Size -->
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="base_price" class="form-label">Base Price (₹) <span class="text-danger">*</span></label>
                         <input 
                             type="number" 
@@ -63,7 +64,24 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
+                        <label for="original_price" class="form-label">Original / Rack Rate (₹)</label>
+                        <input 
+                            type="number" 
+                            class="form-control @error('original_price') is-invalid @enderror" 
+                            id="original_price" 
+                            name="original_price" 
+                            value="{{ old('original_price', $roomType->original_price) }}" 
+                            min="0" 
+                            step="0.01"
+                            placeholder="Optional"
+                        >
+                        @error('original_price')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 mb-3">
                         <label for="size_sqft" class="form-label">Room Size (sq ft) <span class="text-danger">*</span></label>
                         <input 
                             type="number" 
@@ -75,6 +93,93 @@
                             required
                         >
                         @error('size_sqft')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Hospitality & Bed Specifications -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="bed_type" class="form-label">Bed Type</label>
+                        <input 
+                            type="text" 
+                            class="form-control @error('bed_type') is-invalid @enderror" 
+                            id="bed_type" 
+                            name="bed_type" 
+                            value="{{ old('bed_type', $roomType->bed_type) }}" 
+                            placeholder="e.g., King Bed, Queen Bed, Twin Beds"
+                        >
+                        @error('bed_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="view_type" class="form-label">View Type</label>
+                        <input 
+                            type="text" 
+                            class="form-control @error('view_type') is-invalid @enderror" 
+                            id="view_type" 
+                            name="view_type" 
+                            value="{{ old('view_type', $roomType->view_type) }}" 
+                            placeholder="e.g., City View, Courtyard View"
+                        >
+                        @error('view_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Room Layout Counts -->
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="bedroom_count" class="form-label">Bedroom Count <span class="text-danger">*</span></label>
+                        <input 
+                            type="number" 
+                            class="form-control @error('bedroom_count') is-invalid @enderror" 
+                            id="bedroom_count" 
+                            name="bedroom_count" 
+                            value="{{ old('bedroom_count', $roomType->bedroom_count ?? 1) }}" 
+                            min="1" 
+                            max="10"
+                            required
+                        >
+                        @error('bedroom_count')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="living_room_count" class="form-label">Living Room Count <span class="text-danger">*</span></label>
+                        <input 
+                            type="number" 
+                            class="form-control @error('living_room_count') is-invalid @enderror" 
+                            id="living_room_count" 
+                            name="living_room_count" 
+                            value="{{ old('living_room_count', $roomType->living_room_count ?? 0) }}" 
+                            min="0" 
+                            max="10"
+                            required
+                        >
+                        @error('living_room_count')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="bathroom_count" class="form-label">Bathroom Count <span class="text-danger">*</span></label>
+                        <input 
+                            type="number" 
+                            class="form-control @error('bathroom_count') is-invalid @enderror" 
+                            id="bathroom_count" 
+                            name="bathroom_count" 
+                            value="{{ old('bathroom_count', $roomType->bathroom_count ?? 1) }}" 
+                            min="1" 
+                            max="10"
+                            required
+                        >
+                        @error('bathroom_count')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

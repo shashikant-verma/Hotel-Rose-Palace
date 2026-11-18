@@ -30,10 +30,18 @@
                     @foreach($roomTypes as $roomType)
                     <tr>
                         <td>
-                            <strong>{{ $roomType->name }}</strong><br>
-                            <small class="text-muted">{{ Str::limit($roomType->description, 50) }}</small>
+                            <strong>{{ $roomType->name }}</strong>
+                            @if($roomType->bed_type || $roomType->size_sqft)
+                                <br><small class="text-primary"><i class="fas fa-bed"></i> {{ $roomType->bed_type ?: 'Bedding specified' }} @if($roomType->size_sqft) • {{ $roomType->size_sqft }} sq.ft @endif</small>
+                            @endif
+                            <br><small class="text-muted">{{ Str::limit($roomType->description, 50) }}</small>
                         </td>
-                        <td>₹{{ number_format($roomType->base_price) }}</td>
+                        <td>
+                            ₹{{ number_format($roomType->base_price) }}
+                            @if($roomType->original_price)
+                                <br><small class="text-muted text-decoration-line-through">₹{{ number_format($roomType->original_price) }}</small>
+                            @endif
+                        </td>
                         <td>{{ $roomType->max_occupancy }} guests</td>
                         <td>
                             <span class="badge bg-info">{{ $roomType->rooms_count }} rooms</span>
