@@ -6,10 +6,8 @@
     }
     if ($dbRoomTypes->isEmpty()) {
         $dbRoomTypes = collect([
-            (object)['id' => 1, 'name' => 'Deluxe Double Room', 'slug' => 'deluxe-double-room', 'base_price' => 3999],
-            (object)['id' => 2, 'name' => 'Superior Twin Room', 'slug' => 'superior-twin-room', 'base_price' => 4499],
-            (object)['id' => 3, 'name' => 'Executive Suite', 'slug' => 'executive-suite', 'base_price' => 6499],
-            (object)['id' => 4, 'name' => 'Royal Palace Suite', 'slug' => 'royal-palace-suite', 'base_price' => 8999],
+            (object)['id' => 1, 'name' => 'Deluxe Family Room', 'slug' => 'deluxe-family-room', 'base_price' => 1200],
+            (object)['id' => 2, 'name' => 'Executive Room', 'slug' => 'executive-room', 'base_price' => 1100],
         ]);
     }
 @endphp
@@ -150,7 +148,7 @@
                         </div>
                         <div class="hrp-calc-row">
                             <span id="summaryNightsLabel">Accommodation (1 Night, 1 Room):</span>
-                            <span id="summaryBasePrice" style="font-weight: 600; color: #2E1F22;">₹3,999</span>
+                            <span id="summaryBasePrice" style="font-weight: 600; color: #2E1F22;">₹1,200</span>
                         </div>
                         <div class="hrp-calc-row" id="summaryAddonsRow" style="display: none;">
                             <span>Stay Enhancements:</span>
@@ -158,11 +156,11 @@
                         </div>
                         <div class="hrp-calc-row">
                             <span>Taxes & Service GST (12%):</span>
-                            <span id="summaryGstPrice" style="font-weight: 600; color: #2E1F22;">₹480</span>
+                            <span id="summaryGstPrice" style="font-weight: 600; color: #2E1F22;">₹144</span>
                         </div>
                         <div class="hrp-calc-total-row">
                             <span>Estimated Total:</span>
-                            <span id="summaryTotalPrice" style="color: #6E2C3A;">₹4,479</span>
+                            <span id="summaryTotalPrice" style="color: #6E2C3A;">₹1,344</span>
                         </div>
                         <div style="font-size: 11px; color: #5E4B4E; margin-top: 6px; text-align: right;">
                             Pay directly at the hotel or online via UPI/Card. Free cancellation up to 24 hrs prior to arrival.
@@ -261,7 +259,7 @@ function calculateBookingPrice() {
 
     const numRooms = parseInt(document.getElementById('valRooms')?.textContent) || 1;
     const selectedOption = roomSelect.options[roomSelect.selectedIndex];
-    const baseRatePerNight = parseFloat(selectedOption?.getAttribute('data-price')) || 3999;
+    const baseRatePerNight = parseFloat(selectedOption?.getAttribute('data-price')) || 1200;
 
     const baseSubtotal = baseRatePerNight * nights * numRooms;
     const subtotal = baseSubtotal;

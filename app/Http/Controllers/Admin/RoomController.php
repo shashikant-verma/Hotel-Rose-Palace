@@ -15,14 +15,34 @@ class RoomController extends Controller
     /**
      * Display a listing of rooms
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rooms = Room::with(['roomType', 'images'])
+        $query = Room::with(['roomType', 'images'])
             ->orderBy('floor')
-            ->orderBy('room_number')
-            ->paginate(15);
+            ->orderBy('room_number');
 
-        return view('admin.rooms.index', compact('rooms'));
+        if ($request->filled('room_type_id')) {
+            $query->where('room_type_id', $request->query('room_type_id'));
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->query('status'));
+        }
+
+        $rooms = $query->paginate(20)->withQueryString();
+
+        $roomTypes = RoomType::where('is_active', true)->orderBy('sort_order')->get();
+
+        $stats = [
+            'total' => Room::count(),
+            'deluxe' => Room::whereHas('roomType', fn($q) => $q->where('slug', 'deluxe-family-room'))->count(),
+            'executive' => Room::whereHas('roomType', fn($q) => $q->where('slug', 'executive-room'))->count(),
+            'available' => Room::where('is_available', true)->where('status', 'available')->count(),
+            'occupied' => Room::where('status', 'occupied')->count(),
+            'maintenance' => Room::where('status', 'maintenance')->count(),
+        ];
+
+        return view('admin.rooms.index', compact('rooms', 'roomTypes', 'stats'));
     }
 
     /**

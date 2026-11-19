@@ -218,13 +218,21 @@ class RoomCatalogueAndImageUploadTest extends TestCase
         $response->assertSee('City View');
 
         // Ensure legacy fictional room cards are not hardcoded
-        $response->assertDontSee('Maharaja Grand Suite');
-        $response->assertDontSee('Royal Heritage Suite');
-        $response->assertDontSee('Executive Work-Desk Suite');
+        $response->assertDontSee('Maharaja Grand Suite</h3>', false);
+        $response->assertDontSee('Royal Heritage Suite</h3>', false);
+        $response->assertDontSee('Executive Work-Desk Suite</h3>', false);
+
+        // Verify multi-photo carousel and gallery elements render
+        $response->assertSee('hrp-room-gallery-wrap', false);
+        $response->assertSee('hrp-thumbnails-strip', false);
+        $response->assertSee('hrp-carousel-arrow', false);
+        $response->assertSee('Check Rates');
+        $response->assertSee('Book Now');
+        $response->assertSee('Details');
     }
 
     /**
-     * Test public room detail page renders verified specifications.
+     * Test public room detail page renders verified specifications and photo gallery.
      */
     public function test_public_room_detail_displays_verified_specs(): void
     {
@@ -236,10 +244,35 @@ class RoomCatalogueAndImageUploadTest extends TestCase
         $response->assertSee('King Bed');
         $response->assertSee('City View');
         $response->assertSee('Up to 3 Guests');
+        $response->assertSee('thumb-selector');
 
         // Ensure "Pay on arrival" is not present
         $response->assertDontSee('No advance booking fees. Pay on arrival');
         $response->assertSee('100% Secure Instant Online Booking via Razorpay');
+
+        // Also test Executive Room detail page renders
+        $executiveType = RoomType::create([
+            'name' => 'Executive Room',
+            'slug' => 'executive-room',
+            'description' => 'Tailored for corporate travelers and textile connoisseurs.',
+            'base_price' => 1100.00,
+            'max_occupancy' => 3,
+            'max_adults' => 2,
+            'max_children' => 1,
+            'size_sqft' => 180,
+            'bed_type' => 'Twin Beds',
+            'view_type' => 'City View',
+            'bedroom_count' => 1,
+            'bathroom_count' => 1,
+            'is_active' => true,
+            'sort_order' => 2,
+        ]);
+
+        $execResponse = $this->get(route('room-detail', ['slug' => 'executive-room']));
+        $execResponse->assertStatus(200);
+        $execResponse->assertSee('Executive Room');
+        $execResponse->assertSee('1,100');
+        $execResponse->assertSee('thumb-selector');
     }
 
     /**

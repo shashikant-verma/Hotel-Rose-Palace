@@ -1,24 +1,24 @@
 @extends('layouts.app')
 
-@section('title', 'Gallery — Hotel Rose Palace | Visual Journey Through Luxury Surat')
-@section('meta_description', 'Explore the visual gallery of Hotel Rose Palace Surat. Luxurious suites, modern banquet halls, and elegant architecture on VIP Road, Vesu.')
+@section('title', 'Gallery — Hotel Rose Palace | Visual Journey Through Authentic Comfort')
+@section('meta_description', 'Explore the visual photo gallery of Hotel Rose Palace Surat. Real photographs of our Deluxe Family Rooms, Executive Rooms, Reception, and modern amenities.')
 
 @section('content')
 
 {{-- ═══════════════════════════════════════════════════════
      PAGE HERO
 ═══════════════════════════════════════════════════════ --}}
-<section class="text-center" style="background: linear-gradient(180deg, rgba(110,44,58,0.45) 0%, rgba(46,31,34,0.85) 100%), url('{{ asset('images/hotel/hero-hd-1.jpg') }}') center/cover no-repeat; padding: 100px 20px 80px; position: relative;">
+<section class="text-center" style="background: linear-gradient(180deg, rgba(110,44,58,0.55) 0%, rgba(46,31,34,0.88) 100%), url('{{ asset('images/gallery/exterior-building-view.jpg') }}') center/cover no-repeat; padding: 100px 20px 80px; position: relative;">
     <div class="container position-relative" style="z-index: 2;">
         <span style="color: var(--hrp-gold-light); font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 12px;">
             ✦ Visual Chronicle ✦
         </span>
         <h1 style="color: var(--hrp-surface); font-size: 46px; margin-bottom: 16px;">The Rose Palace Gallery</h1>
         <p style="color: var(--hrp-tint); font-size: 18px; max-width: 680px; margin: 0 auto 24px; line-height: 1.6;">
-            A glimpse into the architectural splendor, royal suites, and celebration venues that define our property in Surat.
+            A genuine visual showcase of Hotel Rose Palace on VIP Road, Vesu, Surat — exploring our exterior facade, welcoming reception lounge, and comfortable guest rooms.
         </p>
         <div class="d-inline-flex align-items-center gap-2" style="background: rgba(247,241,232,0.15); backdrop-filter: blur(10px); padding: 6px 16px; border-radius: 30px; border: 1px solid rgba(247,241,232,0.3); font-size: 13px; color: var(--hrp-surface);">
-            <a href="{{ route('home') }}" style="color: var(--hrp-surface);">Home</a>
+            <a href="{{ route('home') }}" style="color: var(--hrp-surface); text-decoration: none;">Home</a>
             <i class="fas fa-chevron-right" style="font-size: 10px; color: var(--hrp-gold);"></i>
             <span>Photo Gallery</span>
         </div>
@@ -31,10 +31,12 @@
 <div style="background: var(--hrp-tint); border-bottom: 1px solid var(--hrp-border); padding: 16px 0; position: sticky; top: 72px; z-index: 100;">
     <div class="container text-center">
         <div class="d-flex justify-content-center flex-wrap gap-2" id="galleryFilters">
-            <button class="hrp-menu-tab-btn active" data-filter="all" onclick="filterGallery('all', this)">All Photography</button>
-            <button class="hrp-menu-tab-btn" data-filter="rooms" onclick="filterGallery('rooms', this)">Rooms & Suites</button>
-            <button class="hrp-menu-tab-btn" data-filter="lobby" onclick="filterGallery('lobby', this)">Lobby & Reception</button>
-            <button class="hrp-menu-tab-btn" data-filter="exterior" onclick="filterGallery('exterior', this)">Exterior & Views</button>
+            <button class="hrp-menu-tab-btn active" data-filter="all" onclick="filterGallery('all', this)">All Photos (15)</button>
+            <button class="hrp-menu-tab-btn" data-filter="Exterior & Building" onclick="filterGallery('Exterior & Building', this)">Exterior & Building</button>
+            <button class="hrp-menu-tab-btn" data-filter="Reception & Lobby" onclick="filterGallery('Reception & Lobby', this)">Reception & Lobby</button>
+            <button class="hrp-menu-tab-btn" data-filter="Deluxe Family Rooms" onclick="filterGallery('Deluxe Family Rooms', this)">Deluxe Family Rooms</button>
+            <button class="hrp-menu-tab-btn" data-filter="Executive Rooms" onclick="filterGallery('Executive Rooms', this)">Executive Rooms</button>
+            <button class="hrp-menu-tab-btn" data-filter="Bathrooms & Amenities" onclick="filterGallery('Bathrooms & Amenities', this)">Bathrooms & Amenities</button>
         </div>
     </div>
 </div>
@@ -47,18 +49,105 @@
         
         @php
         $galleryCatalog = [
-            ['src' => asset('images/hotel/hero-1.jpg'), 'cat' => 'exterior', 'title' => 'Hotel Rose Palace Arrival Facade', 'desc' => 'Warm-lit entrance and architecture at VIP Road, Vesu, Surat'],
-            ['src' => asset('images/hotel/lobby.jpg'), 'cat' => 'lobby', 'title' => 'Grand Reception & Front Desk Lounge', 'desc' => 'Warm sandstone boutique front desk with ambient golden lighting'],
-            ['src' => asset('images/gallery/gallery-1.jpg'), 'cat' => 'rooms', 'title' => 'Executive Reading Corner', 'desc' => 'Warm ambient lamp and boutique armchair in executive suite'],
-            ['src' => asset('images/gallery/gallery-2.jpg'), 'cat' => 'rooms', 'title' => 'En-Suite Marble Luxury Bathroom', 'desc' => 'Spacious marble bathroom vanity with backlit mirror'],
-            ['src' => asset('images/gallery/gallery-3.jpg'), 'cat' => 'exterior', 'title' => 'Sunset Terrace & Relaxation Lounge', 'desc' => 'Outdoor evening relaxation terrace with golden hour skyline views'],
-            ['src' => asset('images/gallery/gallery-4.jpg'), 'cat' => 'lobby', 'title' => 'Grand Heritage Archway Corridor', 'desc' => 'Illuminated sandstone hallway with luxury arches and polished floors'],
-            ['src' => asset('images/gallery/gallery-5.jpg'), 'cat' => 'rooms', 'title' => 'Deluxe Family Guest Bedroom', 'desc' => 'Spacious family guest room with ambient lighting and plush furnishings'],
-            ['src' => asset('images/gallery/gallery-6.jpg'), 'cat' => 'rooms', 'title' => 'Sandstone & Burgundy VIP Lounge', 'desc' => 'Intimate seating corner in warm champagne sandstone tones'],
-            ['src' => asset('images/rooms/deluxe.jpg'), 'cat' => 'rooms', 'title' => 'Deluxe King Sanctuary', 'desc' => 'Deluxe bedroom featuring plush Italian bedding and warm lighting'],
-            ['src' => asset('images/rooms/executive.jpg'), 'cat' => 'rooms', 'title' => 'Executive Corporate Suite', 'desc' => 'Executive suite with ergonomic work desk and warm ambient lamps'],
-            ['src' => asset('images/rooms/family.jpg'), 'cat' => 'rooms', 'title' => 'Rose Palace Family Suite', 'desc' => 'Spacious family accommodations with warm wood accents'],
-            ['src' => asset('images/rooms/suite.jpg'), 'cat' => 'rooms', 'title' => 'Presidential Royal Suite', 'desc' => 'Ultra-luxury suite bedroom with warm ambient glow and grand king bed'],
+            // Exterior & Building (3 photos)
+            [
+                'src' => asset('images/gallery/exterior-building-view.jpg'),
+                'cat' => 'Exterior & Building',
+                'title' => 'Hotel Rose Palace Exterior Building View',
+                'desc' => 'Hotel Rose Palace exterior facade and signage at Atlanta Business Hub, VIP Road, Vesu, Surat'
+            ],
+            [
+                'src' => asset('images/gallery/outer-rooms-corridor.jpg'),
+                'cat' => 'Exterior & Building',
+                'title' => 'Outer Area of All Rooms – Guest Floor Corridor',
+                'desc' => 'Outer area and hallway corridor connecting all guest rooms on Floor 1 with polished marble flooring'
+            ],
+            [
+                'src' => asset('images/gallery/entrance-glass-door.jpg'),
+                'cat' => 'Exterior & Building',
+                'title' => 'Main Entrance Glass Door',
+                'desc' => 'Hotel Rose Palace frosted glass entrance door with floral arrangement'
+            ],
+
+            // Reception & Lobby (3 photos)
+            [
+                'src' => asset('images/gallery/front-desk-reception.jpg'),
+                'cat' => 'Reception & Lobby',
+                'title' => 'Front Desk & Reception Area',
+                'desc' => 'Hotel Rose Palace front desk counter with warm illumination and reception lounge'
+            ],
+            [
+                'src' => asset('images/gallery/guest-waiting-lounge.jpg'),
+                'cat' => 'Reception & Lobby',
+                'title' => 'Guest Waiting Lounge',
+                'desc' => 'Comfortable guest waiting lounge with plush seating and marble coffee table'
+            ],
+            [
+                'src' => asset('images/gallery/reception-lobby-lounge.jpg'),
+                'cat' => 'Reception & Lobby',
+                'title' => 'Grand Reception & Front Desk Lounge',
+                'desc' => 'Grand reception desk, plush sofa lounge, and warm illumination at Hotel Rose Palace'
+            ],
+
+            // Deluxe Family Rooms (3 photos)
+            [
+                'src' => asset('images/gallery/deluxe-family-king-bed.jpg'),
+                'cat' => 'Deluxe Family Rooms',
+                'title' => 'Deluxe Family Room – King Bed',
+                'desc' => 'Deluxe Family Room featuring plush king bed, sitting table, and ample wardrobe space'
+            ],
+            [
+                'src' => asset('images/gallery/deluxe-family-room-102.jpg'),
+                'cat' => 'Deluxe Family Rooms',
+                'title' => 'Deluxe Family Room – Room 102 Layout',
+                'desc' => 'Deluxe Family Room 102 layout with king bedding and warm wooden furnishings'
+            ],
+            [
+                'src' => asset('images/gallery/deluxe-family-wardrobe.jpg'),
+                'cat' => 'Deluxe Family Rooms',
+                'title' => 'Deluxe Family Room – Wardrobe & Dressing Area',
+                'desc' => 'Deluxe Family Room dressing mirror and spacious wardrobe unit'
+            ],
+
+            // Executive Rooms (5 photos)
+            [
+                'src' => asset('images/gallery/executive-room-city-view.jpg'),
+                'cat' => 'Executive Rooms',
+                'title' => 'Executive Room – City View Window',
+                'desc' => 'Executive Room featuring city view window, air conditioning, and wall-mounted TV'
+            ],
+            [
+                'src' => asset('images/gallery/executive-room-warm-lighting.jpg'),
+                'cat' => 'Executive Rooms',
+                'title' => 'Executive Room – Warm Ambient Lighting',
+                'desc' => 'Executive Room with recessed cove lighting and contemporary headboard'
+            ],
+            [
+                'src' => asset('images/gallery/executive-room-gold-molding.jpg'),
+                'cat' => 'Executive Rooms',
+                'title' => 'Executive Room – Gold Trim Feature Wall',
+                'desc' => 'Executive Room featuring elegant gold trim molding wall and king bed'
+            ],
+            [
+                'src' => asset('images/gallery/executive-room-king-bed.jpg'),
+                'cat' => 'Executive Rooms',
+                'title' => 'Executive Room – King Bed & Console',
+                'desc' => 'Executive Room with comfortable king bed, TV console, and reading lighting'
+            ],
+            [
+                'src' => asset('images/gallery/executive-room-interior.jpg'),
+                'cat' => 'Executive Rooms',
+                'title' => 'Executive Room – Interior View',
+                'desc' => 'Executive Room interior view with work table, comfortable chair, and soft lighting'
+            ],
+
+            // Bathrooms & Amenities (1 photo)
+            [
+                'src' => asset('images/gallery/attached-modern-washroom.jpg'),
+                'cat' => 'Bathrooms & Amenities',
+                'title' => 'Attached Modern Washroom',
+                'desc' => 'Clean attached washroom with modern ceramic basin, hot/cold shower, and fresh towels'
+            ],
         ];
         @endphp
 
@@ -69,7 +158,7 @@
                 $src = str_starts_with($img->image_url ?? '', 'http') ? $img->image_url : asset(ltrim($img->image_url ?? 'images/' . $img->image_path, '/'));
                 $displayImages[] = [
                     'src' => $src,
-                    'cat' => $img->category ?? 'rooms',
+                    'cat' => $img->category ?? 'Executive Rooms',
                     'title' => $img->title ?? 'Hotel Rose Palace',
                     'desc' => $img->alt_text ?? 'Hotel Rose Palace Vesu Surat',
                 ];
@@ -82,13 +171,13 @@
         <div class="row g-4" id="galleryContainer">
             @foreach($displayImages as $idx => $item)
             <div class="col-lg-4 col-md-6 gallery-card" data-category="{{ $item['cat'] }}">
-                <div class="card p-0 overflow-hidden h-100" style="cursor: pointer;" onclick="openLightbox('{{ $item['src'] }}', '.gallery-photo-img')">
+                <div class="card p-0 overflow-hidden h-100 shadow-sm" style="cursor: pointer; border-radius: 12px; border: 1px solid var(--hrp-border); background: var(--hrp-surface); transition: transform 0.3s ease, box-shadow 0.3s ease;" onclick="openLightbox('{{ $item['src'] }}', '.gallery-photo-img')">
                     <div style="position: relative; height: 260px; overflow: hidden;">
                         <img src="{{ $item['src'] }}" alt="{{ $item['title'] }}" class="gallery-photo-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" loading="lazy" data-full="{{ $item['src'] }}">
-                        <div style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(46,31,34,0.85) 100%); display: flex; align-items: flex-end; padding: 20px;">
+                        <div style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(46,31,34,0.88) 100%); display: flex; align-items: flex-end; padding: 20px;">
                             <div>
-                                <span class="badge" style="background: var(--hrp-gold); color: #2E1F22; font-size: 10px; text-transform: uppercase; margin-bottom: 4px;">{{ ucfirst($item['cat']) }}</span>
-                                <h4 style="color: var(--hrp-surface); font-size: 17px; margin: 0;">{{ $item['title'] }}</h4>
+                                <span class="badge" style="background: var(--hrp-gold); color: #2E1F22; font-size: 11px; font-weight: 600; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px;">{{ $item['cat'] }}</span>
+                                <h4 style="color: var(--hrp-surface); font-size: 17px; font-weight: 600; margin: 0; line-height: 1.3;">{{ $item['title'] }}</h4>
                             </div>
                         </div>
                     </div>

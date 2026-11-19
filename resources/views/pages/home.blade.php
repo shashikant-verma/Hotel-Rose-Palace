@@ -138,7 +138,7 @@
                     <option value="2" selected>1 Room, 2 Adults</option>
                     <option value="3">1 Room, 3 Guests (Family)</option>
                     <option value="4">2 Rooms, 4 Guests</option>
-                    <option value="5">Executive Suite Stay</option>
+                    <option value="5">Executive Room Stay</option>
                 </select>
             </div>
 
@@ -237,103 +237,83 @@
         <div class="text-center mb-5">
             <span style="color: var(--hrp-gold); font-family: var(--font-ui); font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px;">✦ Bespoke Accommodations ✦</span>
             <h2 style="font-size: 38px; color: var(--hrp-plum);">Curated Rooms & Suites</h2>
-            <p style="max-width: 650px; margin: 0 auto; color: var(--hrp-mauve);">Each room is thoughtfully outfitted with plush Italian bedding, silent climate control, smart entertainment, and marble bathrooms.</p>
+            <p style="max-width: 650px; margin: 0 auto; color: var(--hrp-mauve);">Each room is thoughtfully outfitted with plush bedding, silent climate control, high-speed Wi-Fi, smart entertainment, and modern bathrooms.</p>
         </div>
 
         {{-- Featured Room Cards Grid --}}
-        <div class="row g-4 mb-5">
+        <div class="row g-4 mb-5 justify-content-center">
             
-            {{-- Room 1: Deluxe Double Room --}}
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 p-0 overflow-hidden">
+            {{-- Room 1: Deluxe Family --}}
+            <div class="col-lg-6 col-md-6">
+                <div class="card h-100 p-0 overflow-hidden shadow-sm" style="border: 1px solid var(--hrp-border); border-radius: 8px;">
                     <div style="position: relative; overflow: hidden; aspect-ratio: 16 / 10;">
-                        <img src="{{ asset('images/rooms/deluxe.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/deluxe-city-view.jpg') }}';" alt="Deluxe Double Room" class="hrp-room-card-img" style="width: 100%; height: 100%; object-fit: cover; object-position: center; aspect-ratio: 16 / 10;" loading="lazy">
+                        <img src="{{ asset('images/rooms/WhatsApp Image 2026-11-17 at 6.53.49 PM.jpeg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/hotel-rose-palace-room-102-door.jpeg') }}';" alt="Deluxe Family" class="hrp-room-card-img" style="width: 100%; height: 100%; object-fit: cover; object-position: center; aspect-ratio: 16 / 10;" loading="lazy">
                         <span class="badge" style="position: absolute; top: 16px; left: 16px; background: rgba(110,44,58,0.92); color: #F7F1E8; padding: 6px 12px; font-size: 12px; border-radius: 4px;">
                             Most Popular
                         </span>
                     </div>
                     <div class="p-4 d-flex flex-column flex-grow-1">
-                        <h4 style="color: var(--hrp-plum); margin-bottom: 8px;">Deluxe Double Room</h4>
+                        <h4 style="color: var(--hrp-plum); margin-bottom: 8px;">Deluxe Family</h4>
                         <p style="font-size: 13.5px; color: var(--hrp-mauve); margin-bottom: 16px; flex-grow: 1;">
-                            Spacious king room featuring ambient LED ceilings, high-speed Wi-Fi, executive desk, and en-suite rain shower.
+                            Spacious family accommodation featuring 1 King Bed + 1 Living Room, ambient LED ceilings, high-speed Wi-Fi, and VIP Road city views.
                         </p>
                         <div class="d-flex flex-wrap gap-2 mb-3" style="font-size: 12px; color: var(--hrp-mauve);">
-                            <span><i class="fas fa-bed text-gold"></i> King Bed</span> •
-                            <span><i class="fas fa-vector-square text-gold"></i> 320 sq.ft</span> •
-                            <span><i class="fas fa-user-friends text-gold"></i> 2 Adults</span>
+                            <span><i class="fas fa-bed text-gold"></i> 1 King Bed + 1 Living Room</span> •
+                            <span><i class="fas fa-vector-square text-gold"></i> 2034 sq.ft (189 sq.mt)</span> •
+                            <span><i class="fas fa-user-friends text-gold"></i> Max 3 Guests</span> •
+                            <span><i class="fas fa-eye text-gold"></i> City View</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center pt-3" style="border-top: 1px solid var(--hrp-border);">
                             <div>
-                                <span style="font-size: 11px; text-transform: uppercase; color: var(--hrp-mauve); display: block;">From</span>
-                                <span style="font-size: 22px; font-weight: 700; color: var(--hrp-burgundy);">₹3,999</span><span style="font-size: 12px; color: var(--hrp-mauve);">/night</span>
+                                <span style="font-size: 11px; text-transform: uppercase; color: var(--hrp-mauve); display: block;">Starting Rate</span>
+                                <span style="font-size: 22px; font-weight: 700; color: var(--hrp-burgundy);">₹1,128</span><span style="font-size: 12px; color: var(--hrp-mauve);">/night <small class="text-muted">(+ ₹168 taxes)</small></span>
                             </div>
-                            <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm" style="text-decoration: none;">
-                                Book Now
-                            </a>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('room-detail', ['slug' => 'deluxe-family-room']) }}" class="btn btn-secondary btn-sm" style="text-decoration: none;">
+                                    Details
+                                </a>
+                                <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm" style="text-decoration: none;">
+                                    Book Now
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Room 2: Superior Twin Room --}}
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 p-0 overflow-hidden">
+            {{-- Room 2: Executive Room --}}
+            <div class="col-lg-6 col-md-6">
+                <div class="card h-100 p-0 overflow-hidden shadow-sm" style="border: 1px solid var(--hrp-border); border-radius: 8px;">
                     <div style="position: relative; overflow: hidden; aspect-ratio: 16 / 10;">
-                        <img src="{{ asset('images/rooms/executive.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/deluxe-twin.jpg') }}';" alt="Superior Twin Room" class="hrp-room-card-img" style="width: 100%; height: 100%; object-fit: cover; object-position: center; aspect-ratio: 16 / 10;" loading="lazy">
+                        <img src="{{ asset('images/rooms/hotel-rose-palace-room-view-window.jpeg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/WhatsApp Image 2026-11-17 at 6.54.48 PM.jpeg') }}';" alt="Executive Room" class="hrp-room-card-img" style="width: 100%; height: 100%; object-fit: cover; object-position: center; aspect-ratio: 16 / 10;" loading="lazy">
                         <span class="badge" style="position: absolute; top: 16px; left: 16px; background: rgba(184,138,68,0.92); color: #2E1F22; padding: 6px 12px; font-size: 12px; border-radius: 4px; font-weight: 700;">
                             Business Travel Choice
                         </span>
                     </div>
                     <div class="p-4 d-flex flex-column flex-grow-1">
-                        <h4 style="color: var(--hrp-plum); margin-bottom: 8px;">Superior Twin Room</h4>
+                        <h4 style="color: var(--hrp-plum); margin-bottom: 8px;">Executive Room</h4>
                         <p style="font-size: 13.5px; color: var(--hrp-mauve); margin-bottom: 16px; flex-grow: 1;">
-                            Crafted for colleagues and friends with dual luxury single beds, ergonomic workstation, and garden vistas.
+                            Crafted for corporate and textile travelers featuring 1 King Bed, ergonomic workstation, high-speed Wi-Fi, and city vistas of VIP Road.
                         </p>
                         <div class="d-flex flex-wrap gap-2 mb-3" style="font-size: 12px; color: var(--hrp-mauve);">
-                            <span><i class="fas fa-bed text-gold"></i> Twin Beds</span> •
-                            <span><i class="fas fa-vector-square text-gold"></i> 340 sq.ft</span> •
-                            <span><i class="fas fa-user-friends text-gold"></i> 2 Adults</span>
+                            <span><i class="fas fa-bed text-gold"></i> 1 King Bed</span> •
+                            <span><i class="fas fa-vector-square text-gold"></i> 150 sq.ft (14 sq.mt)</span> •
+                            <span><i class="fas fa-user-friends text-gold"></i> Max 3 Guests</span> •
+                            <span><i class="fas fa-eye text-gold"></i> City View</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center pt-3" style="border-top: 1px solid var(--hrp-border);">
                             <div>
-                                <span style="font-size: 11px; text-transform: uppercase; color: var(--hrp-mauve); display: block;">From</span>
-                                <span style="font-size: 22px; font-weight: 700; color: var(--hrp-burgundy);">₹4,499</span><span style="font-size: 12px; color: var(--hrp-mauve);">/night</span>
+                                <span style="font-size: 11px; text-transform: uppercase; color: var(--hrp-mauve); display: block;">Starting Rate</span>
+                                <span style="font-size: 22px; font-weight: 700; color: var(--hrp-burgundy);">₹1,034</span><span style="font-size: 12px; color: var(--hrp-mauve);">/night <small class="text-muted">(+ ₹154 taxes)</small></span>
                             </div>
-                            <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm" style="text-decoration: none;">
-                                Book Now
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Room 3: Executive Suite --}}
-            <div class="col-lg-4 col-md-12">
-                <div class="card h-100 p-0 overflow-hidden">
-                    <div style="position: relative; overflow: hidden; aspect-ratio: 16 / 10;">
-                        <img src="{{ asset('images/rooms/suite.jpg') }}" onerror="this.onerror=null;this.src='{{ asset('images/rooms/royal-heritage-suite.jpg') }}';" alt="Executive Suite" class="hrp-room-card-img" style="width: 100%; height: 100%; object-fit: cover; object-position: center; aspect-ratio: 16 / 10;" loading="lazy">
-                        <span class="badge" style="position: absolute; top: 16px; left: 16px; background: rgba(110,44,58,0.92); color: #F7F1E8; padding: 6px 12px; font-size: 12px; border-radius: 4px;">
-                            VIP Suite
-                        </span>
-                    </div>
-                    <div class="p-4 d-flex flex-column flex-grow-1">
-                        <h4 style="color: var(--hrp-plum); margin-bottom: 8px;">Executive Suite</h4>
-                        <p style="font-size: 13.5px; color: var(--hrp-mauve); margin-bottom: 16px; flex-grow: 1;">
-                            Expansive living room lounge, plush king bedroom, marble bathroom with soaking tub, and priority room service.
-                        </p>
-                        <div class="d-flex flex-wrap gap-2 mb-3" style="font-size: 12px; color: var(--hrp-mauve);">
-                            <span><i class="fas fa-couch text-gold"></i> Living Lounge</span> •
-                            <span><i class="fas fa-vector-square text-gold"></i> 450 sq.ft</span> •
-                            <span><i class="fas fa-users text-gold"></i> Up to 3</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center pt-3" style="border-top: 1px solid var(--hrp-border);">
-                            <div>
-                                <span style="font-size: 11px; text-transform: uppercase; color: var(--hrp-mauve); display: block;">From</span>
-                                <span style="font-size: 22px; font-weight: 700; color: var(--hrp-burgundy);">₹6,499</span><span style="font-size: 12px; color: var(--hrp-mauve);">/night</span>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('room-detail', ['slug' => 'executive-room']) }}" class="btn btn-secondary btn-sm" style="text-decoration: none;">
+                                    Details
+                                </a>
+                                <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm" style="text-decoration: none;">
+                                    Book Now
+                                </a>
                             </div>
-                            <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm" style="text-decoration: none;">
-                                Book Now
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -358,69 +338,65 @@
                     <table class="hrp-comparison-table">
                         <thead>
                             <tr>
-                                <th>Features</th>
-                                <th>Deluxe Double</th>
-                                <th>Superior Twin</th>
-                                <th class="highlight-col">Executive Suite ★</th>
-                                <th>Royal Palace Suite</th>
+                                <th style="width: 26%;">Features</th>
+                                <th class="highlight-col" style="width: 37%;">Deluxe Family ★</th>
+                                <th style="width: 37%;">Executive Room</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong>Floor Area</strong></td>
-                                <td>320 sq.ft</td>
-                                <td>340 sq.ft</td>
-                                <td class="highlight-col">450 sq.ft</td>
-                                <td>650 sq.ft</td>
+                                <td class="highlight-col">2034 sq.ft (189 sq.mt)</td>
+                                <td>150 sq.ft (14 sq.mt)</td>
                             </tr>
                             <tr>
-                                <td><strong>Bedding</strong></td>
-                                <td>Plush King Bed</td>
-                                <td>2 Twin Single Beds</td>
-                                <td class="highlight-col">King Bed + Living Sofa</td>
-                                <td>Emperor Bed + Living Room</td>
+                                <td><strong>Bedding & Layout</strong></td>
+                                <td class="highlight-col">1 King Bed + 1 Living Room</td>
+                                <td>1 King Bed</td>
                             </tr>
                             <tr>
                                 <td><strong>Max Occupancy</strong></td>
-                                <td>2 Adults</td>
-                                <td>2 Adults</td>
-                                <td class="highlight-col">3 Adults / Family</td>
-                                <td>4 Adults / Family</td>
+                                <td class="highlight-col">Max 3 Guests</td>
+                                <td>Max 3 Guests</td>
+                            </tr>
+                            <tr>
+                                <td><strong>View</strong></td>
+                                <td class="highlight-col">City View</td>
+                                <td>City View</td>
                             </tr>
                             <tr>
                                 <td><strong>Complimentary Breakfast</strong></td>
-                                <td>Included</td>
-                                <td>Included</td>
-                                <td class="highlight-col">Included + High Tea</td>
-                                <td>Full In-Room Butler Service</td>
+                                <td class="highlight-col">Included <span style="font-size: 12px; color: var(--hrp-mauve);">(Free Cancellation till 24 hrs)</span></td>
+                                <td>Included <span style="font-size: 12px; color: var(--hrp-mauve);">(Free Cancellation till 24 hrs)</span></td>
                             </tr>
                             <tr>
-                                <td><strong>Bathroom Setup</strong></td>
-                                <td>Rain Shower & Marble Vanity</td>
-                                <td>Rain Shower En-suite</td>
-                                <td class="highlight-col">Italian Marble + Soaking Tub</td>
-                                <td>Jacuzzi Tub & Dual Vanities</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Wi-Fi Speed</strong></td>
-                                <td>500 Mbps Ultra-fast</td>
-                                <td>500 Mbps Ultra-fast</td>
-                                <td class="highlight-col">1 Gbps Dedicated</td>
-                                <td>1 Gbps Dedicated</td>
+                                <td><strong>Bathroom & Amenities</strong></td>
+                                <td class="highlight-col">1 Bathroom, Hot & Cold Water, Toiletries, Towels, TV, Iron/Ironing Board, Hairdryer</td>
+                                <td>1 Bathroom, TV, Towels, Hot & Cold Water</td>
                             </tr>
                             <tr>
                                 <td><strong>Starting Rate</strong></td>
-                                <td><strong>₹3,999</strong>/night</td>
-                                <td><strong>₹4,499</strong>/night</td>
-                                <td class="highlight-col"><strong>₹6,499</strong>/night</td>
-                                <td><strong>₹8,999</strong>/night</td>
+                                <td class="highlight-col">
+                                    <span style="font-size: 18px; font-weight: 700; color: var(--hrp-burgundy);">₹1,128</span>/night
+                                    <span style="font-size: 12px; color: var(--hrp-mauve); display: block;">(+ ₹168 taxes)</span>
+                                </td>
+                                <td>
+                                    <span style="font-size: 18px; font-weight: 700; color: var(--hrp-burgundy);">₹1,034</span>/night
+                                    <span style="font-size: 12px; color: var(--hrp-mauve); display: block;">(+ ₹154 taxes)</span>
+                                </td>
                             </tr>
                             <tr>
-                                <td><strong>Reserve</strong></td>
-                                <td><a href="{{ route('booking.search.form') }}" class="btn btn-secondary btn-sm w-100" style="text-decoration: none;">Book</a></td>
-                                <td><a href="{{ route('booking.search.form') }}" class="btn btn-secondary btn-sm w-100" style="text-decoration: none;">Book</a></td>
-                                <td class="highlight-col"><a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm w-100" style="text-decoration: none;">Book Suite</a></td>
-                                <td><a href="{{ route('booking.search.form') }}" class="btn btn-secondary btn-sm w-100" style="text-decoration: none;">Book</a></td>
+                                <td><strong>Action</strong></td>
+                                <td class="highlight-col">
+                                    <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm w-100" style="text-decoration: none;">
+                                        Book Now
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('booking.search.form') }}" class="btn btn-primary btn-sm w-100" style="text-decoration: none;">
+                                        Book Now
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

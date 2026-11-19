@@ -8,9 +8,9 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
             <h5 class="mb-1" style="color: var(--color-burgundy-rose); font-family: var(--font-heading);">
-                <i class="fas fa-bed me-2"></i> All Hotel Rooms
+                <i class="fas fa-bed me-2"></i> Physical Room Inventory (15 Rooms)
             </h5>
-            <div class="text-muted small">Monitor real-time room availability and housekeeping hygiene states.</div>
+            <div class="text-muted small">Manage all 15 physical rooms across Deluxe Family (5) and Executive (10) categories.</div>
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('admin.calendar') }}" class="btn btn-outline-dark btn-sm">
@@ -21,6 +21,79 @@
             </a>
         </div>
     </div>
+
+    {{-- Room Inventory Stats Ribbon --}}
+    @if(isset($stats))
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card p-3 border-0 shadow-sm" style="background: rgba(110,44,58,0.06); border-left: 4px solid var(--color-burgundy-rose) !important;">
+                <span class="text-muted small text-uppercase fw-bold">Total Rooms</span>
+                <div class="fs-4 fw-bold" style="color: var(--color-burgundy-rose);">{{ $stats['total'] }}</div>
+                <small class="text-muted">15 Physical Units</small>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card p-3 border-0 shadow-sm" style="background: rgba(184,138,68,0.08); border-left: 4px solid var(--color-gold) !important;">
+                <span class="text-muted small text-uppercase fw-bold">Deluxe Family</span>
+                <div class="fs-4 fw-bold" style="color: var(--color-burgundy-rose);">{{ $stats['deluxe'] }}</div>
+                <small class="text-muted">₹1,200/night (Rooms 101–105)</small>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card p-3 border-0 shadow-sm" style="background: rgba(184,138,68,0.08); border-left: 4px solid var(--color-gold) !important;">
+                <span class="text-muted small text-uppercase fw-bold">Executive Room</span>
+                <div class="fs-4 fw-bold" style="color: var(--color-burgundy-rose);">{{ $stats['executive'] }}</div>
+                <small class="text-muted">₹1,100/night (Rooms 106–115)</small>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card p-3 border-0 shadow-sm" style="background: rgba(40,167,69,0.08); border-left: 4px solid #28a745 !important;">
+                <span class="text-muted small text-uppercase fw-bold">Available Now</span>
+                <div class="fs-4 fw-bold text-success">{{ $stats['available'] }}</div>
+                <small class="text-muted">{{ $stats['occupied'] }} occupied · {{ $stats['maintenance'] }} maint.</small>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    {{-- Filter Toolbar --}}
+    <form method="GET" action="{{ route('admin.rooms.index') }}" class="card p-3 mb-4 bg-light border-0">
+        <div class="row g-2 align-items-center">
+            <div class="col-md-4">
+                <label class="form-label small fw-bold mb-1 text-muted">Filter by Room Category</label>
+                <select name="room_type_id" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <option value="">All Categories (Deluxe & Executive)</option>
+                    @if(isset($roomTypes))
+                        @foreach($roomTypes as $type)
+                            <option value="{{ $type->id }}" {{ request('room_type_id') == $type->id ? 'selected' : '' }}>
+                                {{ $type->name }} (₹{{ number_format($type->base_price, 0) }})
+                            </option>
+                        @endforeach
+                    @endif
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small fw-bold mb-1 text-muted">Filter by Status</label>
+                <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <option value="">All Statuses</option>
+                    <option value="available" {{ request('status') === 'available' ? 'selected' : '' }}>Available</option>
+                    <option value="occupied" {{ request('status') === 'occupied' ? 'selected' : '' }}>Occupied</option>
+                    <option value="maintenance" {{ request('status') === 'maintenance' ? 'selected' : '' }}>Maintenance</option>
+                    <option value="reserved" {{ request('status') === 'reserved' ? 'selected' : '' }}>Reserved</option>
+                </select>
+            </div>
+            <div class="col-md-5 d-flex align-items-end gap-2 mt-md-0 mt-2">
+                <button type="submit" class="btn btn-sm btn-dark px-3">
+                    <i class="fas fa-filter me-1"></i> Apply Filters
+                </button>
+                @if(request()->hasAny(['room_type_id', 'status']))
+                    <a href="{{ route('admin.rooms.index') }}" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-times me-1"></i> Reset
+                    </a>
+                @endif
+            </div>
+        </div>
+    </form>
 
     @if($rooms->count() > 0)
         <div class="table-responsive">

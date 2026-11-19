@@ -59,7 +59,7 @@ class PageController extends Controller
      */
     public function rooms(): View
     {
-        $roomTypes = RoomType::with(['rooms', 'amenities'])
+        $roomTypes = RoomType::with(['rooms.images', 'amenities'])
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();

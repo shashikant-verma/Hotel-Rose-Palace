@@ -29,46 +29,25 @@
                 {{-- Main Gallery Viewer with Thumbnails --}}
                 <div class="card p-0 overflow-hidden mb-4" style="border: 1px solid var(--hrp-border);">
                     @php
-                        $roomPhotos = [];
-                        if (isset($roomType->rooms)) {
-                            foreach ($roomType->rooms as $r) {
-                                if (isset($r->images)) {
-                                    foreach ($r->images as $dbImg) {
-                                        if (Storage::disk('public')->exists($dbImg->image_path)) {
-                                            $roomPhotos[] = Storage::url($dbImg->image_path);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
+                        $galleryPhotos = $roomType->getGalleryPhotos();
+                        $roomPhotos = array_column($galleryPhotos, 'url');
                         if (empty($roomPhotos)) {
-                            if (str_contains(strtolower($roomType->slug), 'executive')) {
-                                $roomPhotos = [
-                                    asset('images/rooms/executive.jpg'),
-                                    asset('images/rooms/attached-luxury-bathroom.jpg'),
-                                ];
-                            } else {
-                                $roomPhotos = [
-                                    asset('images/rooms/deluxe.jpg'),
-                                    asset('images/rooms/attached-luxury-bathroom.jpg'),
-                                ];
-                            }
+                            $roomPhotos = [asset('images/rooms/deluxe.jpg')];
                         }
                         $initialPhoto = $roomPhotos[0];
                     @endphp
                     <div style="position: relative; height: 420px; overflow: hidden; background: var(--hrp-plum);">
-                        <img id="mainGalleryViewer" src="{{ $initialPhoto }}" alt="{{ $roomType->name }}" style="width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease;" class="hrp-lightbox-trigger" onclick="openLightbox(this.src)">
-                        <button type="button" onclick="openLightbox(document.getElementById('mainGalleryViewer').src)" class="btn btn-secondary btn-sm" style="position: absolute; bottom: 16px; right: 16px; background: rgba(247,241,232,0.9); backdrop-filter: blur(8px);">
+                        <img id="mainGalleryViewer" src="{{ $initialPhoto }}" alt="{{ $roomType->name }}" style="width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease;" class="hrp-lightbox-trigger" onclick="openLightbox(this.src, '.thumb-selector')">
+                        <button type="button" onclick="openLightbox(document.getElementById('mainGalleryViewer').src, '.thumb-selector')" class="btn btn-secondary btn-sm" style="position: absolute; bottom: 16px; right: 16px; background: rgba(247,241,232,0.9); backdrop-filter: blur(8px);">
                             <i class="fas fa-expand"></i> Fullscreen View
                         </button>
                     </div>
 
-                    {{-- Clickable Thumbnails Row (Only when multiple verified photos exist) --}}
+                    {{-- Clickable Thumbnails Row --}}
                     @if(count($roomPhotos) > 1)
                     <div class="p-3 d-flex gap-2 overflow-auto" style="background: var(--hrp-surface); border-top: 1px solid var(--hrp-border);">
-                        @foreach($roomPhotos as $idx => $photo)
-                        <img src="{{ $photo }}" alt="{{ $roomType->name }} Photo {{ $idx + 1 }}" style="width: 90px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid {{ $idx === 0 ? 'var(--hrp-gold)' : 'transparent' }}; opacity: {{ $idx === 0 ? '1' : '0.75' }}; transition: all 0.2s ease;" onclick="switchMainPhoto('{{ $photo }}', this)" class="thumb-selector">
+                        @foreach($galleryPhotos as $idx => $photo)
+                        <img src="{{ $photo['url'] }}" alt="{{ $photo['title'] }}" style="width: 90px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid {{ $idx === 0 ? 'var(--hrp-gold)' : 'transparent' }}; opacity: {{ $idx === 0 ? '1' : '0.75' }}; transition: all 0.2s ease;" onclick="switchMainPhoto('{{ $photo['url'] }}', this)" class="thumb-selector" title="{{ $photo['title'] }}" loading="lazy">
                         @endforeach
                     </div>
                     @endif
@@ -165,6 +144,48 @@
                     </div>
 
                 </div>
+
+                {{-- Individual Physical Rooms in this Category --}}
+                @if(isset($rooms) && $rooms->count() > 0)
+                <div class="card p-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <span class="badge" style="background: rgba(110,44,58,0.1); color: var(--hrp-burgundy); border: 1px solid rgba(110,44,58,0.2); font-size: 11px;">
+                                Physical Inventory
+                            </span>
+                            <h4 style="color: var(--hrp-plum); font-size: 20px; margin: 4px 0 0;">
+                                Assigned Physical Rooms ({{ $rooms->count() }} Rooms)
+                            </h4>
+                        </div>
+                        <span class="badge bg-light text-dark border">
+                            {{ $roomType->slug === 'deluxe-family-room' ? 'Rooms 101–105' : 'Rooms 106–115' }}
+                        </span>
+                    </div>
+                    <p style="font-size: 13.5px; color: var(--hrp-mauve); margin-bottom: 16px;">
+                        The following physical rooms are maintained under the {{ $roomType->name }} category. Each room undergoes certified sanitization prior to guest check-in.
+                    </p>
+                    <div class="row g-3">
+                        @foreach($rooms as $r)
+                        @php
+                            $rImg = $r->image_path ?: ($roomType->slug === 'deluxe-family-room' ? 'images/rooms/deluxe.jpg' : 'images/rooms/executive.jpg');
+                        @endphp
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <div class="card p-0 overflow-hidden border shadow-sm h-100">
+                                <div style="aspect-ratio: 16/10; overflow: hidden; position: relative; background: #2E1F22;">
+                                    <img src="{{ asset($rImg) }}" alt="Room {{ $r->room_number }}" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openLightbox('{{ asset($rImg) }}', '.detail-room-img')" class="detail-room-img">
+                                    <span class="badge position-absolute top-0 start-0 m-2" style="background: rgba(110,44,58,0.92); color: #fff; font-size: 11px;">
+                                        Room {{ $r->room_number }}
+                                    </span>
+                                </div>
+                                <div class="p-2 text-center" style="background: var(--hrp-surface); font-size: 11.5px;">
+                                    <span class="text-success fw-semibold"><i class="fas fa-check-circle me-1"></i> Ready for Guests</span>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
 
                 {{-- Hotel Rose Palace House Rules & Information --}}
                 <x-house-rules />
