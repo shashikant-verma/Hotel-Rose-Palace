@@ -237,7 +237,7 @@
         <div class="text-center mb-5">
             <span style="color: var(--hrp-gold); font-family: var(--font-ui); font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px;">✦ Bespoke Accommodations ✦</span>
             <h2 style="font-size: 38px; color: var(--hrp-plum);">Curated Rooms & Suites</h2>
-            <p style="max-width: 650px; margin: 0 auto; color: var(--hrp-mauve);">Each room is thoughtfully outfitted with plush bedding, silent climate control, high-speed Wi-Fi, smart entertainment, and modern bathrooms.</p>
+            <p style="max-width: 650px; margin: 0 auto; color: var(--hrp-mauve);">Each room is thoughtfully outfitted with plush bedding, air conditioning, high-speed Wi-Fi, flat-screen television with cable channels, and modern bathrooms.</p>
         </div>
 
         {{-- Featured Room Cards Grid --}}
@@ -259,7 +259,7 @@
                         </p>
                         <div class="d-flex flex-wrap gap-2 mb-3" style="font-size: 12px; color: var(--hrp-mauve);">
                             <span><i class="fas fa-bed text-gold"></i> 1 King Bed + 1 Living Room</span> •
-                            <span><i class="fas fa-vector-square text-gold"></i> 2034 sq.ft (189 sq.mt)</span> •
+                            <span><i class="fas fa-vector-square text-gold"></i> 198 sq.ft. (18.4 m²) (Approx. Estimate)</span> •
                             <span><i class="fas fa-user-friends text-gold"></i> Max 3 Guests</span> •
                             <span><i class="fas fa-eye text-gold"></i> City View</span>
                         </div>
@@ -297,7 +297,7 @@
                         </p>
                         <div class="d-flex flex-wrap gap-2 mb-3" style="font-size: 12px; color: var(--hrp-mauve);">
                             <span><i class="fas fa-bed text-gold"></i> 1 King Bed</span> •
-                            <span><i class="fas fa-vector-square text-gold"></i> 150 sq.ft (14 sq.mt)</span> •
+                            <span><i class="fas fa-vector-square text-gold"></i> 179 sq.ft. (16.6 m²) (Approx. Estimate)</span> •
                             <span><i class="fas fa-user-friends text-gold"></i> Max 3 Guests</span> •
                             <span><i class="fas fa-eye text-gold"></i> City View</span>
                         </div>
@@ -346,8 +346,8 @@
                         <tbody>
                             <tr>
                                 <td><strong>Floor Area</strong></td>
-                                <td class="highlight-col">2034 sq.ft (189 sq.mt)</td>
-                                <td>150 sq.ft (14 sq.mt)</td>
+                                <td class="highlight-col">198 sq.ft. (18.4 m²) <small class="d-block text-muted" style="font-size: 11px;">(Approx. Estimate)</small></td>
+                                <td>179 sq.ft. (16.6 m²) <small class="d-block text-muted" style="font-size: 11px;">(Approx. Estimate)</small></td>
                             </tr>
                             <tr>
                                 <td><strong>Bedding & Layout</strong></td>

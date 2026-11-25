@@ -48,9 +48,14 @@ class PageController extends Controller
     public function about(): View
     {
         $amenities = Amenity::where('is_active', true)->get();
+        $roomTypes = RoomType::where('is_active', true)
+            ->with(['rooms.images', 'amenities'])
+            ->orderBy('base_price', 'desc')
+            ->get();
 
         return view('pages.about', [
             'amenities' => $amenities,
+            'roomTypes' => $roomTypes,
         ]);
     }
 
